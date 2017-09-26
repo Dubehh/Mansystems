@@ -39,7 +39,6 @@ public class MannyAttribute {
     public void SetAttribute(Attribute attribute, float value) {
         if (_attributes.Count == 0) Load();
         _attributes[attribute] = value;
-        Debug.Log(GetAttribute(attribute));
     }
 
     /// <summary>
@@ -53,10 +52,12 @@ public class MannyAttribute {
         }
     }
 
+    /// <summary>
+    /// When the application quits this method is called and saves all the attributes to the PlayerPrefs
+    /// </summary>
     public void Save() {
-        foreach(var attribute in _attributes) {
-            var name = Enum.GetName(typeof(Attribute), attribute);
-            PlayerPrefs.SetFloat(name, attribute.Value);
+        foreach(var attribute in _attributes) {            
+            PlayerPrefs.SetFloat(Enum.GetName(typeof(Attribute), attribute.Key), attribute.Value);
         }
     }
 

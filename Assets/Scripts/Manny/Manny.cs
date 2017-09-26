@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Manny : MonoBehaviour {
     private MannyBrain _mannyBrain;
@@ -9,8 +6,8 @@ public class Manny : MonoBehaviour {
 
     // Use this for initialization
     private void Start() {
-        _mannyBrain = new MannyBrain();
         _mannyAttribute = new MannyAttribute();
+        _mannyBrain = new MannyBrain(_mannyAttribute);
     }
 
     // Update is called once per frame
