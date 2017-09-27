@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-class MannyLeveling {
+public class MannyLeveling {
     private Manny _manny;
 
     public MannyLeveling(Manny manny) {
