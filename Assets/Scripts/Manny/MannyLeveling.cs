@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
+
 class MannyLeveling {
     private Manny _manny;
 
@@ -8,7 +8,7 @@ class MannyLeveling {
         _manny = manny;
     }
 
-    private const int  _offset = 30;
+    private const int _offset = 30;
 
     public int GetLevel(float xp) {
         return (int)Math.Floor(_offset + Math.Sqrt(_offset * _offset - 4 * _offset * (-xp))) / (2 * _offset);
