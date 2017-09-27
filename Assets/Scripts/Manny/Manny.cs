@@ -13,6 +13,7 @@ public class Manny : MonoBehaviour {
         _brain = new MannyBrain(this);
         _attribute = new MannyAttribute();
         _leveling = new MannyLeveling(this);
+        _leveling.Test();
     }
 
     // Update is called once per frame
@@ -20,6 +21,9 @@ public class Manny : MonoBehaviour {
         _brain.Update();     
     }
     
+    /// <summary>
+    /// Once the application quits all attributes are saved for the next session
+    /// </summary>
     private void OnApplicationQuit() {
         _attribute.Save();
         if (DeleteAttributes) PlayerPrefs.DeleteAll();
