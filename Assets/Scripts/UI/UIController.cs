@@ -10,6 +10,9 @@ public class UIController : MonoBehaviour {
     public UIControl[] Controls;
     private UIControl _current;
 
+    /// <summary>
+    /// Fires when the application launches (awakes), this is called before the Start()
+    /// </summary>
     private void Awake() {
         LoadDefault();
         foreach (var ctrl in Controls)
@@ -18,6 +21,9 @@ public class UIController : MonoBehaviour {
             }
     }
 
+    /// <summary>
+    /// Loads the default control as the current view
+    /// </summary>
     private void LoadDefault() {
         var ctrl = Controls.Where(x => x.Default).FirstOrDefault();
         if (ctrl != null) {
@@ -26,12 +32,21 @@ public class UIController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Opens the control with the given name as the new view, the current control will be toggled off
+    /// </summary>
+    /// <param name="control">The name of the control</param>
     public void View(string control) {
         var ctrl = Get(control);
-        if (ctrl.Equals(default(UIControl))) LoadDefault();
+        if (ctrl.Equals(default(UIControl)))
+            LoadDefault();
         else View(ctrl);
     }
 
+    /// <summary>
+    /// Opens the given control as the new view, the current control will be toggled off
+    /// </summary>
+    /// <param name="control">The UIControl that you want to view</param>
     public void View(UIControl control) {
         if (_current != null)
             _current.Toggle(false);
@@ -40,6 +55,10 @@ public class UIController : MonoBehaviour {
         _current = control;
     }
 
+    /// <summary>
+    /// Returns the UIControl that corresponds with the given name
+    /// </summary>
+    /// <param name="name">The name of the control</param>
     private UIControl Get(string name){
         return Controls.Where(ctrl => ctrl.GetName() == name).FirstOrDefault();
     }
@@ -48,11 +67,11 @@ public class UIController : MonoBehaviour {
 		
 	}
 
+    /// <summary>
+    /// Event that fires when the current UI control changes
+    /// </summary>
+    /// <param name="ctrl">The new UIControl</param>
     private void OnControllerChange(UIControl ctrl) {
         //fired when the controller changed
-    }
-
-    public void OnClick() {
-        View("ShopControl");
     }
 }
