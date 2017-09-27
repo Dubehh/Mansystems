@@ -14,7 +14,7 @@ class MannyLeveling {
         return (int)Math.Floor(_offset + Math.Sqrt(_offset * _offset - 4 * _offset * (-xp))) / (2 * _offset);
     }
 
-    public float GetRequiredExperience(float level) {
+    public float GetRequiredExperience(int level) {
         return _offset * level * level - _offset * level;
     }
 }

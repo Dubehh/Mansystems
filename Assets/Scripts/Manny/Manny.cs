@@ -17,7 +17,7 @@ public class Manny : MonoBehaviour {
 
     // Update is called once per frame
     private void Update() {
-        _brain.Update()     
+        _brain.Update();     
     }
     
     private void OnApplicationQuit() {
