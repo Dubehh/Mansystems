@@ -1,9 +1,9 @@
 ﻿public class MannyBrain {
 
-    private MannyAttribute _mannyAttribute;
+    private Manny _manny;
 
-    public MannyBrain(MannyAttribute mannyAttribute) {
-        _mannyAttribute = mannyAttribute;
+    public MannyBrain(Manny manny) {
+        _manny = manny;
     }
 
 	public void Update () {

@@ -30,7 +30,6 @@ public class MannyAttribute {
         return _attributes[attribute];
     }
 
-
     /// <summary>
     /// Sets a new value for an excisting attribute;
     /// </summary>
@@ -39,6 +38,16 @@ public class MannyAttribute {
     public void SetAttribute(Attribute attribute, float value) {
         if (_attributes.Count == 0) Load();
         _attributes[attribute] = value;
+    }
+
+    /// <summary>
+    /// Adds an increment value to the value of an excisting attribute;
+    /// </summary>
+    /// <param name="attribute">The attribute which value needs to be changed</param>
+    /// <param name="value">The new float value that needs to be added to the current value</param>
+    public void IncrementAttribute(Attribute attribute, float increment) {
+        if (_attributes.Count == 0) Load();
+        _attributes[attribute] += increment;
     }
 
     /// <summary>

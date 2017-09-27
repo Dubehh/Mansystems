@@ -1,21 +1,30 @@
 ﻿using UnityEngine;
 
 public class Manny : MonoBehaviour {
-    private MannyBrain _mannyBrain;
-    private MannyAttribute _mannyAttribute;
+    private MannyBrain _brain;
+    private MannyAttribute _attribute;
+    private MannyLeveling _leveling;
+
+    // DEBUG
+    public bool DeleteAttributes;
 
     // Use this for initialization
     private void Start() {
-        _mannyAttribute = new MannyAttribute();
-        _mannyBrain = new MannyBrain(_mannyAttribute);
+        _brain = new MannyBrain(this);
+        _attribute = new MannyAttribute();
+        _leveling = new MannyLeveling(this);
     }
 
     // Update is called once per frame
     private void Update() {
-        _mannyBrain.Update();
+        _brain.Update();     
     }
-
+    
+    /// <summary>
+    /// Once the application quits all attributes are saved for the next session
+    /// </summary>
     private void OnApplicationQuit() {
-        _mannyAttribute.Save();
+        _attribute.Save();
+        if (DeleteAttributes) PlayerPrefs.DeleteAll();
     }
 }
