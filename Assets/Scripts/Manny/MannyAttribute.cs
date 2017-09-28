@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Util;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public enum Attribute {
     Thirst,
     Level,
     Experience,
+    LastPlayed,
     Coins,
     Skillpoints,
     
@@ -73,6 +75,7 @@ public class MannyAttribute {
     /// When the application quits this method is called and saves all the attributes to the PlayerPrefs
     /// </summary>
     public void Save() {
+        SetAttribute(Attribute.LastPlayed, DateTimeUtil.CurrentTimeMilli());
         foreach(var attribute in _attributes) {            
             PlayerPrefs.SetFloat(Enum.GetName(typeof(Attribute), attribute.Key), attribute.Value);
         }

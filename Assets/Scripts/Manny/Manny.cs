@@ -13,10 +13,9 @@ public class Manny : MonoBehaviour {
         _brain = new MannyBrain(this);
         Attribute = new MannyAttribute();
         Leveling = new MannyLeveling(this);
-        Debug.Log("Lol");
+        _brain.Initialize();
     }
 
-    // Update is called once per frame
     private void Update() {
         _brain.Update();     
     }
