@@ -11,7 +11,15 @@ public enum Attribute {
     Level,
     Experience,
     Coins,
-    Skillpoints
+    Skillpoints,
+    
+    // The DNA core values
+    DNA_CustomerOriented,
+    DNA_Initiative,
+    DNA_Responsibility,
+    DNA_Creative,
+    DNA_Communication,
+    DNA_Surpass
 }
 public class MannyAttribute {
     private Dictionary<Attribute, float> _attributes;

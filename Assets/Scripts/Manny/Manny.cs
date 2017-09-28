@@ -2,17 +2,18 @@
 
 public class Manny : MonoBehaviour {
     private MannyBrain _brain;
-    private MannyAttribute _attribute;
-    private MannyLeveling _leveling;
+
+    public MannyLeveling Leveling { get; set; }
+    public MannyAttribute Attribute { get; set; }
 
     // DEBUG
     public bool DeleteAttributes;
-
-    // Use this for initialization
-    private void Start() {
+    
+    private void Awake() {
         _brain = new MannyBrain(this);
-        _attribute = new MannyAttribute();
-        _leveling = new MannyLeveling(this);
+        Attribute = new MannyAttribute();
+        Leveling = new MannyLeveling(this);
+        Debug.Log("Lol");
     }
 
     // Update is called once per frame
@@ -24,7 +25,7 @@ public class Manny : MonoBehaviour {
     /// Once the application quits all attributes are saved for the next session
     /// </summary>
     private void OnApplicationQuit() {
-        _attribute.Save();
+        Attribute.Save();
         if (DeleteAttributes) PlayerPrefs.DeleteAll();
     }
 }
