@@ -1,4 +1,6 @@
-﻿public class MannyBrain {
+﻿using UnityEngine;
+
+public class MannyBrain {
 
     private Manny _manny;
 
@@ -7,6 +9,6 @@
     }
 
 	public void Update () {
-        // Deminish food and thirst
+
     }
 }
