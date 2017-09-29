@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Util;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,7 +46,7 @@ public class MannyAttribute {
     /// <param name="value">The new float value for the attribute</param>
     public void SetAttribute(Attribute attribute, float value) {
         if (_attributes.Count == 0) Load();
-        _attributes[attribute] = value;
+        _attributes[attribute] = value >= 0 ? value : 0;
     }
 
     /// <summary>
@@ -58,6 +57,7 @@ public class MannyAttribute {
     public void IncrementAttribute(Attribute attribute, float increment) {
         if (_attributes.Count == 0) Load();
         _attributes[attribute] += increment;
+        _attributes[attribute] = _attributes[attribute] >= 0 ? _attributes[attribute] : 0;
     }
 
     /// <summary>
@@ -75,10 +75,9 @@ public class MannyAttribute {
     /// When the application quits this method is called and saves all the attributes to the PlayerPrefs
     /// </summary>
     public void Save() {
-        SetAttribute(Attribute.LastPlayed, DateTimeUtil.CurrentTimeMilli());
-        foreach(var attribute in _attributes) {            
+        PlayerPrefs.SetString(MannyBrain.StampKey, DateTime.Now.ToBinary().ToString());
+        foreach(var attribute in _attributes)            
             PlayerPrefs.SetFloat(Enum.GetName(typeof(Attribute), attribute.Key), attribute.Value);
-        }
     }
 
     /// <summary>

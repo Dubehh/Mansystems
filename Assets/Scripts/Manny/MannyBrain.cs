@@ -1,10 +1,10 @@
 ﻿using Assets.Scripts.Manny;
-using Assets.Scripts.Util;
 using System;
 using UnityEngine;
 
 public class MannyBrain {
 
+    public const string StampKey = "systemTime";
     public MannyCondition Condition { get; private set; }
     private Manny _manny;
 
@@ -26,11 +26,12 @@ public class MannyBrain {
     }
 
     public void Initialize() {
-        var difference = DateTimeUtil.CurrentTimeMilli() - _manny.Attribute.GetAttribute(Attribute.LastPlayed);
-        difference = Math.Abs(difference);
-        //InitializeAttribute(Attribute.Food, difference);
-        //InitializeAttribute(Attribute.Thirst, difference);
-        Debug.Log(difference);
+        var current = System.DateTime.Now;
+        var last = PlayerPrefs.HasKey(StampKey) ? DateTime.FromBinary(Convert.ToInt64(PlayerPrefs.GetString(StampKey))) : DateTime.Now;
+        var difference = (current.Subtract(last).TotalMilliseconds / 1000 * Time.fixedDeltaTime) * .45;
+        InitializeAttribute(Attribute.Food, (float) difference);
+        InitializeAttribute(Attribute.Thirst, (float) difference);
+
     }
 
     private void InitializeAttribute(Attribute attribute, float difference) {
