@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIController : MonoBehaviour {
 
+    [SerializeField]
+    public Text ControlHeader;
     [SerializeField]
     public UIControl[] Controls;
     private UIControl _current;
@@ -26,10 +29,8 @@ public class UIController : MonoBehaviour {
     /// </summary>
     private void LoadDefault() {
         var ctrl = Controls.Where(x => x.Default).FirstOrDefault();
-        if (ctrl != null) {
-            _current = ctrl;
-            ctrl.Toggle(true);
-        }
+        if (ctrl != null)
+            View(ctrl);
     }
 
     /// <summary>
@@ -72,6 +73,6 @@ public class UIController : MonoBehaviour {
     /// </summary>
     /// <param name="ctrl">The new UIControl</param>
     private void OnControllerChange(UIControl ctrl) {
-        //fired when the controller changed
+        ControlHeader.text = ctrl.Title;
     }
 }
