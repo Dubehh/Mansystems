@@ -11,30 +11,30 @@ public class UIStatUpdater : MonoBehaviour {
     [SerializeField]
     public Slider FoodIndicator, ThirstIndicator, ExperienceIndicator;
 
-    public Dictionary<Attribute, UIStatIndicator> Sliders { get; set; }
+    private Dictionary<Attribute, UIStatIndicator> _sliders { get; set; }
 
     private void Awake() {
-        Sliders = new Dictionary<Attribute, UIStatIndicator>();
+        _sliders = new Dictionary<Attribute, UIStatIndicator>();
     }
 
     private void Start() {
-        Sliders.Add(Attribute.Food, new UIStatIndicator(FoodIndicator, Attribute.Food, Manny));
-        Sliders.Add(Attribute.Thirst, new UIStatIndicator(ThirstIndicator, Attribute.Thirst, Manny));
-        Sliders.Add(Attribute.Experience, new UIStatIndicator(ExperienceIndicator, Attribute.Experience, Manny));
+        _sliders.Add(Attribute.Food, new UIStatIndicator(FoodIndicator, Attribute.Food, Manny));
+        _sliders.Add(Attribute.Thirst, new UIStatIndicator(ThirstIndicator, Attribute.Thirst, Manny));
+        _sliders.Add(Attribute.Experience, new UIStatIndicator(ExperienceIndicator, Attribute.Experience, Manny));
 
         SetExperienceGoal();
     }
 
     private void Update() {
-        foreach (var slider in Sliders)
+        foreach (var slider in _sliders)
             slider.Value.Update();
     }
 
     /// <summary>
     /// Gets the needed experience for the next level and passes it to the slider
     /// </summary>
-    private void SetExperienceGoal() {
+    public void SetExperienceGoal() {
         int level = (int)Manny.Attribute.GetAttribute(Attribute.Level) + 1;
-        Sliders[Attribute.Experience].SetMax((int)Manny.Leveling.GetRequiredExperience(level));
+        _sliders[Attribute.Experience].SetMax((int)Manny.Leveling.GetRequiredExperience(level));
     }
 }
