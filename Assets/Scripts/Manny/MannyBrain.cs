@@ -31,7 +31,6 @@ public class MannyBrain {
         var difference = (current.Subtract(last).TotalMilliseconds / 1000 * Time.fixedDeltaTime) * .45;
         InitializeAttribute(Attribute.Food, (float) difference);
         InitializeAttribute(Attribute.Thirst, (float) difference);
-
     }
 
     private void InitializeAttribute(Attribute attribute, float difference) {
