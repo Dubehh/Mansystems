@@ -1,10 +1,10 @@
 ﻿using UnityEngine.UI;
 
 public class UIStatIndicator {
+
     private Slider _slider;
     private Attribute _attribute;
     private Text _text;
-    
     private Manny _manny;
 
     public UIStatIndicator(Slider component, Attribute attribute, Manny manny) {
