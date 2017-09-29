@@ -11,6 +11,8 @@ namespace Assets.Scripts.UI {
         [SerializeField]
         public bool Default;
         [SerializeField]
+        public string Title;
+        [SerializeField]
         public GameObject Parent;
         public bool Active { get; set; }
 
