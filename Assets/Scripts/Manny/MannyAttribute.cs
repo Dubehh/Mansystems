@@ -10,7 +10,6 @@ public enum Attribute {
     Thirst,
     Level,
     Experience,
-    LastPlayed,
     Coins,
     Skillpoints,
     
