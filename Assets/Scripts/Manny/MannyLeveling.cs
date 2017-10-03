@@ -2,14 +2,8 @@
 using UnityEngine;
 
 public class MannyLeveling {
-    private Manny _manny;
-
-    public MannyLeveling(Manny manny) {
-        _manny = manny;
-    }
 
     private const int _offset = 30;
-
     /// <summary>
     /// Gets the level based on a given amount of experience through a quadratic formula
     /// </summary>
