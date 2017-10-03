@@ -12,7 +12,7 @@ public class Manny : MonoBehaviour {
     private void Awake() {
         _brain = new MannyBrain(this);
         Attribute = new MannyAttribute();
-        Leveling = new MannyLeveling(this);
+        Leveling = new MannyLeveling();
         _brain.Initialize();
     }
 
