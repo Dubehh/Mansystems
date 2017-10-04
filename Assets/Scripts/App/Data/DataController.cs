@@ -9,7 +9,10 @@ namespace Assets.Scripts.Data {
 
         public DataStorage Storage { get; set; }
         private void Awake() {
-            Storage = new DataStorage(this);
+            Storage = new DataStorage();
         }
+
+
+
     }
 }
