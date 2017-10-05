@@ -7,6 +7,7 @@ public class ShopController : MonoBehaviour {
 
     private const float _yStart = 315f;
     private const byte _transparencyStart = 255;
+    private RectTransform _scrollRect;
 
     [SerializeField]
     public ShopItem[] Items;
@@ -14,14 +15,14 @@ public class ShopController : MonoBehaviour {
     [SerializeField]
     public GameObject Item;
 
-    private RectTransform ScrollRect;
-
     // Use this for initialization
     void Start() {
-        ScrollRect = GetComponent<RectTransform>();
+        _scrollRect = GetComponent<RectTransform>();
 
         var y = _yStart;
         var transparency = _transparencyStart;
+
+        // Loop through the ShopItem array and create a ShopItemPrefab with each one of them
         foreach (var item in Items) {
             if (transparency < 140) transparency = _transparencyStart;
 
@@ -29,19 +30,23 @@ public class ShopController : MonoBehaviour {
             obj.Item = item;
             obj.Init();
 
-            obj.GetComponent<Image>().color = item.Attribute == Attribute.Food 
+            obj.GetComponent<Image>().color = item.Attribute == Attribute.Food
                 ? new Color32(18, 178, 112, transparency)
                 : new Color32(26, 118, 175, transparency);
 
             obj.transform.localPosition = new Vector2(0, y);
-            y -= obj.GetComponent<RectTransform>().rect.height - 2;
+            y -= obj.GetComponent<RectTransform>().rect.height;
             transparency -= 30;
         }
     }
 
+    /// <summary>
+    /// This method makes sure that the user cannot scroll outside of the content of the panel
+    /// </summary>
+    /// <param name="vec">The 2D vector of the current location of the scroll content</param>
     public void OnValueChanged(Vector2 vec) {
         var maxY = 540;
-        if (vec.y > 0) ScrollRect.anchoredPosition = new Vector2(0, 0);
-        if (ScrollRect.anchoredPosition.y > maxY) ScrollRect.anchoredPosition = new Vector2(0, maxY);
+        if (vec.y > 0) _scrollRect.anchoredPosition = new Vector2(0, 0);
+        if (_scrollRect.anchoredPosition.y > maxY) _scrollRect.anchoredPosition = new Vector2(0, maxY);
     }
 }

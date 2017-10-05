@@ -7,7 +7,8 @@ using UnityEngine.UI;
 [Serializable]
 public class ShopItemPrefab : MonoBehaviour {
 
-    private Manny Manny;
+    private Manny _manny;
+
     public ShopItem Item;
 
     [SerializeField]
@@ -25,8 +26,11 @@ public class ShopItemPrefab : MonoBehaviour {
     [SerializeField]
     public Text Cost;
 
+    /// <summary>
+    /// Fill the prefab with the information from the shopitem
+    /// </summary>
     public void Init() {
-        Manny = FindObjectOfType<Manny>();
+        _manny = FindObjectOfType<Manny>();
         Icon.texture = Item.Icon;
         Name.text = Item.Name;
         Description.text = Item.Description;
@@ -34,7 +38,10 @@ public class ShopItemPrefab : MonoBehaviour {
         Cost.text += Item.Cost;
     }
 
+    /// <summary>
+    /// OnClick event for the item's buy button
+    /// </summary>
     public void OnClick() {
-        Item.Buy(Manny);
+        Item.Buy(_manny);
     }
 }
