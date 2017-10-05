@@ -5,6 +5,7 @@ public class Manny : MonoBehaviour {
     private MannyBrain _brain;
     public MannyLeveling Leveling { get; set; }
     public MannyAttribute Attribute { get; set; }
+
     // DEBUG
     public bool DeleteAttributes;
     
