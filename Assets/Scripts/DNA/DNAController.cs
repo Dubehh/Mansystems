@@ -22,9 +22,11 @@ public class DNAController : MonoBehaviour {
     }
 
     public void OnClickNavigation() {
-
     }
 
+    /// <summary>
+    /// Fires when the button next to the DNAItem sliders are being clicked
+    /// </summary>
     public void OnClickButton() {
         var obj = EventSystem.current.currentSelectedGameObject;
         var slider = obj.GetComponentInParent<Slider>();
