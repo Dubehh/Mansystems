@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Manny))]
 public class DNAController : MonoBehaviour {
 
     [SerializeField]
