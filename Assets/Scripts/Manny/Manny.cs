@@ -23,7 +23,10 @@ public class Manny : MonoBehaviour {
     /// <summary>
     /// Once the application pauses all attributes are saved for the next session
     /// </summary>
-    private void OnApplicationPause() {
+    private void OnApplicationQuit() { OnExit(); }
+    private void OnApplicationPause() { OnExit(); }
+
+    private void OnExit() {
         Attribute.Save();
         if (DeleteAttributes) PlayerPrefs.DeleteAll();
     }
