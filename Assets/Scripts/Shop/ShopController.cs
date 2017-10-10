@@ -5,7 +5,7 @@ using UnityEngine.UI;
 [Serializable]
 public class ShopController : MonoBehaviour {
 
-    private const float _yStart = 315f;
+    private const float _yStart = 373f;
     private const byte _transparencyStart = 255;
     private RectTransform _scrollRect;
 
@@ -45,7 +45,7 @@ public class ShopController : MonoBehaviour {
     /// </summary>
     /// <param name="vec">The 2D vector of the current location of the scroll content</param>
     public void OnValueChanged(Vector2 vec) {
-        var maxY = 540;
+        var maxY = 455;
         if (vec.y > 0) _scrollRect.anchoredPosition = new Vector2(0, 0);
         if (_scrollRect.anchoredPosition.y > maxY) _scrollRect.anchoredPosition = new Vector2(0, maxY);
     }
