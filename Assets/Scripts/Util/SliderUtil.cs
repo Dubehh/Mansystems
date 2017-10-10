@@ -4,6 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public static class SliderUtil {
+    /// <summary>
+    /// Changes the background color of a given slider to a lighter version
+    /// </summary>
+    /// <param name="slider">The slider to be given a new background color</param>
+    /// <returns>The updated slider</returns>
     public static Slider GetSliderBackground(Slider slider) {
         var baseColor = new Color();
         Image background = null;
