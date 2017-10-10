@@ -17,6 +17,7 @@ public class UIController : MonoBehaviour {
     /// Fires when the application launches (awakes), this is called before the Start()
     /// </summary>
     private void Awake() {
+        Screen.sleepTimeout = 0;
         LoadDefault();
         foreach (var ctrl in Controls)
             if (!ctrl.Active && ctrl.Parent.activeSelf) {
