@@ -12,7 +12,7 @@ public static class SliderUtil {
             if (image.name == "Background") background = image;
         }
 
-        baseColor.a /= 1.5f;
+        baseColor.a /= 1.8f;
         background.color = baseColor;
 
         return slider;
