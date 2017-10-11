@@ -1,12 +1,13 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.App.Tracking;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class App : MonoBehaviour {
 
 	// Use this for initialization
-	void Start () {
-		
+	void Awake () {
+        
 	}
 	
 	// Update is called once per frame
