@@ -24,7 +24,7 @@ public class UIStatUpdater : MonoBehaviour {
         _sliders.Add(Attribute.Food, new UIStatIndicator(FoodIndicator, Attribute.Food, Manny));
         _sliders.Add(Attribute.Thirst, new UIStatIndicator(ThirstIndicator, Attribute.Thirst, Manny));
         _sliders.Add(Attribute.Experience, new UIStatIndicator(ExperienceIndicator, Attribute.Experience, Manny));
-
+        
         SetExperienceGoal();
     }
 
