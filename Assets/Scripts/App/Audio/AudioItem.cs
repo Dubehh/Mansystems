@@ -10,7 +10,7 @@ namespace Assets.Scripts.App {
     public struct AudioItem {
 
         [SerializeField]
-        public AudioClip Clip;
+        public AudioSource Source;
 
         [SerializeField]
         public string Key;

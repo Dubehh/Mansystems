@@ -9,20 +9,17 @@ namespace Assets.Scripts.App {
 
         [SerializeField]
         public AudioItem[] Items;
-
-        private Dictionary<string, AudioClip> _items;
+        private Dictionary<string, AudioSource> _items;
 
         private void Awake() {
-            _items = new Dictionary<string, AudioClip>();
+            _items = new Dictionary<string, AudioSource>();
             foreach (var item in Items)
-                _items[item.Key.ToLower()] = item.Clip;
+                _items[item.Key.ToLower()] = item.Source;
         }
 
         public void Play(string name) {
-            //if(_items.ContainsKey(name.ToLower())
-            //    _items[name.ToLower()]
+            if (_items.ContainsKey(name.ToLower()))
+                _items[name.ToLower()].Play();
         }
-
-
     }
 }
