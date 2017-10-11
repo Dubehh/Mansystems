@@ -17,6 +17,11 @@ namespace Assets.Scripts.App {
                 _items[item.Key.ToLower()] = item.Source;
         }
 
+        /// <summary>
+        /// Plays the audiclip that is linked to the given name.
+        /// This name should be unique.
+        /// </summary>
+        /// <param name="name">The name of the clip</param>
         public void Play(string name) {
             if (_items.ContainsKey(name.ToLower()))
                 _items[name.ToLower()].Play();
