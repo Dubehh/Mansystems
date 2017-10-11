@@ -57,7 +57,7 @@ namespace Assets.Scripts.App.Tracking.Table {
         /// <param name="clause">The conditions clause</param>
         /// <param name="callback">Optional callback when the query is complete</param>
         public void Update(DataParams parameters, string clause, Action callback = null) {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             parameters.Parameters.ForEach(pair => {
                 builder.Append(",")
                     .Append(pair.Key + " = ")
