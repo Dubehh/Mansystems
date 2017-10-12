@@ -23,6 +23,6 @@ namespace Assets.Scripts.App {
         /// The actual sound file
         /// </summary>
         [SerializeField]
-        public AudioSource Source;
+        public AudioClip Clip;
     }
 }
