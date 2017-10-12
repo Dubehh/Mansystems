@@ -9,6 +9,8 @@ public class ShopItemPrefab : MonoBehaviour {
 
     private Manny _manny;
 
+    private ShopController _shopController;
+
     public ShopItem Item;
 
     [SerializeField]
@@ -31,6 +33,7 @@ public class ShopItemPrefab : MonoBehaviour {
     /// </summary>
     public void Init() {
         _manny = FindObjectOfType<Manny>();
+        _shopController = FindObjectOfType<ShopController>();
         Icon.texture = Item.Icon;
         Name.text = Item.Name;
         Description.text = Item.Description;
@@ -43,5 +46,6 @@ public class ShopItemPrefab : MonoBehaviour {
     /// </summary>
     public void OnClick() {
         Item.Buy(_manny);
+        _shopController.UpdateCoins();
     }
 }
