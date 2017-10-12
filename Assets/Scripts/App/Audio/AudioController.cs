@@ -15,7 +15,6 @@ namespace Assets.Scripts.App {
 
         private void Awake() {
             _source = GetComponent<AudioSource>();
-            Play("return");
             _items = new Dictionary<string, AudioClip>();
             foreach (var item in Items)
                 _items[item.Key.ToLower()] = item.Clip;
