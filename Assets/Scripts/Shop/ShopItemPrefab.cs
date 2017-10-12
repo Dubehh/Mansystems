@@ -9,7 +9,7 @@ public class ShopItemPrefab : MonoBehaviour {
 
     private Manny _manny;
 
-    private ShopController _shopController;
+    private ShopController _shop;
 
     public ShopItem Item;
 
@@ -33,7 +33,7 @@ public class ShopItemPrefab : MonoBehaviour {
     /// </summary>
     public void Init() {
         _manny = FindObjectOfType<Manny>();
-        _shopController = FindObjectOfType<ShopController>();
+        _shop = FindObjectOfType<ShopController>();
         Icon.texture = Item.Icon;
         Name.text = Item.Name;
         Description.text = Item.Description;
@@ -46,6 +46,6 @@ public class ShopItemPrefab : MonoBehaviour {
     /// </summary>
     public void OnClick() {
         Item.Buy(_manny);
-        _shopController.UpdateCoins();
+        _shop.UpdateCoins();
     }
 }
