@@ -8,8 +8,8 @@ using UnityEngine.UI;
 public class ShopItemPrefab : MonoBehaviour {
 
     private Manny _manny;
-
-    public ShopItem Item;
+    private ShopController _shop;
+    public ShopItem Item { get; set; }
 
     [SerializeField]
     public RawImage Icon;
@@ -31,6 +31,7 @@ public class ShopItemPrefab : MonoBehaviour {
     /// </summary>
     public void Init() {
         _manny = FindObjectOfType<Manny>();
+        _shop = FindObjectOfType<ShopController>();
         Icon.texture = Item.Icon;
         Name.text = Item.Name;
         Description.text = Item.Description;
@@ -43,5 +44,6 @@ public class ShopItemPrefab : MonoBehaviour {
     /// </summary>
     public void OnClick() {
         Item.Buy(_manny);
+        _shop.UpdateCoins();
     }
 }

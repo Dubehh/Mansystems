@@ -5,9 +5,13 @@ using UnityEngine.UI;
 [Serializable]
 public class ShopController : MonoBehaviour {
 
-    private const float _yStart = 373f;
     private const byte _transparencyStart = 255;
-    private RectTransform _scrollRect;
+    private Manny _manny;
+
+    private float _prefabHeight;
+
+    [SerializeField]
+    public Text CoinsIndicator;
 
     [SerializeField]
     public ShopItem[] Items;
@@ -17,10 +21,12 @@ public class ShopController : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        _scrollRect = GetComponent<RectTransform>();
-
-        var y = _yStart;
         var transparency = _transparencyStart;
+        var y = -75f;
+
+        _manny = FindObjectOfType<Manny>();
+
+        UpdateCoins();
 
         // Loop through the ShopItem array and create a ShopItemPrefab with each one of them
         foreach (var item in Items) {
@@ -34,19 +40,37 @@ public class ShopController : MonoBehaviour {
                 ? new Color32(18, 178, 112, transparency)
                 : new Color32(26, 118, 175, transparency);
 
-            obj.transform.localPosition = new Vector2(0, y);
-            y -= obj.GetComponent<RectTransform>().rect.height;
+            var rect = obj.GetComponent<RectTransform>().rect;
+
+            _prefabHeight = rect.height;
+
+            obj.transform.localPosition = new Vector2(rect.width / 2, y);
+            y -= _prefabHeight;
             transparency -= 30;
         }
     }
 
     /// <summary>
+    /// Updates the coins in the indicator panel on the top of the shop once the player buys an item or opens the shop
+    /// </summary>
+    public void UpdateCoins() {
+        CoinsIndicator.text = "Jouw coins:\n" + _manny.Attribute.GetAttribute(Attribute.Coins);
+    }
+
+    /// <summary>
     /// This method makes sure that the user cannot scroll outside of the content of the panel
     /// </summary>
-    /// <param name="vec">The 2D vector of the current location of the scroll content</param>
-    public void OnValueChanged(Vector2 vec) {
-        var maxY = 455;
-        if (vec.y > 0) _scrollRect.anchoredPosition = new Vector2(0, 0);
-        if (_scrollRect.anchoredPosition.y > maxY) _scrollRect.anchoredPosition = new Vector2(0, maxY);
+    public void OnValueChanged() {
+        var scrollView = transform.parent.parent;
+        var capacity = Math.Floor(scrollView.GetComponent<RectTransform>().rect.height / _prefabHeight);
+        var scrollRect = GetComponent<RectTransform>();
+
+        if (capacity < Items.Length) {
+            var maxY = (float)((Items.Length - capacity) * _prefabHeight) - 75f;
+            if (scrollRect.anchoredPosition.y < 0) scrollRect.anchoredPosition = new Vector2();
+            if (scrollRect.anchoredPosition.y > maxY) scrollRect.anchoredPosition = new Vector2(0, maxY);
+        } else {
+            scrollRect.anchoredPosition = new Vector2();
+        }
     }
 }

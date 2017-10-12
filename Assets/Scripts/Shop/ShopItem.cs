@@ -33,5 +33,7 @@ public class ShopItem {
             manny.Attribute.IncrementAttribute(Attribute, Value);
             manny.Attribute.IncrementAttribute(Attribute.Coins, -Cost);
         }
+
+
     }
 }
