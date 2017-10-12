@@ -36,8 +36,7 @@ public class MinigamesController : MonoBehaviour {
     /// <summary>
     /// This method makes sure that the user cannot scroll outside of the content of the panel
     /// </summary>
-    /// <param name="vec">The 2D vector of the current location of the scroll content</param>
-    public void OnValueChanged(Vector2 vec) {
+    public void OnValueChanged() {
         var scrollView = transform.parent.parent;
         var capacity = Math.Floor(scrollView.GetComponent<RectTransform>().rect.height / _prefabHeight);
         var _scrollRect = GetComponent<RectTransform>();
