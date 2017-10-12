@@ -11,9 +11,6 @@ public class UIStatUpdater : MonoBehaviour {
     [SerializeField]
     public Slider FoodIndicator, ThirstIndicator, ExperienceIndicator;
 
-    [SerializeField]
-    public Text CoinsIndicator;
-
     private Dictionary<Attribute, UIStatIndicator> _sliders { get; set; }
 
     private void Awake() {
@@ -31,8 +28,6 @@ public class UIStatUpdater : MonoBehaviour {
     private void Update() {
         foreach (var slider in _sliders)
             slider.Value.Update();
-
-        CoinsIndicator.text = "€" + Manny.Attribute.GetAttribute(Attribute.Coins);
     }
 
     /// <summary>
