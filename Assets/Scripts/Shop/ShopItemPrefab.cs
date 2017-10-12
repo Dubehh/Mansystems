@@ -8,10 +8,8 @@ using UnityEngine.UI;
 public class ShopItemPrefab : MonoBehaviour {
 
     private Manny _manny;
-
     private ShopController _shop;
-
-    public ShopItem Item;
+    public ShopItem Item { get; set; }
 
     [SerializeField]
     public RawImage Icon;
