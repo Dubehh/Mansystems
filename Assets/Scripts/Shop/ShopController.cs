@@ -5,10 +5,10 @@ using UnityEngine.UI;
 [Serializable]
 public class ShopController : MonoBehaviour {
 
-    private const float _yStart = 340f;
     private const byte _transparencyStart = 255;
-    private RectTransform _scrollRect;
     private Manny _manny;
+
+    private float _prefabHeight;
 
     [SerializeField]
     public Text CoinsIndicator;
@@ -21,10 +21,9 @@ public class ShopController : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        var y = _yStart;
         var transparency = _transparencyStart;
+        var y = -75f;
 
-        _scrollRect = GetComponent<RectTransform>();
         _manny = FindObjectOfType<Manny>();
 
         UpdateCoins();
@@ -41,8 +40,12 @@ public class ShopController : MonoBehaviour {
                 ? new Color32(18, 178, 112, transparency)
                 : new Color32(26, 118, 175, transparency);
 
-            obj.transform.localPosition = new Vector2(0, y);
-            y -= obj.GetComponent<RectTransform>().rect.height;
+            var rect = obj.GetComponent<RectTransform>().rect;
+
+            _prefabHeight = rect.height;
+
+            obj.transform.localPosition = new Vector2(rect.width / 2, y);
+            y -= _prefabHeight;
             transparency -= 30;
         }
     }
@@ -57,11 +60,17 @@ public class ShopController : MonoBehaviour {
     /// <summary>
     /// This method makes sure that the user cannot scroll outside of the content of the panel
     /// </summary>
-    /// <param name="vec">The 2D vector of the current location of the scroll content</param>
-    public void OnValueChanged(Vector2 vec) {
-        var minY = -7.5f;
-        var maxY = 442.45f - minY;
-        if (_scrollRect.anchoredPosition.y < minY) _scrollRect.anchoredPosition = new Vector2(0, minY);
-        if (_scrollRect.anchoredPosition.y > maxY) _scrollRect.anchoredPosition = new Vector2(0, maxY);
+    public void OnValueChanged() {
+        var scrollView = transform.parent.parent;
+        var capacity = Math.Floor(scrollView.GetComponent<RectTransform>().rect.height / _prefabHeight);
+        var scrollRect = GetComponent<RectTransform>();
+
+        if (capacity < Items.Length) {
+            var maxY = (float)((Items.Length - capacity) * _prefabHeight) - 75f;
+            if (scrollRect.anchoredPosition.y < 0) scrollRect.anchoredPosition = new Vector2();
+            if (scrollRect.anchoredPosition.y > maxY) scrollRect.anchoredPosition = new Vector2(0, maxY);
+        } else {
+            scrollRect.anchoredPosition = new Vector2();
+        }
     }
 }
