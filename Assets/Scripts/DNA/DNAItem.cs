@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +20,7 @@ public class DNAItem {
     /// <param name="manny">Manny main instance</param>
     public void SetInstance(Manny manny) {
         _manny = manny;
+        Slider = SliderUtil.GetSliderBackground(Slider);
         Slider.maxValue = 5;
     }
 
