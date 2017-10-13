@@ -9,11 +9,14 @@ using UnityEngine.UI;
 public class DNAController : MonoBehaviour {
 
     [SerializeField]
+    public Text DisplayText;
+    [SerializeField]
     public Manny Manny;
     [SerializeField]
     public DNAItem[] Items;
 
     private void Start() {
+        DisplayText.text = Manny.Attribute.GetAttribute(Attribute.Skillpoints) + "";
         foreach (var item in Items) {
             item.SetInstance(Manny);
             item.Update();
@@ -35,6 +38,7 @@ public class DNAController : MonoBehaviour {
             Manny.Attribute.IncrementAttribute(Attribute.Skillpoints, -1);
             Manny.Attribute.IncrementAttribute(item.Attribute, 1);
             item.Update();
+            DisplayText.text = Manny.Attribute.GetAttribute(Attribute.Skillpoints)+"";
         }
     }
 
