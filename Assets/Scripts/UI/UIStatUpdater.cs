@@ -11,6 +11,9 @@ public class UIStatUpdater : MonoBehaviour {
     [SerializeField]
     public Slider FoodIndicator, ThirstIndicator, ExperienceIndicator;
 
+    [SerializeField]
+    public Text LevelIndicator;
+
     private Dictionary<Attribute, UIStatIndicator> _sliders { get; set; }
 
     private void Awake() {
@@ -34,7 +37,8 @@ public class UIStatUpdater : MonoBehaviour {
     /// Gets the needed experience for the next level and passes it to the slider
     /// </summary>
     public void SetExperienceGoal() {
-        int level = (int)Manny.Attribute.GetAttribute(Attribute.Level) + 1;
-        _sliders[Attribute.Experience].SetMax((int)Manny.Leveling.GetRequiredExperience(level));
+        int level = (int)Manny.Attribute.GetAttribute(Attribute.Level);
+        LevelIndicator.text = "Level " + level;
+        _sliders[Attribute.Experience].SetMax((int)Manny.Leveling.GetRequiredExperience(level + 1));
     }
 }
