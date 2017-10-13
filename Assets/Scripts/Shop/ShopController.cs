@@ -54,7 +54,7 @@ public class ShopController : MonoBehaviour {
     /// Updates the coins in the indicator panel on the top of the shop once the player buys an item or opens the shop
     /// </summary>
     public void UpdateCoins() {
-        CoinsIndicator.text = "Jouw coins:\n" + _manny.Attribute.GetAttribute(Attribute.Coins);
+        CoinsIndicator.text = _manny.Attribute.GetAttribute(Attribute.Coins).ToString();
     }
 
     /// <summary>
