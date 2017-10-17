@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// This controller manages the audio settings interaction.
+/// It updates a sprite upon muting/unmuting the audio
+/// </summary>
 public class AudioSettingController : MonoBehaviour {
 
     [SerializeField]
@@ -17,6 +21,9 @@ public class AudioSettingController : MonoBehaviour {
         _image = GetComponentInChildren<Image>();
     }
 
+    /// <summary>
+    /// Fires upon hitting the mute/unmute button
+    /// </summary>
     public void OnSettingChange() {
         _enabled = !_enabled;
         _image.sprite = _enabled ? _soundEnabled : _soundDisabled;
