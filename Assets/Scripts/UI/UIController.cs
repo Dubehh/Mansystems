@@ -8,21 +8,27 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour {
 
     [SerializeField]
+    private GameObject _navigation;
+    private UIControl _current;
+    private Animator _animator;
+    private bool _navigationVisible;
+
+    [SerializeField]
     public Text ControlHeader;
     [SerializeField]
     public UIControl[] Controls;
-    private UIControl _current;
 
     /// <summary>
     /// Fires when the application launches (awakes), this is called before the Start()
     /// </summary>
     private void Awake() {
+        _navigationVisible = false;
+        _animator = GetComponentInChildren<Animator>();
         Screen.sleepTimeout = 0;
         LoadDefault();
         foreach (var ctrl in Controls)
-            if (!ctrl.Active && ctrl.Parent.activeSelf) {
+            if (!ctrl.Active && ctrl.Parent.activeSelf)
                 ctrl.Toggle(false);
-            }
     }
 
     /// <summary>
@@ -43,6 +49,7 @@ public class UIController : MonoBehaviour {
         if (ctrl.Equals(default(UIControl)))
             LoadDefault();
         else View(ctrl);
+        OnNavigationInteract();
     }
 
     /// <summary>
@@ -64,10 +71,6 @@ public class UIController : MonoBehaviour {
     private UIControl Get(string name){
         return Controls.Where(ctrl => ctrl.GetName() == name).FirstOrDefault();
     }
- 
-	private void Update () {
-		
-	}
 
     /// <summary>
     /// Event that fires when the current UI control changes
@@ -75,5 +78,14 @@ public class UIController : MonoBehaviour {
     /// <param name="ctrl">The new UIControl</param>
     private void OnControllerChange(UIControl ctrl) {
         ControlHeader.text = ctrl.Title;
+    }
+
+    /// <summary>
+    /// Fires when the navigation button is pressed and toggles the navigation menu
+    /// </summary>
+    public void OnNavigationInteract() {
+        _navigationVisible = !_navigationVisible;
+        if (_animator != null)
+            _animator.Play(_navigationVisible ? "slideOpen" : "slideClose");
     }
 }
