@@ -33,6 +33,10 @@ public class ShopItemPrefab : MonoBehaviour {
         _manny = FindObjectOfType<Manny>();
         _shop = FindObjectOfType<ShopController>();
         Icon.texture = Item.Icon;
+        Icon.color = Item.Attribute == Attribute.Food
+                ? new Color32(18, 178, 112, 255)
+                : new Color32(26, 118, 175, 255);
+
         Name.text = Item.Name;
         Description.text = Item.Description;
         Gain.text = "+" + Item.Value + " " + Enum.GetName(typeof(Attribute), Item.Attribute);
