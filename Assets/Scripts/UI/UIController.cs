@@ -81,8 +81,7 @@ public class UIController : MonoBehaviour {
     }
 
     /// <summary>
-    /// Fires when the navigation button is pressed and toggles
-    /// the navigation menu
+    /// Fires when the navigation button is pressed and toggles the navigation menu
     /// </summary>
     public void OnNavigationInteract() {
         _navigationVisible = !_navigationVisible;
