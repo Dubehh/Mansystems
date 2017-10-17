@@ -42,7 +42,7 @@ public class MinigamesController : MonoBehaviour {
         var _scrollRect = GetComponent<RectTransform>();
 
         if (capacity < Minigames.Length) {
-            var maxY = (float)((Minigames.Length - capacity) * _prefabHeight) - 70f;
+            var maxY = (float)((Minigames.Length - capacity) * _prefabHeight) - 15f;
             if (_scrollRect.anchoredPosition.y < 0) _scrollRect.anchoredPosition = new Vector2();
             if (_scrollRect.anchoredPosition.y > maxY) _scrollRect.anchoredPosition = new Vector2(0, maxY);
         } else {
