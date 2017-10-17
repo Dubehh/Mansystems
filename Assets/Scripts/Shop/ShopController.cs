@@ -5,7 +5,6 @@ using UnityEngine.UI;
 [Serializable]
 public class ShopController : MonoBehaviour {
 
-    private const byte _transparencyStart = 255;
     private Manny _manny;
 
     private float _prefabHeight;
@@ -21,7 +20,6 @@ public class ShopController : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        var transparency = _transparencyStart;
         var y = -75f;
 
         _manny = FindObjectOfType<Manny>();
@@ -30,15 +28,9 @@ public class ShopController : MonoBehaviour {
 
         // Loop through the ShopItem array and create a ShopItemPrefab with each one of them
         foreach (var item in Items) {
-            if (transparency < 140) transparency = _transparencyStart;
-
             var obj = Instantiate(Item, transform).GetComponent<ShopItemPrefab>();
             obj.Item = item;
             obj.Init();
-
-            obj.GetComponent<Image>().color = item.Attribute == Attribute.Food
-                ? new Color32(18, 178, 112, transparency)
-                : new Color32(26, 118, 175, transparency);
 
             var rect = obj.GetComponent<RectTransform>().rect;
 
@@ -46,7 +38,6 @@ public class ShopController : MonoBehaviour {
 
             obj.transform.localPosition = new Vector2(rect.width / 2, y);
             y -= _prefabHeight;
-            transparency -= 30;
         }
     }
 

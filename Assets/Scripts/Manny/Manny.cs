@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Manny : MonoBehaviour {
 
     private MannyBrain _brain;
+    private MannyNotification _notification;
     public MannyLeveling Leveling { get; set; }
     public MannyAttribute Attribute { get; set; }
 
@@ -11,6 +13,7 @@ public class Manny : MonoBehaviour {
     
     private void Awake() {
         _brain = new MannyBrain(this);
+        _notification = new MannyNotification();
         Attribute = new MannyAttribute();
         Leveling = new MannyLeveling();
         _brain.Initialize();
@@ -28,6 +31,7 @@ public class Manny : MonoBehaviour {
 
     private void OnExit() {
         Attribute.Save();
+        _notification.CreateNotificationQueue();
         if (DeleteAttributes) PlayerPrefs.DeleteAll();
     }
 }
