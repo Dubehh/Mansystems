@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,10 +8,7 @@ public class UIStatUpdater : MonoBehaviour {
     public Manny Manny;
 
     [SerializeField]
-    public Slider FoodIndicator, ThirstIndicator, ExperienceIndicator;
-
-    [SerializeField]
-    public Text LevelIndicator;
+    public Slider FoodIndicator, ThirstIndicator;
 
     private Dictionary<Attribute, UIStatIndicator> _sliders { get; set; }
 
@@ -23,22 +19,10 @@ public class UIStatUpdater : MonoBehaviour {
     private void Start() {
         _sliders.Add(Attribute.Food, new UIStatIndicator(FoodIndicator, Attribute.Food, Manny));
         _sliders.Add(Attribute.Thirst, new UIStatIndicator(ThirstIndicator, Attribute.Thirst, Manny));
-        _sliders.Add(Attribute.Experience, new UIStatIndicator(ExperienceIndicator, Attribute.Experience, Manny));
-        
-        SetExperienceGoal();
     }
 
     private void Update() {
         foreach (var slider in _sliders)
             slider.Value.Update();
-    }
-
-    /// <summary>
-    /// Gets the needed experience for the next level and passes it to the slider
-    /// </summary>
-    public void SetExperienceGoal() {
-        int level = (int)Manny.Attribute.GetAttribute(Attribute.Level);
-        LevelIndicator.text = "Level " + level;
-        _sliders[Attribute.Experience].SetMax((int)Manny.Leveling.GetRequiredExperience(level + 1));
     }
 }
