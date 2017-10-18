@@ -10,6 +10,9 @@ public class UIController : MonoBehaviour {
 
     [SerializeField]
     private GameObject _navigation;
+    [SerializeField]
+    private GameObject _footer;
+
     private UIControl _current;
     private Animator _animator;
     private bool _navigationVisible;
@@ -24,7 +27,7 @@ public class UIController : MonoBehaviour {
     /// </summary>
     private void Awake() {
         _navigationVisible = false;
-        _animator = GetComponentInChildren<Animator>();
+        _animator = _navigation.GetComponent<Animator>();
         Screen.sleepTimeout = 0;
         LoadDefault();
         foreach (var ctrl in Controls)
@@ -32,11 +35,15 @@ public class UIController : MonoBehaviour {
                 ctrl.Toggle(false);
     }
 
+    public bool IsFirstTime() {
+        return !PlayerPrefs.HasKey("name");
+    }
+
     /// <summary>
     /// Loads the default control as the current view
     /// </summary>
-    private void LoadDefault() {
-        var ctrl = Controls.Where(x => x.Default).FirstOrDefault();
+    public void LoadDefault() {
+        var ctrl = IsFirstTime() ? Get("WelcomeControl") : Controls.Where(x => x.Default).FirstOrDefault();
         if (ctrl != null)
             View(ctrl);
     }
@@ -88,5 +95,13 @@ public class UIController : MonoBehaviour {
         _navigationVisible = !_navigationVisible;
         if (_animator != null)
             _animator.Play(_navigationVisible ? "slideOpen" : "slideClose");
+    }
+
+    public GameObject GetNavigationComponent() {
+        return _navigation;
+    }
+
+    public GameObject GetFooterComponent() {
+        return _footer;
     }
 }
