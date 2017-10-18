@@ -22,4 +22,8 @@ public static class SliderUtil {
 
         return slider;
     }
+
+    public static void GradualFill(Slider slider, float amount) {
+        while(slider.value < amount) slider.value += 0.001f;        
+    }
 }
