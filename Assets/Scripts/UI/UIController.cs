@@ -97,10 +97,16 @@ public class UIController : MonoBehaviour {
             _animator.Play(_navigationVisible ? "slideOpen" : "slideClose");
     }
 
+    /// <summary>
+    /// Returns the navigation component
+    /// </summary>
     public GameObject GetNavigationComponent() {
         return _navigation;
     }
 
+    /// <summary>
+    /// Returns the footer component
+    /// </summary>
     public GameObject GetFooterComponent() {
         return _footer;
     }

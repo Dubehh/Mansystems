@@ -25,17 +25,26 @@ public class UIWelcomeController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Requests the next view in the queue
+    /// </summary>
     public void Next() {
         _views[_current++].SetActive(false);
         _views[_current].SetActive(true);
     }
 
+    /// <summary>
+    /// Saves the input from the registration
+    /// </summary>
     public void SaveInput() {
         PlayerPrefs.SetString("name", _nameInput.text);
         PlayerPrefs.Save();
         _nameResult.text = _nameInput.text;
     }
 
+    /// <summary>
+    /// Sends the registration request and loads the default game
+    /// </summary>
     public void RequestSend() {
         _controller.GetFooterComponent().SetActive(true);
         _controller.GetNavigationComponent().SetActive(true);
