@@ -22,4 +22,8 @@ public static class SliderUtil {
 
         return slider;
     }
+
+    public static void GradualFill(Slider slider, float amount) {
+        slider.value = Mathf.Lerp(slider.value, amount, 4 * Time.deltaTime);
+    }
 }

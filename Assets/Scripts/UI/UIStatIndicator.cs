@@ -12,7 +12,7 @@ public class UIStatIndicator {
         _slider = SliderUtil.GetSliderBackground(component);
         _attribute = attribute;
         _text = _slider.GetComponentInChildren<Text>();
-        _manny = manny; 
+        _manny = manny;
     }
 
     /// <summary>
@@ -24,7 +24,9 @@ public class UIStatIndicator {
     }
 
     public void Update() {
-        _slider.value = _manny.Attribute.GetAttribute(_attribute);
+        if (_manny.Attribute.GetAttribute(_attribute) > _slider.value)
+            SliderUtil.GradualFill(_slider, _manny.Attribute.GetAttribute(_attribute));
+        else _slider.value = _manny.Attribute.GetAttribute(_attribute);
         _text.text = (int)_slider.value + " / " + _slider.maxValue;
     }
 }
