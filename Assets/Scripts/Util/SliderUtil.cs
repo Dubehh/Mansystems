@@ -24,6 +24,6 @@ public static class SliderUtil {
     }
 
     public static void GradualFill(Slider slider, float amount) {
-        while(slider.value < amount) slider.value += 0.001f;        
+        slider.value = Mathf.Lerp(slider.value, amount, 4 * Time.deltaTime);
     }
 }
