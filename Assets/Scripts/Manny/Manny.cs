@@ -8,6 +8,9 @@ public class Manny : MonoBehaviour {
     public MannyLeveling Leveling { get; set; }
     public MannyAttribute Attribute { get; set; }
 
+    [SerializeField]
+    public DashboardController Dashboard;
+
     private UIStatUpdater _statUpdater;
 
     // DEBUG

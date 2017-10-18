@@ -23,7 +23,7 @@ public class MannyBrain {
         var status = Condition.UpdateCondition();
         if (status.Count != 0) {
             foreach (var condition in status) {
-               // do something with each condition
+                _manny.Dashboard.DisplayDialog(condition.Attribute, condition.Message);
             }
         }
     }

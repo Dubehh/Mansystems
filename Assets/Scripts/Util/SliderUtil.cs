@@ -9,7 +9,7 @@ public static class SliderUtil {
     /// </summary>
     /// <param name="slider">The slider to be given a new background color</param>
     /// <returns>The updated slider</returns>
-    public static Slider GetSliderBackground(Slider slider) {
+    public static Slider SetSliderBackground(Slider slider) {
         var baseColor = new Color();
         Image background = null;
         foreach (var image in slider.GetComponentsInChildren<Image>()) {

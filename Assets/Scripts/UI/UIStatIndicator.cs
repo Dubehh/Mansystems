@@ -9,7 +9,7 @@ public class UIStatIndicator {
     private Manny _manny;
 
     public UIStatIndicator(Slider component, Attribute attribute, Manny manny) {
-        _slider = SliderUtil.GetSliderBackground(component);
+        _slider = SliderUtil.SetSliderBackground(component);
         _attribute = attribute;
         _text = _slider.GetComponentInChildren<Text>();
         _manny = manny;
