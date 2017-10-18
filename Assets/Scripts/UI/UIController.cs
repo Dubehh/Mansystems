@@ -9,9 +9,9 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour {
 
     [SerializeField]
-    private GameObject _navigation;
+    public GameObject Navigation;
     [SerializeField]
-    private GameObject _footer;
+    public GameObject Footer;
 
     private UIControl _current;
     private Animator _animator;
@@ -27,7 +27,7 @@ public class UIController : MonoBehaviour {
     /// </summary>
     private void Awake() {
         _navigationVisible = false;
-        _animator = _navigation.GetComponent<Animator>();
+        _animator = Navigation.GetComponent<Animator>();
         Screen.sleepTimeout = 0;
         LoadDefault();
         foreach (var ctrl in Controls)
@@ -95,19 +95,5 @@ public class UIController : MonoBehaviour {
         _navigationVisible = !_navigationVisible;
         if (_animator != null)
             _animator.Play(_navigationVisible ? "slideOpen" : "slideClose");
-    }
-
-    /// <summary>
-    /// Returns the navigation component
-    /// </summary>
-    public GameObject GetNavigationComponent() {
-        return _navigation;
-    }
-
-    /// <summary>
-    /// Returns the footer component
-    /// </summary>
-    public GameObject GetFooterComponent() {
-        return _footer;
     }
 }

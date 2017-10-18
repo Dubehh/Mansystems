@@ -20,8 +20,8 @@ public class UIWelcomeController : MonoBehaviour {
         _views[_current].SetActive(true);
         _controller = GetComponentInParent<UIController>();
         if (_controller.IsFirstTime()) {
-            _controller.GetFooterComponent().SetActive(false);
-            _controller.GetNavigationComponent().SetActive(false);
+            _controller.Footer.SetActive(false);
+            _controller.Navigation.SetActive(false);
         }
     }
 
@@ -46,8 +46,8 @@ public class UIWelcomeController : MonoBehaviour {
     /// Sends the registration request and loads the default game
     /// </summary>
     public void RequestSend() {
-        _controller.GetFooterComponent().SetActive(true);
-        _controller.GetNavigationComponent().SetActive(true);
+        _controller.Footer.SetActive(true);
+        _controller.Navigation.SetActive(true);
         _controller.LoadDefault();
     }
 	
