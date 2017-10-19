@@ -27,8 +27,8 @@ public class MannyNotification {
     }
 
     private List<Notification> _notifications;
-
     private Manny _manny;
+
     public MannyNotification(Manny manny) {
         _manny = manny;
         _notifications = new List<Notification>();
