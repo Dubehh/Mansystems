@@ -16,7 +16,7 @@ public class Manny : MonoBehaviour {
     
     private void Awake() {
         _brain = new MannyBrain(this);
-        _notification = new MannyNotification();
+        _notification = new MannyNotification(this);
         Attribute = new MannyAttribute();
         Leveling = new MannyLeveling();
         _brain.Initialize();
@@ -35,7 +35,7 @@ public class Manny : MonoBehaviour {
 
     private void OnExit() {
         Attribute.Save();
-        _notification.CreateNotificationQueue();
+        _notification.Send();
         if (DeleteAttributes) PlayerPrefs.DeleteAll();
     }
 }
