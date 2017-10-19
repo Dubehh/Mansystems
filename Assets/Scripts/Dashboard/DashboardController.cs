@@ -25,7 +25,10 @@ public class DashboardController : MonoBehaviour {
         UpdateIndicators();
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Updates the experience indicator and level if the player reaches a new level
+    /// and contains the functionality for the dialog to vanish on touch
+    /// </summary>
     public void UpdateIndicators() {
         _indicator.Update();
 
@@ -34,7 +37,9 @@ public class DashboardController : MonoBehaviour {
             SetExperienceGoal();
         }
 
-        if (Input.touchCount > 0) DialogActive(false);
+        if (Input.touchCount > 0) 
+            Dialog.gameObject.SetActive(false);
+        
     }
 
     /// <summary>
@@ -52,15 +57,7 @@ public class DashboardController : MonoBehaviour {
     /// </summary>
     /// <param name="message">The message to be displayed in the dialog</param>
     public void DisplayDialog(string message) {
-        DialogActive(true);
+        Dialog.gameObject.SetActive(true);
         Dialog.GetComponentInChildren<Text>().text = message;
-    }
-
-    /// <summary>
-    /// Sets the dialog to active or inactive
-    /// </summary>
-    /// <param name="active">Activate (t) or deactivate (f)</param>
-    public void DialogActive(bool active) {
-        Dialog.gameObject.SetActive(active);
     }
 }

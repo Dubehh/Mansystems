@@ -28,6 +28,7 @@ public class Manny : MonoBehaviour {
     private void Update() {
         _brain.Update();
         _statUpdater.UpdateSliders();
+        Dashboard.UpdateIndicators();
     }
     
     /// <summary>
