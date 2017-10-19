@@ -89,7 +89,7 @@ public class MannyAttribute {
         switch (attribute) {
             case Attribute.Food:
             case Attribute.Thirst:
-                return 36;
+                return 50;
             case Attribute.Level:
                 return 1;
             case Attribute.Coins:
