@@ -49,28 +49,11 @@ public class DashboardController : MonoBehaviour {
     }
 
     /// <summary>
-    /// Displays a colored dialog on the screen with a message
+    /// Displays a dialog on the screen with a message
     /// </summary>
-    /// <param name="attribute">The attribute to which the dialog's color should be adjusted </param>
     /// <param name="message">The message to be displayed in the dialog</param>
-    public void DisplayDialog(Attribute attribute, string message) {
-        Color color = new Color32();
-
-        switch (attribute) {
-            case Attribute.Food:
-                color = new Color32(7, 175, 106, 255);
-                break;
-            case Attribute.Thirst:
-                color = new Color32(38, 116, 168, 255);
-                break;
-            case Attribute.Coins:
-                color = new Color32(247, 148, 30, 255);
-                break;
-        }
-
+    public void DisplayDialog(string message) {
         DialogActive(true);
-
-        Dialog.color = color;
         Dialog.GetComponentInChildren<Text>().text = message;
     }
 
