@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Manny;
-using System;
+﻿using System;
 using UnityEngine;
 
 public class MannyBrain {
@@ -23,7 +22,7 @@ public class MannyBrain {
         var status = Condition.UpdateCondition();
         if (status.Count != 0) {
             foreach (var condition in status) {
-                _manny.Dashboard.DisplayDialog(condition.Message);
+                if(condition.Weak) _manny.Dashboard.DisplayDialog(condition.Message);
             }
         }
     }

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 [RequireComponent(typeof(Manny))]
 public class DashboardController : MonoBehaviour {
@@ -42,7 +41,7 @@ public class DashboardController : MonoBehaviour {
     /// Gets the needed experience for the next level and passes it to the slider
     /// </summary>
     private void SetExperienceGoal() {
-        int level = (int)Manny.Attribute.GetAttribute(Attribute.Level);
+        var level = (int)Manny.Attribute.GetAttribute(Attribute.Level);
         ExperienceIndicator.minValue = Manny.Attribute.GetAttribute(Attribute.Experience);
         LevelIndicator.text = "Level " + level;
         _indicator.SetMax((int)Manny.Leveling.GetRequiredExperience(level + 1));
