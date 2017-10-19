@@ -6,11 +6,18 @@ using UnityEngine.iOS;
 public class MannyNotification {
 
     public delegate bool Condition(IterationStamp span, MannyAttribute attr);
+
+    /// <summary>
+    /// Notification object used in the queue
+    /// </summary>
     public struct Notification {
         public string Message { get; set; }
         public Condition Condition { get; set; }
     }
 
+    /// <summary>
+    /// Represents all possible timestamps on which notifications are sent
+    /// </summary>
     public enum IterationStamp {
         Minute = 1,
         Half = 30,
@@ -28,6 +35,9 @@ public class MannyNotification {
         Register();
     }
 
+    /// <summary>
+    /// Registers all notification, simple initialization method
+    /// </summary>
     private void Register() {
         Register("Er is een minuutje voorbij! Tijd voor een biertje!", (stamp, attr) => {
             return stamp == IterationStamp.Minute;
@@ -47,6 +57,11 @@ public class MannyNotification {
         Register("Hey kanjer! Heb je zin om een spelletje te spelen?", (stamp, attr) => { return true; });
     }
 
+    /// <summary>
+    /// Registers a new notification message that works on the given condition
+    /// </summary>
+    /// <param name="msg">string message</param>
+    /// <param name="cond">condition that triggers the notification</param>
     private void Register(string msg, Condition cond) {
         _notifications.Add(new Notification() {
             Condition = cond,
@@ -54,6 +69,9 @@ public class MannyNotification {
         });
     }
 
+    /// <summary>
+    /// Resets all notifications and clears them from cache
+    /// </summary>
     private void Reset() {
 #if UNITY_ANDROID
         NotificationUtil.ClearNotifications();
@@ -63,6 +81,9 @@ public class MannyNotification {
 #endif
     }
 
+    /// <summary>
+    /// Sends a queue of notifications to the client
+    /// </summary>
     public void Send() {
         Reset();
         foreach (var stamp in Enum.GetValues(typeof(IterationStamp)).Cast<IterationStamp>()) {
