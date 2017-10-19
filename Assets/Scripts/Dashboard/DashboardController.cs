@@ -48,6 +48,11 @@ public class DashboardController : MonoBehaviour {
         _indicator.SetMax((int)Manny.Leveling.GetRequiredExperience(level + 1));
     }
 
+    /// <summary>
+    /// Displays a colored dialog on the screen with a message
+    /// </summary>
+    /// <param name="attribute">The attribute to which the dialog's color should be adjusted </param>
+    /// <param name="message">The message to be displayed in the dialog</param>
     public void DisplayDialog(Attribute attribute, string message) {
         Color color = new Color32();
 
@@ -69,6 +74,10 @@ public class DashboardController : MonoBehaviour {
         Dialog.GetComponentInChildren<Text>().text = message;
     }
 
+    /// <summary>
+    /// Sets the dialog to active or inactive
+    /// </summary>
+    /// <param name="active">Activate (t) or deactivate (f)</param>
     public void DialogActive(bool active) {
         Dialog.gameObject.SetActive(active);
     }
