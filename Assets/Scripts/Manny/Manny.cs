@@ -8,7 +8,8 @@ public class Manny : MonoBehaviour {
     public MannyLeveling Leveling { get; set; }
     public MannyAttribute Attribute { get; set; }
 
-    private UIStatUpdater _statUpdater;
+    [SerializeField]
+    public DashboardController Dashboard;
 
     // DEBUG
     public bool DeleteAttributes;
@@ -18,13 +19,12 @@ public class Manny : MonoBehaviour {
         _notification = new MannyNotification();
         Attribute = new MannyAttribute();
         Leveling = new MannyLeveling();
-        _statUpdater = FindObjectOfType<UIStatUpdater>();
         _brain.Initialize();
     }
 
     private void Update() {
         _brain.Update();
-        _statUpdater.UpdateSliders();
+        Dashboard.UpdateIndicators();
     }
     
     /// <summary>

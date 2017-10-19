@@ -20,7 +20,7 @@ public class DNAItem {
     /// <param name="manny">Manny main instance</param>
     public void SetInstance(Manny manny) {
         _manny = manny;
-        Slider = SliderUtil.GetSliderBackground(Slider);
+        Slider = SliderUtil.SetSliderBackground(Slider);
         Slider.maxValue = 5;
     }
 

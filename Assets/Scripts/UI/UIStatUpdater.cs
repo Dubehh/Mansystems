@@ -21,7 +21,7 @@ public class UIStatUpdater : MonoBehaviour {
         _sliders.Add(Attribute.Thirst, new UIStatIndicator(ThirstIndicator, Attribute.Thirst, Manny));
     }
 
-    public void UpdateSliders() {
+    private void Update() {
         foreach (var slider in _sliders)
             slider.Value.Update();
     }

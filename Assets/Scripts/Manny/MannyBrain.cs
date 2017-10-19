@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Manny;
-using System;
+﻿using System;
 using UnityEngine;
 
 public class MannyBrain {
@@ -11,9 +10,9 @@ public class MannyBrain {
     public MannyBrain(Manny manny) {
         _manny = manny;
         Condition = new MannyCondition(manny);
-        Condition.Register(Attribute.Food, 30, .1f,"Manny heeft honger!");
-        Condition.Register(Attribute.Coins, 10, 0, "Manny heeft geld nodig!");
-        Condition.Register(Attribute.Thirst, 35, .2f,"Manny wil poar neem'n!");
+        Condition.Register(Attribute.Food, 30, .1f,"Ik heb honger!");
+        Condition.Register(Attribute.Coins, 10, 0, "Ik heb geld nodig!");
+        Condition.Register(Attribute.Thirst, 35, .2f,"Ik wil poar neem'n!");
     }
     
     /// <summary>
@@ -23,7 +22,7 @@ public class MannyBrain {
         var status = Condition.UpdateCondition();
         if (status.Count != 0) {
             foreach (var condition in status) {
-               // do something with each condition
+                if(condition.Weak) _manny.Dashboard.DisplayDialog(condition.Message);
             }
         }
     }
