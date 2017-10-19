@@ -39,7 +39,6 @@ public class DashboardController : MonoBehaviour {
 
         if (Input.touchCount > 0) 
             Dialog.gameObject.SetActive(false);
-        
     }
 
     /// <summary>
