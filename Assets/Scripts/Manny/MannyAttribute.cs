@@ -63,8 +63,6 @@ public class MannyAttribute {
     /// Retrieves all the last saved attribute values from the playerprefs and fill the dictionary with them
     /// </summary>
     private void Load() {
-        NotificationUtil.ClearNotifications();
-
         foreach (var attribute in Enum.GetValues(typeof(Attribute))) {
             var name = Enum.GetName(typeof(Attribute), attribute);
             if (!PlayerPrefs.HasKey(name)) PlayerPrefs.SetFloat(name, GetDefault((Attribute)attribute));
