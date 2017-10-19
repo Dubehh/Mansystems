@@ -9,7 +9,10 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour {
 
     [SerializeField]
-    private GameObject _navigation;
+    public GameObject Navigation;
+    [SerializeField]
+    public GameObject Footer;
+
     private UIControl _current;
     private Animator _animator;
     private bool _navigationVisible;
@@ -24,7 +27,7 @@ public class UIController : MonoBehaviour {
     /// </summary>
     private void Awake() {
         _navigationVisible = false;
-        _animator = GetComponentInChildren<Animator>();
+        _animator = Navigation.GetComponent<Animator>();
         Screen.sleepTimeout = 0;
         LoadDefault();
         foreach (var ctrl in Controls)
@@ -32,11 +35,15 @@ public class UIController : MonoBehaviour {
                 ctrl.Toggle(false);
     }
 
+    public bool IsFirstTime() {
+        return !PlayerPrefs.HasKey("name");
+    }
+
     /// <summary>
     /// Loads the default control as the current view
     /// </summary>
-    private void LoadDefault() {
-        var ctrl = Controls.Where(x => x.Default).FirstOrDefault();
+    public void LoadDefault() {
+        var ctrl = IsFirstTime() ? Get("WelcomeControl") : Controls.Where(x => x.Default).FirstOrDefault();
         if (ctrl != null)
             View(ctrl);
     }
