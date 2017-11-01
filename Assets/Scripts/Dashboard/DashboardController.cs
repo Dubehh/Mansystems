@@ -6,13 +6,10 @@ public class DashboardController : MonoBehaviour {
 
     [SerializeField]
     public Manny Manny;
-
     [SerializeField]
     public Slider ExperienceIndicator;
-
     [SerializeField]
     public Text LevelIndicator;
-
     [SerializeField]
     public RawImage Dialog;
 
@@ -25,11 +22,15 @@ public class DashboardController : MonoBehaviour {
         UpdateIndicators();
     }
 
+    private void Update() {
+        UpdateIndicators();
+    }
+
     /// <summary>
     /// Updates the experience indicator and level if the player reaches a new level
     /// and contains the functionality for the dialog to vanish on touch
     /// </summary>
-    public void UpdateIndicators() {
+    private void UpdateIndicators() {
         _indicator.Update();
 
         if (ExperienceIndicator.value >= ExperienceIndicator.maxValue) {
