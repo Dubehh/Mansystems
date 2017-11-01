@@ -7,7 +7,6 @@ public class Manny : MonoBehaviour {
     private MannyNotification _notification;
     public MannyLeveling Leveling { get; set; }
     public MannyAttribute Attribute { get; set; }
-
     [SerializeField]
     public DashboardController Dashboard;
 
@@ -24,7 +23,6 @@ public class Manny : MonoBehaviour {
 
     private void Update() {
         _brain.Update();
-        Dashboard.UpdateIndicators();
     }
     
     /// <summary>
