@@ -8,22 +8,24 @@ using UnityEngine;
 namespace Assets.Scripts.App.Game {
     public abstract class GameController : MonoBehaviour{
 
-        protected DataTable _table;
+        public DataTable DataSource { get; private set; }
 
         protected abstract void BeforeLoad();
         protected abstract void OnLoad();
         protected abstract void Update();
 
-        public void Initialize() {
-
+        public void Build() {
+            if (DataSource != null)
+                DataSource.Create();
         }
 
         protected void SetDataSource(DataTable table) {
-            _table = table;
+            DataSource = table;
         }
 
         private void Start() {
             BeforeLoad();
+            Build();
             OnLoad();
         }
 
