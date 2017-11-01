@@ -88,7 +88,6 @@ public static class NotificationManager {
 
     private static int ColotToInt(Color color) {
         var smallIconColor = (Color32)color;
-
         return smallIconColor.r * 65536 + smallIconColor.g * 256 + smallIconColor.b;
     }
 
