@@ -23,6 +23,10 @@ namespace Assets.Scripts.App.Game {
             Initialize();
         }
 
+        /// <summary>
+        /// Initializes the gamemanager and registers all minigames
+        /// using reflection
+        /// </summary>
         private void Initialize() {
             var dir = new DirectoryInfo(_scenes+"/"+_folder);
             var scenes = dir.GetFiles("*.unity").Select(f=>f.Name.Split('.')[0]);
@@ -30,12 +34,19 @@ namespace Assets.Scripts.App.Game {
                 _sceneRegister.Add(scene);
         }
 
+        /// <summary>
+        /// Loads the scene with the given name
+        /// </summary>
+        /// <param name="scene">the name of the scene</param>
         public void Load(string scene) {
             var foundScene = _sceneRegister.Where(s => s.ToLower() == scene.ToLower()).FirstOrDefault();
             if(foundScene != null)
                 SceneManager.LoadScene(foundScene);
         }
 
+        /// <summary>
+        /// Unloads the current minigame if there is a current one
+        /// </summary>
         public void Unload() {
             if (_current == null) return;
             _current.OnUnload();
@@ -43,6 +54,10 @@ namespace Assets.Scripts.App.Game {
             //TODO add loading thing somewhere
         }
 
+        /// <summary>
+        /// Used to ping back and sets the current controller to the given one
+        /// </summary>
+        /// <param name="controller">GameController current</param>
         public void Inform(GameController controller) {
             _current = controller;
         }

@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 
 namespace Assets.Scripts.App {
+    /// <summary>
+    /// Singleton class used to ensure single-initialization of instances.
+    /// </summary>
     public class AppData {
 
         private static AppData _instance = null;
@@ -17,6 +20,10 @@ namespace Assets.Scripts.App {
             Registry = new DataTableRegistry();
         }
 
+        /// <summary>
+        /// Returns the instance of the AppData class
+        /// </summary>
+        /// <returns>AppData instance</returns>
         public static AppData Instance() {
             if (_instance == null)
                 _instance = new AppData();
