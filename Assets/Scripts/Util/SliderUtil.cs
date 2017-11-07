@@ -23,14 +23,18 @@ public static class SliderUtil {
         return slider;
     }
 
+    /// <summary>
+    /// Gradually fills the slider to a given value and plays the particle system
+    /// </summary>
+    /// <param name="slider">The slider to update</param>
+    /// <param name="amount">The goal value to reach</param>
     public static void GradualFill(Slider slider, float amount) {
         var particles = slider.GetComponentInChildren<ParticleSystem>();
         slider.value = Mathf.Lerp(slider.value, amount, 2 * Time.deltaTime);
 
         if (particles != null) {
             if(!particles.isPlaying) particles.Play();
-
-            if (amount - slider.value < 3 && particles.isPlaying) particles.Stop();
+            else if(amount - slider.value < 3) particles.Stop();
         }
     }
 }
