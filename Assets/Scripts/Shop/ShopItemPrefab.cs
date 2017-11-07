@@ -26,6 +26,9 @@ public class ShopItemPrefab : MonoBehaviour {
     [SerializeField]
     public Text Cost;
 
+    [SerializeField]
+    public ParticleSystem ParticleSystem;
+
     /// <summary>
     /// Fill the prefab with the information from the shopitem
     /// </summary>
@@ -41,13 +44,18 @@ public class ShopItemPrefab : MonoBehaviour {
         Description.text = Item.Description;
         Gain.text = "+" + Item.Value + " " + Enum.GetName(typeof(Attribute), Item.Attribute);
         Cost.text += Item.Cost;
+        var emis = ParticleSystem.emission;
+        emis.SetBurst(0, new ParticleSystem.Burst(0.0f, Item.Cost));
     }
 
     /// <summary>
     /// OnClick event for the item's buy button
     /// </summary>
     public void OnClick() {
-        Item.Buy(_manny);
-        _shop.UpdateCoins();
+        if (_manny.Attribute.GetAttribute(Attribute.Coins) >= Item.Cost) {
+            ParticleSystem.Play();
+            Item.Buy(_manny);
+            _shop.UpdateCoins();
+        }
     }
 }
