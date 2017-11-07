@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Dashboard;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Manny))]
@@ -12,12 +14,16 @@ public class DashboardController : MonoBehaviour {
     public Text LevelIndicator;
     [SerializeField]
     public RawImage Dialog;
+    [SerializeField]
+    public DashboardBackground[] Backgrounds;
 
+    private DashboardBackground _current;
     private UIStatIndicator _indicator;
 
     // Use this for initialization
     private void Start() {
         _indicator = new UIStatIndicator(ExperienceIndicator, Attribute.Experience, Manny);
+        InvalidateBackground();
         SetExperienceGoal();
         UpdateIndicators();
     }
@@ -32,13 +38,11 @@ public class DashboardController : MonoBehaviour {
     /// </summary>
     private void UpdateIndicators() {
         _indicator.Update();
-
         if (ExperienceIndicator.value >= ExperienceIndicator.maxValue) {
             Manny.Attribute.IncrementAttribute(Attribute.Level, 1);
             SetExperienceGoal();
         }
-
-        if (Input.touchCount > 0) 
+        if (Input.touchCount > 0 && Dialog.gameObject.activeSelf) 
             Dialog.gameObject.SetActive(false);
     }
 
@@ -59,5 +63,17 @@ public class DashboardController : MonoBehaviour {
     public void DisplayDialog(string message) {
         Dialog.gameObject.SetActive(true);
         Dialog.GetComponentInChildren<Text>().text = message;
+    }
+
+    /// <summary>
+    /// Invalidates the background with its manny design
+    /// </summary>
+    private void InvalidateBackground() {
+        var now = System.DateTime.Now.Hour;
+        _current = Backgrounds.Where(x => x.Time.Min <= now && x.Time.Max >= now).FirstOrDefault();
+        if (_current != null) {
+            _current.Background.SetActive(true);
+            _current.Manny.SetActive(true);
+        }
     }
 }
