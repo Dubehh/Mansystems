@@ -91,7 +91,7 @@ public class MannyAttribute {
             case Attribute.Level:
                 return 1;
             case Attribute.Coins:
-                return 10;
+                return 1000;
             case Attribute.Skillpoints:
                 return 1000;
             default:
