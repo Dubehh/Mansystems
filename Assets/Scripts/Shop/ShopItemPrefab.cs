@@ -52,9 +52,10 @@ public class ShopItemPrefab : MonoBehaviour {
     /// OnClick event for the item's buy button
     /// </summary>
     public void OnClick() {
-        ParticleSystem.Play();
-
-        Item.Buy(_manny);
-        _shop.UpdateCoins();
+        if (_manny.Attribute.GetAttribute(Attribute.Coins) >= Item.Cost) {
+            ParticleSystem.Play();
+            Item.Buy(_manny);
+            _shop.UpdateCoins();
+        }
     }
 }
