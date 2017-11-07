@@ -22,7 +22,7 @@ public class MannyBrain {
         var status = Condition.UpdateCondition();
         if (status.Count != 0) {
             foreach (var condition in status) {
-                if(condition.Weak) _manny.Dashboard.DisplayDialog(condition.Message);
+                if(condition.Weak && _manny.Dashboard != null) _manny.Dashboard.DisplayDialog(condition.Message);
             }
         }
     }
