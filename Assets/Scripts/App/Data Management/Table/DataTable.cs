@@ -29,15 +29,22 @@ namespace Assets.Scripts.App.Tracking.Table {
         /// </summary>
         public void Create() {
             if (Properties.Count == 0) return;
+            DataQuery.Query(GenerateBuildQuery()).Update();
+        }
+
+        /// <summary>
+        /// Generates the query that is used to build the data table
+        /// </summary>
+        /// <returns>string query</returns>
+        public string GenerateBuildQuery() {
             var builder = new StringBuilder();
             Properties.ForEach(property => {
                 var name = property.Name;
                 var type = Enum.GetName(typeof(DataProperty.DataPropertyType), property.Type);
                 var size = property.Size != null ? "(" + property.Size.Value + ")" : "";
-                builder.Append(",").Append(name + " "+type+size);
+                builder.Append(",").Append(name + " " + type + size);
             });
-            var query = builder.ToString().Substring(1);
-            DataQuery.Query("CREATE TABLE IF NOT EXISTS " + Name + " (" + query + ")").Update();
+            return "CREATE TABLE IF NOT EXISTS " + Name + " ("+builder.ToString().Substring(1) + ")";
         }
 
         /// <summary>
