@@ -28,7 +28,10 @@ public class ShopItem {
     /// <param name="manny">The manny object of the game</param>
     public void Buy(Manny manny) {
         if (manny.Attribute.GetAttribute(Attribute.Coins) >= Cost) {
-            manny.Attribute.IncrementAttribute(Attribute, Value);
+            if (manny.Attribute.GetAttribute(Attribute) > (100 - Value))
+                manny.Attribute.SetAttribute(Attribute, 100);
+            else
+                manny.Attribute.IncrementAttribute(Attribute, Value);
             manny.Attribute.IncrementAttribute(Attribute.Coins, -Cost);
         }
     }

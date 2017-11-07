@@ -24,6 +24,13 @@ public static class SliderUtil {
     }
 
     public static void GradualFill(Slider slider, float amount) {
-        slider.value = Mathf.Lerp(slider.value, amount, 4 * Time.deltaTime);
+        var particles = slider.GetComponentInChildren<ParticleSystem>();
+        slider.value = Mathf.Lerp(slider.value, amount, 2 * Time.deltaTime);
+
+        if (particles != null) {
+            if(!particles.isPlaying) particles.Play();
+
+            if (amount - slider.value < 3 && particles.isPlaying) particles.Stop();
+        }
     }
 }
