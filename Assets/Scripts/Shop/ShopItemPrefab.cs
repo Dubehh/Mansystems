@@ -45,7 +45,7 @@ public class ShopItemPrefab : MonoBehaviour {
         Gain.text = "+" + Item.Value + " " + Enum.GetName(typeof(Attribute), Item.Attribute);
         Cost.text += Item.Cost;
         var emis = ParticleSystem.emission;
-        emis.SetBurst(0, new ParticleSystem.Burst(0.0f, (short)Item.Cost));
+        emis.SetBurst(0, new ParticleSystem.Burst(0.0f, Item.Cost));
     }
 
     /// <summary>
