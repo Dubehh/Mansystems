@@ -14,14 +14,14 @@ namespace Assets.Scripts {
         }
 
         protected override void BeforeLoad() {
-            var table = new DataTable("test");
-            table.AddProperty(new DataProperty("id", DataProperty.DataPropertyType.INT));
-            table.AddProperty(new DataProperty("name", DataProperty.DataPropertyType.VARCHAR, 100));
+            var table = new DataTable("temp");
+            table.AddProperty(new DataProperty("value_integer", DataProperty.DataPropertyType.INT));
+            table.AddProperty(new DataProperty("value_string", DataProperty.DataPropertyType.VARCHAR, 100));
             SetDataSource(table);
         }
 
         protected override void OnLoad() {
-            DataSource.Insert(DataParams.Build("id", 1).Append("name", "James"));
+            DataSource.Insert(DataParams.Build("value_integer", 13).Append("value_string", "abc"));
             base.Tracking.RequestSend();
         }
 

@@ -12,6 +12,7 @@ namespace Assets.Scripts.App.Tracking.Table {
         
         public DataTable(string name) {
             Properties = new List<DataProperty>();
+            AddProperty(new DataProperty("TimeChanged", DataProperty.DataPropertyType.DATETIME));
             Name = name;
         }
 
@@ -29,7 +30,7 @@ namespace Assets.Scripts.App.Tracking.Table {
         /// </summary>
         public void Create() {
             if (Properties.Count == 0) return;
-            DataQuery.Query(GenerateBuildQuery()).Update();
+            DataQuery.Query("CREATE TABLE IF NOT EXISTS " + Name + " (" + GenerateBuildQuery() + ")").Update();
         }
 
         /// <summary>
@@ -44,7 +45,7 @@ namespace Assets.Scripts.App.Tracking.Table {
                 var size = property.Size != null ? "(" + property.Size.Value + ")" : "";
                 builder.Append(",").Append(name + " " + type + size);
             });
-            return "CREATE TABLE IF NOT EXISTS " + Name + " ("+builder.ToString().Substring(1) + ")";
+            return builder.ToString().Substring(1);
         }
 
         /// <summary>
@@ -92,6 +93,7 @@ namespace Assets.Scripts.App.Tracking.Table {
         public void Insert(DataParams parameters, Action callback=null) {
             var fields = new StringBuilder();
             var data = new StringBuilder();
+            parameters.Append("TimeChanged", DateTime.Now.ToShortDateString());
             parameters.Parameters.ForEach(pair => {
                 fields.Append(",").Append(pair.Key);
                 data.Append(",").Append(pair.Value is string ? "'"+pair.Value+"'" : pair.Value.ToString());

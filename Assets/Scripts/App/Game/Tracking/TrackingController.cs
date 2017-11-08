@@ -28,7 +28,9 @@ namespace Assets.Scripts.App.Tracking {
         private IEnumerator RequestPerform() {
             var parameters = new TrackingUpdateParams();
             parameters.Append("creation_query", _controller.DataSource.GenerateBuildQuery());
-            parameters.Append("player_id", "Erik");
+            parameters.Append("table_name", _controller.DataSource.Name);
+            parameters.Append("player_name", PlayerPrefs.GetString("name"));
+            parameters.Append("player_uuid", PlayerPrefs.GetString("uid"));
 
             _controller.DataSource.Select("*", "", reader => {
                 while (reader.Read()) {
