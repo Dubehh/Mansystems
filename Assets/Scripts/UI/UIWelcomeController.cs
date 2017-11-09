@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -38,6 +39,7 @@ public class UIWelcomeController : MonoBehaviour {
     /// </summary>
     public void SaveInput() {
         PlayerPrefs.SetString("name", _nameInput.text);
+        PlayerPrefs.SetString("uid", Guid.NewGuid().ToString());
         PlayerPrefs.Save();
         _nameResult.text = _nameInput.text;
     }

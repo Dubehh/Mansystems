@@ -12,6 +12,7 @@ namespace Assets.Scripts.App.Tracking.Table {
         
         public DataTable(string name) {
             Properties = new List<DataProperty>();
+            AddProperty(new DataProperty("TimeChanged", DataProperty.DataPropertyType.DATETIME));
             Name = name;
         }
 
@@ -29,15 +30,22 @@ namespace Assets.Scripts.App.Tracking.Table {
         /// </summary>
         public void Create() {
             if (Properties.Count == 0) return;
+            DataQuery.Query("CREATE TABLE IF NOT EXISTS " + Name + " (" + GenerateBuildQuery() + ")").Update();
+        }
+
+        /// <summary>
+        /// Generates the query that is used to build the data table
+        /// </summary>
+        /// <returns>string query</returns>
+        public string GenerateBuildQuery() {
             var builder = new StringBuilder();
             Properties.ForEach(property => {
                 var name = property.Name;
                 var type = Enum.GetName(typeof(DataProperty.DataPropertyType), property.Type);
                 var size = property.Size != null ? "(" + property.Size.Value + ")" : "";
-                builder.Append(",").Append(name + " "+type+size);
+                builder.Append(",").Append(name + " " + type + size);
             });
-            var query = builder.ToString().Substring(1);
-            DataQuery.Query("CREATE TABLE IF NOT EXISTS " + Name + " (" + query + ")").Update();
+            return builder.ToString().Substring(1);
         }
 
         /// <summary>
@@ -85,6 +93,7 @@ namespace Assets.Scripts.App.Tracking.Table {
         public void Insert(DataParams parameters, Action callback=null) {
             var fields = new StringBuilder();
             var data = new StringBuilder();
+            parameters.Append("TimeChanged", DateTime.Now.ToShortDateString());
             parameters.Parameters.ForEach(pair => {
                 fields.Append(",").Append(pair.Key);
                 data.Append(",").Append(pair.Value is string ? "'"+pair.Value+"'" : pair.Value.ToString());
