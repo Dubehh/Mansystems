@@ -15,6 +15,12 @@ public class DNAController : MonoBehaviour {
     [SerializeField]
     public DNAItem[] Items;
 
+    [SerializeField]
+    public ParticleSystem ParticleSystem;
+
+    [SerializeField]
+    public GameObject ParticleSystemBorder;
+
     private void Start() {
         DisplayText.text = Manny.Attribute.GetAttribute(Attribute.Skillpoints) + "";
         foreach (var item in Items) {
@@ -34,10 +40,11 @@ public class DNAController : MonoBehaviour {
         var slider = obj.GetComponentInParent<Slider>();
         var item = Items.Where(x => x.Slider == slider).FirstOrDefault();
         if (item != null) {
-            if (Manny.Attribute.GetAttribute(Attribute.Skillpoints) <= 0) return;
+            if (Manny.Attribute.GetAttribute(Attribute.Skillpoints) <= 0 || slider.value >= 5) return;
             Manny.Attribute.IncrementAttribute(Attribute.Skillpoints, -1);
             Manny.Attribute.IncrementAttribute(item.Attribute, 1);
             item.Update();
+            ParticleSystem.Play();
             DisplayText.text = Manny.Attribute.GetAttribute(Attribute.Skillpoints)+"";
         }
     }
