@@ -76,4 +76,8 @@ public class DashboardController : MonoBehaviour {
             _current.Manny.SetActive(true);
         }
     }
+
+    private void CallAnimation(string name) {
+       
+    }
 }
