@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,13 +28,6 @@ namespace Assets.Scripts.App.Tracking.Table {
         /// <param name="name">The name of the datatable</param>
         public DataTable Fetch(string name) {
             return Tables.ContainsKey(name.ToLower()) ? Tables[name.ToLower()] : null;
-        }
-
-        /// <summary>
-        /// Attempts to upload the database to the webserver, if set-up
-        /// </summary>
-        public void Upload() {
-            //upload to webserver
         }
     }
 }

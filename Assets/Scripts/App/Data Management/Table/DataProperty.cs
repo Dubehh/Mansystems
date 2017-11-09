@@ -10,7 +10,7 @@ namespace Assets.Scripts.App.Tracking.Table {
     /// </summary>
     public struct DataProperty {
 
-        public enum DataPropertyType { VARCHAR, INT}
+        public enum DataPropertyType { VARCHAR, INT, DATETIME}
         public string Name { get; private set; }
         public DataPropertyType Type { get; private set; }
         public int? Size { get; private set; }

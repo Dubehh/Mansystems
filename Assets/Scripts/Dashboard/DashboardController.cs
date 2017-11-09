@@ -42,7 +42,7 @@ public class DashboardController : MonoBehaviour {
             Manny.Attribute.IncrementAttribute(Attribute.Level, 1);
             SetExperienceGoal();
         }
-        if (Input.touchCount > 0 && Dialog.gameObject.activeSelf) 
+        if (Input.touchCount > 0 && Dialog.gameObject.activeSelf)
             Dialog.gameObject.SetActive(false);
     }
 
@@ -71,10 +71,9 @@ public class DashboardController : MonoBehaviour {
     private void InvalidateBackground() {
         var now = System.DateTime.Now.Hour;
         _current = Backgrounds.Where(x => x.Time.Min <= now && x.Time.Max >= now).FirstOrDefault();
-        if (_current != null) {
-            _current.Background.SetActive(true);
-            _current.Manny.SetActive(true);
-        }
+        _current = _current ?? Backgrounds[0];
+        _current.Background.SetActive(true);
+        _current.Manny.SetActive(true);
     }
 
     private void CallAnimation(string name) {

@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.App.Tracking.Table;
+﻿using Assets.Scripts.App.Tracking;
+using Assets.Scripts.App.Tracking.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using UnityEngine;
 namespace Assets.Scripts.App.Game {
     public abstract class GameController : MonoBehaviour{
 
+        public TrackingController Tracking { get; private set; }
         public AppData App { get; private set; }
         public DataTable DataSource { get; private set; }
 
@@ -35,6 +37,7 @@ namespace Assets.Scripts.App.Game {
         /// </summary>
         private void Build() {
             App = AppData.Instance();
+            Tracking = new TrackingController(this);
             if (App == null) 
                 return;
             else if (DataSource != null)
