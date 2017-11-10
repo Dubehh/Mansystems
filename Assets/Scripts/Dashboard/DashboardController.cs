@@ -17,12 +17,15 @@ public class DashboardController : MonoBehaviour {
     [SerializeField]
     public DashboardBackground[] Backgrounds;
 
+    private AnimationHandler _animationHandler;
+
     private DashboardBackground _current;
     private UIStatIndicator _indicator;
 
     // Use this for initialization
     private void Start() {
         _indicator = new UIStatIndicator(ExperienceIndicator, Attribute.Experience, Manny);
+        _animationHandler = new AnimationHandler();
         InvalidateBackground();
         SetExperienceGoal();
         UpdateIndicators();
@@ -30,6 +33,7 @@ public class DashboardController : MonoBehaviour {
 
     private void Update() {
         UpdateIndicators();
+        _animationHandler.ScanInput();
     }
 
     /// <summary>
@@ -74,6 +78,8 @@ public class DashboardController : MonoBehaviour {
         _current = _current ?? Backgrounds[0];
         _current.Background.SetActive(true);
         _current.Manny.SetActive(true);
+
+        _animationHandler.SetAnimator(_current.Manny);
     }
 
     public void ChangeBG() {
