@@ -1,9 +1,9 @@
 ﻿using Assets.Scripts.App.Game;
 using Assets.Scripts.App.Game.Tracking;
+using Assets.Scripts.App.Tracking.Table;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -15,26 +15,36 @@ namespace Assets.Scripts.App.Tracking {
         private const string
             _webReference = "http://localhost/",
             _webController = "upload";
-        private GameController _controller;
+        private MonoBehaviour _behaviour;
+        private DataTable _source;
 
-        public TrackingController(GameController controller) {
-            _controller = controller;
+        public TrackingController(MonoBehaviour behaviour, DataTable source) {
+            _behaviour = behaviour;
+            _source = source;
         }
         
+        /// <summary>
+        /// Attempts to send the tracking update request
+        /// </summary>
         public void RequestSend() {
-            _controller.StartCoroutine(RequestPerform());
+            _behaviour.StartCoroutine(RequestPerform());
         }
 
+        /// <summary>
+        /// Performs the instantiated  request inside a coroutine.
+        /// Uses a HTTP POST request to serialize the data.
+        /// </summary>
+        /// <returns>An IEnumerator instance</returns>
         private IEnumerator RequestPerform() {
             var parameters = new TrackingUpdateParams();
-            parameters.Append("creation_query", _controller.DataSource.GenerateBuildQuery());
-            parameters.Append("table_name", _controller.DataSource.Name);
+            parameters.Append("creation_query", _source.GenerateBuildQuery());
+            parameters.Append("table_name", _source.Name);
             parameters.Append("player_name", PlayerPrefs.GetString("name"));
             parameters.Append("player_uuid", PlayerPrefs.GetString("uid"));
 
-            _controller.DataSource.Select("*", "", reader => {
+            _source.Select("*", "", reader => {
                 while (reader.Read()) {
-                    _controller.DataSource.Properties.ForEach(property => {
+                    _source.Properties.ForEach(property => {
                         parameters.Append(property.Name+"[]", reader[property.Name].ToString());
                     });
                 }
