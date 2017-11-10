@@ -37,11 +37,12 @@ namespace Assets.Scripts.App.Game {
         /// </summary>
         private void Build() {
             App = AppData.Instance();
-            Tracking = new TrackingController(this);
-            if (App == null) 
+            if (App == null)
                 return;
-            else if (DataSource != null)
+            else if (DataSource != null) {
                 App.Registry.Register(DataSource);
+                Tracking = new TrackingController(this, DataSource);
+            }
             App.Game.Inform(this);
         }
 
