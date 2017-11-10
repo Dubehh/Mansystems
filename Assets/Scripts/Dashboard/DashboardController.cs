@@ -75,4 +75,24 @@ public class DashboardController : MonoBehaviour {
         _current.Background.SetActive(true);
         _current.Manny.SetActive(true);
     }
+
+    public void ChangeBG() {
+        if(_current != null) {
+            _current.Background.SetActive(false);
+            _current.Manny.SetActive(false);
+        }
+
+        if (_current == Backgrounds[0])
+            _current = Backgrounds[1];
+        else if (_current == Backgrounds[1])
+            _current = Backgrounds[2];
+        else _current = Backgrounds[0];
+
+        _current.Background.SetActive(true);
+        _current.Manny.SetActive(true);
+    }
+
+    private void CallAnimation(string name) {
+       
+    }
 }
