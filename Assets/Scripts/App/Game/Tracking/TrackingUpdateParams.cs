@@ -15,10 +15,19 @@ namespace Assets.Scripts.App.Game.Tracking {
             _params = new List<KeyValuePair<string, string>>();
         }
 
+        /// <summary>
+        /// Appends a key and a value to the parameters
+        /// </summary>
+        /// <param name="key">string</param>
+        /// <param name="value">string</param>
         public void Append(string key, string value) {
             _params.Add(new KeyValuePair<string, string>(key, value));
         }
 
+        /// <summary>
+        /// Parses the key/value collection to a list with IMultipartFormSection instances
+        /// </summary>
+        /// <returns>List collection</returns>
         public List<IMultipartFormSection> Parse() {
             var rtn = new List<IMultipartFormSection>();
             foreach (var pair in _params) 

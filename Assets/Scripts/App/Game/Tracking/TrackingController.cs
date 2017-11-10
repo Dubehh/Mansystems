@@ -23,10 +23,18 @@ namespace Assets.Scripts.App.Tracking {
             _source = source;
         }
         
+        /// <summary>
+        /// Attempts to send the tracking update request
+        /// </summary>
         public void RequestSend() {
             _behaviour.StartCoroutine(RequestPerform());
         }
 
+        /// <summary>
+        /// Performs the instantiated  request inside a coroutine.
+        /// Uses a HTTP POST request to serialize the data.
+        /// </summary>
+        /// <returns>An IEnumerator instance</returns>
         private IEnumerator RequestPerform() {
             var parameters = new TrackingUpdateParams();
             parameters.Append("creation_query", _source.GenerateBuildQuery());
