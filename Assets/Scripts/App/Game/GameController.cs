@@ -41,7 +41,7 @@ namespace Assets.Scripts.App.Game {
                 return;
             else if (DataSource != null) {
                 App.Registry.Register(DataSource);
-                Tracking = new TrackingController(this, DataSource);
+                Tracking = new TrackingController(DataSource);
             }
             App.Game.Inform(this);
         }
