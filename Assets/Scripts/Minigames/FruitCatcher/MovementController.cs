@@ -29,5 +29,7 @@ public class MovementController : MonoBehaviour {
         float targetWidth = Mathf.Clamp (targetPosition.x, -maxWidth, maxWidth);
         targetPosition = new Vector3(targetWidth, targetPosition.y, targetPosition.z);
         transform.position = targetPosition;
+
+        transform.position = new Vector2(Input.acceleration.x, 0);
     }
 }
