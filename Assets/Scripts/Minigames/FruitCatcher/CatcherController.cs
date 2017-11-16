@@ -22,7 +22,7 @@ public class CatcherController : GameController {
 
     private bool _gameStarted;
     protected override void BeforeLoad() {
-        timeLeft = 5;
+        timeLeft = 60;
 
         if (_cam == null) {
             _cam = Camera.main;
