@@ -11,7 +11,7 @@ namespace Assets.Scripts.App.Game {
 
         private const string 
             _scenes = "Assets/Scenes",
-            _main   = "GameManagementTesting",
+            _main   = "UITestingScene",
             _folder = "Minigames";
 
         private HashSet<string> _sceneRegister;
