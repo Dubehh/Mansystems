@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.App;
 using Assets.Scripts.App.Game;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -59,7 +60,7 @@ public class MillionaireController : GameController {
     /// </summary>
     private void UpdateUI() {
         Text.text = _currentQuestion.Text;
-        for (int i = 0; i < _currentQuestion.Answers.Length; i++) {
+        for (int i = 0; i < _currentQuestion.Answers.Count; i++) {
             Buttons[i].gameObject.SetActive(true);
 
             var answer = _currentQuestion.Answers[i].Text;
@@ -77,30 +78,22 @@ public class MillionaireController : GameController {
             //Next prize level
         } else if (_escapeActive) {
             //Next Question
-        } else {
+        } else
             //Game over
-        }
 
-        foreach (var button in Buttons) {
-            button.interactable = false;
-        }
+            foreach (var button in Buttons)
+                button.interactable = false;
     }
 
     /// <summary>
     /// FiftyFifty is one of the usables that halves the answer options for the player.
     /// </summary>
     public void FiftyFifty() {
-        List<int> falseAnswerIndexes = new List<int>();
-        for (int i = 0; i < _currentQuestion.Answers.Length; i++) {
-            var answer = _currentQuestion.Answers[i];
-            if (!answer.IsAnswer) falseAnswerIndexes.Add(i);
-        }
+        var falseIndexes = _currentQuestion.Answers.Where(x => !x.IsAnswer).Select(x => _currentQuestion.Answers.IndexOf(x)).ToList();
+        falseIndexes.RemoveAt(Random.Range(0, falseIndexes.Count - 1));
 
-        falseAnswerIndexes.RemoveAt(Random.Range(0, falseAnswerIndexes.Count - 1));
-
-        foreach (var index in falseAnswerIndexes) {
+        foreach (var index in falseIndexes)
             Buttons[index].interactable = false;
-        }
     }
 
     public void Escape() {
@@ -118,12 +111,12 @@ public class MillionaireController : GameController {
         var falseP2 = Random.Range(0, 100 - (goodP + falseP));
         var falseP3 = Random.Range(0, 100 - (goodP + falseP + falseP2));
 
-        List<float> falsePercentages = new List<float>() {
+        var falsePercentages = new List<float>() {
             falseP, falseP2, falseP3
         };
 
         var percentage = 0;
-        for (int i = 0; i < _currentQuestion.Answers.Length; i++) {
+        for (int i = 0; i < _currentQuestion.Answers.Count; i++) {
             var answer = _currentQuestion.Answers[i];
 
             if (answer.IsAnswer) percentage = goodP;
