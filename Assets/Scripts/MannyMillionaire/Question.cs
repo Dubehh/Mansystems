@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-public enum QuestionCategory {
+﻿public enum Difficulty {
     Hard = 1,
     Moderate = 2,
     Easy = 3
@@ -8,11 +7,11 @@ public enum QuestionCategory {
 public class Question {
     public string Text { get; set; }
     public Answer[] Answers;
-    public QuestionCategory Category;
+    public Difficulty Difficulty;
 
-    public Question(string text, Answer[] answers, QuestionCategory category) {
+    public Question(string text, Answer[] answers, Difficulty difficulty) {
         Text = text;
         Answers = answers;
-        Category = category;
+        Difficulty = difficulty;
     }
 }

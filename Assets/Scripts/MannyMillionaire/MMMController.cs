@@ -6,59 +6,74 @@ using UnityEngine.UI;
 
 public class MMMController : GameController {
 
-    private Question CurrentQuestion;
-
     [SerializeField]
     public Text Text;
 
     [SerializeField]
     public Button[] Buttons;
 
+    private Question[] _questions;
+    private Question _currentQuestion;
+
+    private bool _escapeActive;
+
+    /// <summary>
+    /// Gives the player the money he has won
+    /// </summary>
     public override void OnUnload() {
 
     }
 
+    /// <summary>
+    /// Retrieves 15 question from the database and fills an array with them
+    /// </summary>
     protected override void BeforeLoad() {
-        CurrentQuestion = new Question("Hoe heet de school waar wij nu werkzaam zijn?",
+        _currentQuestion = new Question("Hoe heet de school waar wij nu werkzaam zijn?",
             new Answer[4] {
-                new Answer() {
-                    Text = "Deltion",
-                },
-
-                new Answer() {
-                    Text = "Cibap",
-                    IsAnswer = true
-                },
-
-                new Answer() {
-                    Text = "Basisschool de Schakel",
-                },
-
-                new Answer() {
-                    Text = "Windesheim",
-                }
-            }, QuestionCategory.Easy);
+                new Answer() { Text = "Deltion" },
+                new Answer() { Text = "Cibap", IsAnswer = true },
+                new Answer() { Text = "Basisschool de Schakel" },
+                new Answer() { Text = "Windesheim" }
+            }, Difficulty.Easy);
     }
 
+    /// <summary>
+    /// Prepares the interface for the game
+    /// </summary>
     protected override void OnLoad() {
         UpdateUI();
     }
 
+    /// <summary>
+    /// Keeps updating the UI
+    /// </summary>
     protected override void Update() {
     }
 
+    /// <summary>
+    /// Resets and fills the question and answer objects with the current question
+    /// </summary>
     private void UpdateUI() {
-        Text.text = CurrentQuestion.Text;
-        for (int i = 0; i < CurrentQuestion.Answers.Length; i++) {
-            var answer = CurrentQuestion.Answers[i].Text;
+        Text.text = _currentQuestion.Text;
+        for (int i = 0; i < _currentQuestion.Answers.Length; i++) {
+            Buttons[i].gameObject.SetActive(true);
+
+            var answer = _currentQuestion.Answers[i].Text;
             Buttons[i].GetComponentInChildren<Text>().text = answer;
         }
     }
 
-    public void OnButtonClick(int index) {
-        if (CurrentQuestion.Answers[index].IsAnswer) {
+    /// <summary>
+    /// Event for when the player clicks an answer and checks if it was the right answer.
+    /// </summary>
+    /// <param name="index">The index of the clicked button</param>
+    public void AnswerClick(int index) {
+        if (_currentQuestion.Answers[index].IsAnswer) {
             //Next Question
-        } else {
+            //Next prize level
+        } else if (_escapeActive) {
+            //Next Question
+        } else { 
             //Game over
         }
 
@@ -67,10 +82,13 @@ public class MMMController : GameController {
         }
     }
 
+    /// <summary>
+    /// FiftyFifty is one of the usables that halves the answer options for the player.
+    /// </summary>
     public void FiftyFifty() {
         List<int> falseAnswerIndexes = new List<int>();
-        for (int i = 0; i < CurrentQuestion.Answers.Length; i++) {
-            var answer = CurrentQuestion.Answers[i];
+        for (int i = 0; i < _currentQuestion.Answers.Length; i++) {
+            var answer = _currentQuestion.Answers[i];
             if (!answer.IsAnswer) falseAnswerIndexes.Add(i);
         }
 
@@ -80,16 +98,21 @@ public class MMMController : GameController {
             Buttons[index].interactable = false;
         }
     }
-
-    public void HelpLine() {
-
+    
+    public void Escape() {
+        _escapeActive = true;
     }
 
+    /// <summary>
+    /// Generates random percentages for each answer how likely that answer is to be the right one. 
+    /// Easy questions generate a high percentage for the right questions. The harder the questions 
+    /// get, the closer the percentages get to each other.
+    /// </summary>
     public void CrowdHelp() {
         Debug.Log("CrowdHelp");
 
         
-        var goodP = Random.Range(15 * (int)CurrentQuestion.Category, 30 * (int)CurrentQuestion.Category);
+        var goodP = Random.Range(15 * (int)_currentQuestion.Difficulty, 30 * (int)_currentQuestion.Difficulty);
         var falseP = Random.Range(0, (100 - goodP));
         var falseP2 = Random.Range(0, 100 - (goodP + falseP));
         var falseP3 = Random.Range(0, 100 - (goodP + falseP + falseP2));
@@ -99,8 +122,8 @@ public class MMMController : GameController {
         };
 
         var percentage = 0;
-        for (int i = 0; i < CurrentQuestion.Answers.Length; i++) {
-            var answer = CurrentQuestion.Answers[i];
+        for (int i = 0; i < _currentQuestion.Answers.Length; i++) {
+            var answer = _currentQuestion.Answers[i];
 
             if (answer.IsAnswer) percentage = goodP;
             else {
@@ -111,6 +134,9 @@ public class MMMController : GameController {
         }
     }
 
+    /// <summary>
+    /// Returns the player to the dashboard and gives him the current prize money
+    /// </summary>
     public void BackButton() {
         AppData.Instance().Game.Unload();
     }
