@@ -12,6 +12,9 @@ public class MMMController : GameController {
     [SerializeField]
     public Button[] Buttons;
 
+    [SerializeField]
+    public Slider Timer;
+
     private Question[] _questions;
     private Question _currentQuestion;
 
@@ -48,7 +51,7 @@ public class MMMController : GameController {
     /// Keeps updating the UI
     /// </summary>
     protected override void Update() {
-        //Update question timer
+        Timer.value -= Time.deltaTime;
     }
 
     /// <summary>
