@@ -1,4 +1,4 @@
 ﻿public struct Answer {
-    public string Text;
-    public bool IsAnswer;
+    public string Text { get; set; }
+    public bool IsAnswer { get; set; }
 }

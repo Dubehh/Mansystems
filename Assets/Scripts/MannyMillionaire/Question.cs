@@ -6,8 +6,8 @@
 
 public class Question {
     public string Text { get; set; }
-    public Answer[] Answers;
-    public Difficulty Difficulty;
+    public Answer[] Answers { get; set; }
+    public Difficulty Difficulty { get; set; }
 
     public Question(string text, Answer[] answers, Difficulty difficulty) {
         Text = text;

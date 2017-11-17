@@ -48,6 +48,7 @@ public class MMMController : GameController {
     /// Keeps updating the UI
     /// </summary>
     protected override void Update() {
+        //Update question timer
     }
 
     /// <summary>
@@ -73,7 +74,7 @@ public class MMMController : GameController {
             //Next prize level
         } else if (_escapeActive) {
             //Next Question
-        } else { 
+        } else {
             //Game over
         }
 
@@ -94,11 +95,11 @@ public class MMMController : GameController {
 
         falseAnswerIndexes.RemoveAt(Random.Range(0, falseAnswerIndexes.Count - 1));
 
-        foreach(var index in falseAnswerIndexes) {
+        foreach (var index in falseAnswerIndexes) {
             Buttons[index].interactable = false;
         }
     }
-    
+
     public void Escape() {
         _escapeActive = true;
     }
@@ -108,10 +109,7 @@ public class MMMController : GameController {
     /// Easy questions generate a high percentage for the right questions. The harder the questions 
     /// get, the closer the percentages get to each other.
     /// </summary>
-    public void CrowdHelp() {
-        Debug.Log("CrowdHelp");
-
-        
+    public void CrowdHelp() {       
         var goodP = Random.Range(15 * (int)_currentQuestion.Difficulty, 30 * (int)_currentQuestion.Difficulty);
         var falseP = Random.Range(0, (100 - goodP));
         var falseP2 = Random.Range(0, 100 - (goodP + falseP));
@@ -130,7 +128,7 @@ public class MMMController : GameController {
                 percentage = (int)Mathf.Round(falsePercentages[Random.Range(0, falsePercentages.Count)]);
                 falsePercentages.Remove(percentage);
             }
-            Buttons[i].GetComponentInChildren<Text>().text = answer.Text +  "(" + percentage + "%)";
+            Buttons[i].GetComponentInChildren<Text>().text = answer.Text + "(" + percentage + "%)";
         }
     }
 
