@@ -18,11 +18,15 @@ public class CatcherController : GameController {
     [SerializeField]
     public CatcherObject[] Objects;
 
-    private float timeLeft;
+    private float _timeLeft;
 
     private bool _gameStarted;
+
+    /// <summary>
+    /// Loopt door de struct heen en vindt voor elk GameObject de Maxwidth
+    /// </summary>
     protected override void BeforeLoad() {
-        timeLeft = 60;
+        _timeLeft = 60;
 
         if (_cam == null) {
             _cam = Camera.main;
@@ -46,18 +50,22 @@ public class CatcherController : GameController {
 
     }
 
+    /// <summary>
+    /// checkt de tijd en stopt als de tijd op 0 staat
+    /// </summary>
     protected override void Update() {
-        if (timeLeft > 0) {
-            timeLeft -= Time.deltaTime;
-            Debug.Log(timeLeft);
+        if (_timeLeft > 0) {
+            _timeLeft -= Time.deltaTime;
         } else StopCoroutine(Spawn());
     }
-
+    /// <summary>
+    /// Spawnt de entities tot timeLeft 0 is
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator Spawn() {
-        Debug.Log("Spawning");
         if (!_gameStarted) yield return new WaitForSeconds(2.0f);
         _gameStarted = true;
-        while (timeLeft > 0) {
+        while (_timeLeft > 0) {
             foreach (var o in Objects) {
                 var spawnPosition = new Vector3(
                 UnityEngine.Random.Range(-o.MaxWidth, o.MaxWidth),
