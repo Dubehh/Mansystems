@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MMMController : GameController {
+public class MillionaireController : GameController {
 
     [SerializeField]
     public Text Text;
