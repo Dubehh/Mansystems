@@ -17,12 +17,15 @@ public class DashboardController : MonoBehaviour {
     [SerializeField]
     public DashboardBackground[] Backgrounds;
 
+    private AnimationHandler _animationHandler;
+
     private DashboardBackground _current;
     private UIStatIndicator _indicator;
 
     // Use this for initialization
     private void Start() {
         _indicator = new UIStatIndicator(ExperienceIndicator, Attribute.Experience, Manny);
+        _animationHandler = new AnimationHandler();
         InvalidateBackground();
         SetExperienceGoal();
         UpdateIndicators();
@@ -30,6 +33,7 @@ public class DashboardController : MonoBehaviour {
 
     private void Update() {
         UpdateIndicators();
+        _animationHandler.ScanInput();
     }
 
     /// <summary>
@@ -42,7 +46,7 @@ public class DashboardController : MonoBehaviour {
             Manny.Attribute.IncrementAttribute(Attribute.Level, 1);
             SetExperienceGoal();
         }
-        if (Input.touchCount > 0 && Dialog.gameObject.activeSelf) 
+        if (Input.touchCount > 0 && Dialog.gameObject.activeSelf)
             Dialog.gameObject.SetActive(false);
     }
 
@@ -71,9 +75,30 @@ public class DashboardController : MonoBehaviour {
     private void InvalidateBackground() {
         var now = System.DateTime.Now.Hour;
         _current = Backgrounds.Where(x => x.Time.Min <= now && x.Time.Max >= now).FirstOrDefault();
-        if (_current != null) {
-            _current.Background.SetActive(true);
-            _current.Manny.SetActive(true);
+        _current = _current ?? Backgrounds[0];
+        _current.Background.SetActive(true);
+        _current.Manny.SetActive(true);
+
+        _animationHandler.SetAnimator(_current.Manny);
+    }
+
+    public void ChangeBG() {
+        if(_current != null) {
+            _current.Background.SetActive(false);
+            _current.Manny.SetActive(false);
         }
+
+        if (_current == Backgrounds[0])
+            _current = Backgrounds[1];
+        else if (_current == Backgrounds[1])
+            _current = Backgrounds[2];
+        else _current = Backgrounds[0];
+
+        _current.Background.SetActive(true);
+        _current.Manny.SetActive(true);
+    }
+
+    private void CallAnimation(string name) {
+       
     }
 }

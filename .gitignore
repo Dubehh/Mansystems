@@ -36,3 +36,5 @@ sysinfo.txt
 # Jetbrains
 .idea/
 *.sln.iml
+TrackingMaster.db
+*.db
