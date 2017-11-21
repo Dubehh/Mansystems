@@ -24,10 +24,10 @@ public class CatcherController : GameController {
     private float _timeLeft;
     private bool _gameStarted;
 
-    /// <summary>
-    /// Toggles objects
-    /// </summary>
-    /// <param name="active"></param>
+/// <summary>
+/// 
+/// </summary>
+/// <param name="active"></param>
     private void ToggleObjects(bool active) {
         foreach (var obj in Objects) {
             obj.GameObject.SetActive(active);
@@ -60,10 +60,8 @@ public class CatcherController : GameController {
     /// Loopt door de struct heen en vindt voor elk GameObject de Maxwidth
     /// </summary>
     protected override void BeforeLoad() {
-        if (_cam == null) {
             _cam = Camera.main;
-        }
-
+        
         Vector3 upperCorner = new Vector3(Screen.width, Screen.height, 0.0f);
         Vector3 targetWidth = _cam.ScreenToWorldPoint(upperCorner);
 
@@ -97,7 +95,7 @@ public class CatcherController : GameController {
     }
 
     /// <summary>
-    /// Destroys gameobject when it collides with collider
+    /// Vernietigt gameObject als deze met de collider samenkomt
     /// </summary>
     /// <param name="other"></param>
     private void OnTriggerEnter2D(Collider2D other) {
