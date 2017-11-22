@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.App;
+using Assets.Scripts.App.Data_Management;
 using Assets.Scripts.App.Game;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,10 @@ using UnityEngine.UI;
 public class MillionaireController : GameController {
 
     [SerializeField]
-    public Text Text;
+    public Text QuestionText;
+
+    [SerializeField]
+    public Text PrizeText;
 
     [SerializeField]
     public Button[] Buttons;
@@ -16,10 +20,14 @@ public class MillionaireController : GameController {
     [SerializeField]
     public Slider Timer;
 
-    private Question[] _questions;
+    private List<Question> _questions;
+    private int _currentQuestionIndex;
     private Question _currentQuestion;
 
+    private PrizeController _prizeController;
+
     private bool _escapeActive;
+    private bool _gameCompleted;
 
     /// <summary>
     /// Gives the player the money he has won
@@ -32,13 +40,50 @@ public class MillionaireController : GameController {
     /// Retrieves 15 question from the database and fills an array with them
     /// </summary>
     protected override void BeforeLoad() {
-        _currentQuestion = new Question("Hoe heet de school waar wij nu werkzaam zijn?",
+        _prizeController = new PrizeController();
+
+        /*for (int i = 0; i < System.Enum.GetValues(typeof(Difficulty)).Length; i++) {
+            new Handshake(HandshakeProtocol.Response).AddParameter("query",
+                "SELECT * " +
+                "FROM MannyMillionaireQuestion " +
+                "WHERE difficulty = " + i + " " +
+                "ORDER BY rand() " +
+                "LIMIT 5").Shake((request) => {
+                    _questions.Add(
+                        new Question(
+                            "Question",
+                            new Answer[] {
+                                new Answer { Text = "Answer 1" },
+                                new Answer { Text = "Answer 2", IsAnswer = true },
+                                new Answer { Text = "Answer 3"},
+                                new Answer { Text = "Answer 4" }
+                            }, (Difficulty)3 - i
+                            ));
+                });
+        }*/
+
+        _questions = new List<Question> {
+            new Question("Wat voor gebiedsbenaming verdient Hattem?",
             new Answer[4] {
-                new Answer() { Text = "Deltion" },
-                new Answer() { Text = "Cibap", IsAnswer = true },
-                new Answer() { Text = "Basisschool de Schakel" },
-                new Answer() { Text = "Windesheim" }
-            }, Difficulty.Easy);
+                new Answer() { Text = "Stad" },
+                new Answer() { Text = "Dorp", IsAnswer = true },
+                new Answer() { Text = "Gehucht" },
+                new Answer() { Text = "Buurtschap" }
+            }, Difficulty.Easy),
+
+        new Question("Wie is de beste programmeur van Nederland?",
+            new Answer[4] {
+                new Answer() { Text = "Hugo Kamps", IsAnswer = true},
+                new Answer() { Text = "Hugo Kamps", IsAnswer = true },
+                new Answer() { Text = "Sylvana Simons" },
+                new Answer() { Text = "Eelco EIKELboom" }
+            }, Difficulty.Easy)};
+        for (int i = 0; i < 13; i++) {
+            if (_questions.Count < 15) {
+                if (i % 2 == 0) _questions.Add(_questions[0]);
+                else _questions.Add(_questions[1]);
+            }
+        }
     }
 
     /// <summary>
@@ -52,20 +97,39 @@ public class MillionaireController : GameController {
     /// Keeps updating the UI
     /// </summary>
     protected override void Update() {
-        Timer.value -= Time.deltaTime;
+        if(!_gameCompleted) Timer.value -= Time.deltaTime;
+
+        if (Timer.value <= 0)
+            GameOver();
+
+    }
+
+    private void GameCompleted() {
+        _gameCompleted = true;
+        QuestionText.text = "Gefeliciteerd, je hebt gewonnen!";
+        foreach (var button in Buttons) button.gameObject.SetActive(false);
+    }
+
+    private void GameOver() {
+        QuestionText.text = "Helaas, je hebt verloren (gewonnen: €" + _prizeController.CurrentPrize + ")";
+        foreach (var button in Buttons) button.gameObject.SetActive(false);
     }
 
     /// <summary>
     /// Resets and fills the question and answer objects with the current question
     /// </summary>
     private void UpdateUI() {
-        Text.text = _currentQuestion.Text;
-        for (int i = 0; i < _currentQuestion.Answers.Count; i++) {
-            Buttons[i].gameObject.SetActive(true);
+        _currentQuestion = _questions[_currentQuestionIndex];
 
+        QuestionText.text = _currentQuestion.Text;
+        for (int i = 0; i < _currentQuestion.Answers.Count; i++) {
+            Buttons[i].interactable = true;
+            Buttons[i].gameObject.SetActive(true);
             var answer = _currentQuestion.Answers[i].Text;
             Buttons[i].GetComponentInChildren<Text>().text = answer;
         }
+
+        PrizeText.text = "€" + _prizeController.CurrentPrize;
     }
 
     /// <summary>
@@ -73,16 +137,20 @@ public class MillionaireController : GameController {
     /// </summary>
     /// <param name="index">The index of the clicked button</param>
     public void AnswerClick(int index) {
-        if (_currentQuestion.Answers[index].IsAnswer) {
-            //Next Question
-            //Next prize level
-        } else if (_escapeActive) {
-            //Next Question
-        } else
-            //Game over
+        if (_escapeActive || _currentQuestion.Answers[index].IsAnswer) {
+            if (!_escapeActive) _prizeController.IncreasePrize();
 
-            foreach (var button in Buttons)
-                button.interactable = false;
+            _currentQuestionIndex += 1;
+            _escapeActive = false;
+            if (_currentQuestionIndex >= _questions.Count) {
+                GameCompleted();
+            } else {
+                Timer.value = Timer.maxValue;
+                UpdateUI();
+            }
+        } else {
+            GameOver();
+        }
     }
 
     /// <summary>
@@ -93,7 +161,7 @@ public class MillionaireController : GameController {
         falseIndexes.RemoveAt(Random.Range(0, falseIndexes.Count - 1));
 
         foreach (var index in falseIndexes)
-            Buttons[index].interactable = false;
+            Buttons[index].gameObject.SetActive(false);
     }
 
     public void Escape() {
@@ -105,7 +173,7 @@ public class MillionaireController : GameController {
     /// Easy questions generate a high percentage for the right questions. The harder the questions 
     /// get, the closer the percentages get to each other.
     /// </summary>
-    public void CrowdHelp() {       
+    public void CrowdHelp() {
         var goodP = Random.Range(15 * (int)_currentQuestion.Difficulty, 30 * (int)_currentQuestion.Difficulty);
         var falseP = Random.Range(0, (100 - goodP));
         var falseP2 = Random.Range(0, 100 - (goodP + falseP));

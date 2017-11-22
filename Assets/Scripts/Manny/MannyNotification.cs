@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-//using UnityEngine.iOS;
+using UnityEngine.iOS;
 
 public class MannyNotification {
 
@@ -92,10 +92,11 @@ public class MannyNotification {
             NotificationUtil.Send(TimeSpan.FromMinutes((int)stamp), notification.Message);
 #endif
 #if UNITY_IPHONE
-            var iosNotification = new LocalNotification();
-            iosNotification.fireDate = DateTime.Now.AddMinutes((int)stamp);
-            iosNotification.alertBody = notification.Message;
-            iosNotification.alertAction = "Manny";
+            var iosNotification = new LocalNotification {
+                fireDate = DateTime.Now.AddMinutes((int)stamp),
+                alertBody = notification.Message,
+                alertAction = "Manny"
+            };
             NotificationServices.ScheduleLocalNotification(iosNotification);
 #endif
         }
