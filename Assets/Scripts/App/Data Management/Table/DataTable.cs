@@ -12,7 +12,6 @@ namespace Assets.Scripts.App.Tracking.Table {
         
         public DataTable(string name) {
             Properties = new List<DataProperty>();
-            AddProperty(new DataProperty("TimeChanged", DataProperty.DataPropertyType.DATETIME));
             Name = name;
         }
 
@@ -93,7 +92,6 @@ namespace Assets.Scripts.App.Tracking.Table {
         public void Insert(DataParams parameters, Action callback=null) {
             var fields = new StringBuilder();
             var data = new StringBuilder();
-            parameters.Append("TimeChanged", DateTime.Now.ToShortDateString());
             parameters.Parameters.ForEach(pair => {
                 fields.Append(",").Append(pair.Key);
                 data.Append(",").Append(pair.Value is string ? "'"+pair.Value+"'" : pair.Value.ToString());
