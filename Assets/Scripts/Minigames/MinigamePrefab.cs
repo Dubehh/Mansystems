@@ -29,6 +29,8 @@ public class MinigamePrefab : MonoBehaviour {
     /// OnClick event for the minigame's buy button
     /// </summary>
     public void OnClick() {
+        if(Minigame.LandscapeMode)
+            Screen.orientation = ScreenOrientation.LandscapeLeft;
         Minigame.StartGame();
     }
 }
