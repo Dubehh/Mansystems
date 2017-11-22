@@ -24,10 +24,10 @@ public class CatcherController : GameController {
     private float _timeLeft;
     private bool _gameStarted;
 
-/// <summary>
-/// 
-/// </summary>
-/// <param name="active"></param>
+    /// <summary>
+    /// Sets objects active, used for disrupting coroutine (spawn)
+    /// </summary>
+    /// <param name="active"></param>
     private void ToggleObjects(bool active) {
         foreach (var obj in Objects) {
             obj.GameObject.SetActive(active);
@@ -35,7 +35,7 @@ public class CatcherController : GameController {
     }
 
     /// <summary>
-    /// Spawnt de entities tot timeLeft 0 is
+    /// Spawns entities until timeLeft is zero
     /// </summary>
     /// <returns></returns>
     private IEnumerator Spawn() {
@@ -57,11 +57,11 @@ public class CatcherController : GameController {
     }
 
     /// <summary>
-    /// Loopt door de struct heen en vindt voor elk GameObject de Maxwidth
+    /// loops through struct and finds Maxwidth for every GameObject
     /// </summary>
     protected override void BeforeLoad() {
-            _cam = Camera.main;
-        
+        _cam = Camera.main;
+
         Vector3 upperCorner = new Vector3(Screen.width, Screen.height, 0.0f);
         Vector3 targetWidth = _cam.ScreenToWorldPoint(upperCorner);
 
@@ -76,13 +76,13 @@ public class CatcherController : GameController {
     protected override void OnLoad() {
         StartCoroutine(Spawn());
     }
-    
+
     public override void OnUnload() {
 
     }
 
     /// <summary>
-    /// checkt de tijd en stopt als de tijd op 0 staat
+    /// Checks if time is zero
     /// </summary>
     protected override void Update() {
         if (_timeLeft > 0) {
@@ -95,7 +95,7 @@ public class CatcherController : GameController {
     }
 
     /// <summary>
-    /// Vernietigt gameObject als deze met de collider samenkomt
+    /// Destroys gameObject when it collides with the collider
     /// </summary>
     /// <param name="other"></param>
     private void OnTriggerEnter2D(Collider2D other) {
