@@ -7,7 +7,7 @@ public class MovementController : MonoBehaviour {
     public Camera _cam;
     private float maxWidth;
 
-    private bool Debug = false;
+    private bool Debug = true;
     /// <summary>
     /// Defines Screensize
     /// </summary>
@@ -34,7 +34,7 @@ public class MovementController : MonoBehaviour {
             targetPosition = new Vector3(targetWidth, targetPosition.y, targetPosition.z);
             transform.position = targetPosition;
         } else {
-            transform.position = new Vector2(Input.acceleration.x, 0);
+            transform.Translate(new Vector2(Input.acceleration.x, 0));
         }
     }
 }
