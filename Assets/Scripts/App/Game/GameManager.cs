@@ -11,7 +11,7 @@ namespace Assets.Scripts.App.Game {
 
         private const string 
             _scenes = "Assets/Scenes",
-            _main   = "UITestingScene",
+            _main   = "0",
             _folder = "Minigames";
 
         private HashSet<string> _sceneRegister;
@@ -41,7 +41,7 @@ namespace Assets.Scripts.App.Game {
         public void Load(string scene) {
             var foundScene = _sceneRegister.Where(s => s.ToLower() == scene.ToLower()).FirstOrDefault();
             if(foundScene != null)
-                SceneManager.LoadScene(foundScene);
+                SceneManager.LoadScene(Int32.Parse(foundScene));
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Assets.Scripts.App.Game {
         public void Unload() {
             if (_current == null) return;
             _current.OnUnload();
-            SceneManager.LoadScene(_main);
+            SceneManager.LoadSceneAsync(0);
             //TODO add loading thing somewhere
         }
 

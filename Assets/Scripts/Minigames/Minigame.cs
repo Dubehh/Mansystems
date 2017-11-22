@@ -19,6 +19,9 @@ public class Minigame {
     [SerializeField]
     public string Scene;
 
+    [SerializeField]
+    public bool LandscapeMode;
+
     /// <summary>
     /// Method that is called by the onclick event of the minigame's button
     /// </summary>
