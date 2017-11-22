@@ -13,9 +13,11 @@ namespace Assets.Scripts {
                 if (request.isHttpError || request.isNetworkError) {
                     Debug.Log("Error");
                 } else {
-                    Debug.Log(request.downloadHandler.text);
+                    var a = new JSONObject(request.downloadHandler.text);
+                    Debug.Log(a["a"]["c"].i);
                 }
             });
         }
     }
 }
+
