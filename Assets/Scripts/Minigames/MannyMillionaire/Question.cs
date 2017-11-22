@@ -11,9 +11,9 @@ public class Question {
     public List<Answer> Answers { get; set; }
     public Difficulty Difficulty { get; set; }
 
-    public Question(string text, Answer[] answers, Difficulty difficulty) {
+    public Question(string text, List<Answer> answers, Difficulty difficulty) {
         Text = text;
-        Answers = new List<Answer>(answers);
+        Answers = answers;
         Difficulty = difficulty;
     }
 }
