@@ -7,7 +7,7 @@ public class MovementController : MonoBehaviour {
     public Camera _cam;
     private float maxWidth;
 
-    private bool Debug = false;
+    private bool Debug = true;
     /// <summary>
     /// Defines Screensize
     /// </summary>

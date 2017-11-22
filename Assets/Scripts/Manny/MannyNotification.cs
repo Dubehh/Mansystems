@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+#if UNITY_IPHONE
 using UnityEngine.iOS;
-
+#endif
 public class MannyNotification {
 
     public delegate bool Condition(IterationStamp span, MannyAttribute attr);
