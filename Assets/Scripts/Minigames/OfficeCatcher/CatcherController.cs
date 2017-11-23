@@ -83,6 +83,8 @@ public class CatcherController : GameController {
     }
 
     public override void OnUnload() {
+        AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Coins, 0);
+        AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, 0);
     }
 
     /// <summary>
@@ -113,3 +115,4 @@ public class CatcherController : GameController {
         Destroy(other.gameObject);
     }
 }
+
