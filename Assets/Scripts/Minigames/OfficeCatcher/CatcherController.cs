@@ -46,7 +46,7 @@ public class CatcherController : GameController {
     /// Spawns entities until timeLeft is zero
     /// </summary>
     /// <returns></returns>
-    private IEnumerator SpawnOffice() {
+    private IEnumerator SpawnOfficeObject() {
         ToggleObjects(true);
         if (!_gameStarted) yield return new WaitForSeconds(2.0f);
         _gameStarted = true;
@@ -81,10 +81,16 @@ public class CatcherController : GameController {
         }
     }
 
+    /// <summary>
+    /// loads the game and starts it
+    /// </summary>
     protected override void OnLoad() {
-        StartCoroutine(SpawnOffice());
+        StartCoroutine(SpawnOfficeObject());
     }
 
+    /// <summary>
+    /// shuts down game and returns to menu
+    /// </summary>
     public override void OnUnload() {
         var coins = Mathf.RoundToInt (EntityHandler.GameScore * 36/1080f);
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Coins, coins);
@@ -103,7 +109,7 @@ public class CatcherController : GameController {
             _timeLeft -= Time.deltaTime;
             _TimerText.text = "Time Left:\n" + Mathf.RoundToInt(_timeLeft);
         } else {
-            StopCoroutine(SpawnOffice());
+            StopCoroutine(SpawnOfficeObject());
             ToggleObjects(false);
         }
     }
