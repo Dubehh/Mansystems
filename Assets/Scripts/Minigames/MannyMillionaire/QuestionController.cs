@@ -25,10 +25,8 @@ public class QuestionController {
     /// <param name="data">The data from the webrequest</param>
     /// <param name="index">The index used to determine the difficulty</param>
     public void AddQuestion(UnityWebRequest data) {
-        Debug.Log("Adding questions");
-
-        var random = new System.Random();
         var questions = new JSONObject(data.downloadHandler.text);
+        var random = new System.Random();
 
         for (int i = 0; i < questions.keys.Count; i++) {
             var key = questions.keys[i];
@@ -46,8 +44,6 @@ public class QuestionController {
                 ));
             }
         }
-
-        Debug.Log(_questions.Count);
     }
 
     /// <summary>
