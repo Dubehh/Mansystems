@@ -7,18 +7,18 @@ using UnityEngine.UI;
 public class UIWelcomeController : MonoBehaviour {
 
     [SerializeField]
-    private Text _nameResult;
+    public Text NameResult;
     [SerializeField]
-    private Text _nameInput;
+    public Text NameInput;
     [SerializeField]
-    private GameObject[] _views;
+    public GameObject[] Views;
     private int _current;
     private UIController _controller;
 
     // Use this for initialization
     private void Awake() {
-        foreach (var obj in _views) obj.SetActive(false);
-        _views[_current].SetActive(true);
+        foreach (var obj in Views) obj.SetActive(false);
+        Views[_current].SetActive(true);
         _controller = GetComponentInParent<UIController>();
         if (_controller.IsFirstTime()) {
             _controller.Footer.SetActive(false);
@@ -30,18 +30,18 @@ public class UIWelcomeController : MonoBehaviour {
     /// Requests the next view in the queue
     /// </summary>
     public void Next() {
-        _views[_current++].SetActive(false);
-        _views[_current].SetActive(true);
+        Views[_current++].SetActive(false);
+        Views[_current].SetActive(true);
     }
 
     /// <summary>
     /// Saves the input from the registration
     /// </summary>
     public void SaveInput() {
-        PlayerPrefs.SetString("name", _nameInput.text);
+        PlayerPrefs.SetString("name", NameInput.text);
         PlayerPrefs.SetString("uid", Guid.NewGuid().ToString());
         PlayerPrefs.Save();
-        _nameResult.text = _nameInput.text;
+        NameResult.text = NameInput.text;
     }
 
     /// <summary>
