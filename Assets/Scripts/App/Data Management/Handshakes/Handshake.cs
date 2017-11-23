@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Assets.Scripts.App.Data_Management {
@@ -42,7 +43,7 @@ namespace Assets.Scripts.App.Data_Management {
         /// </summary>
         /// <param name="complete">Callback that fires upon completion of the request</param>
         public void Shake(Action<UnityWebRequest> complete = null) {
-            var handshake = UnityWebRequest.Post(_webReference + _webController, _params);
+            var handshake = UnityWebRequest.Post(_webReference + _webController+".php", _params);
             var request = handshake.SendWebRequest();
             if (complete == null) return;
             request.completed += (action) => {

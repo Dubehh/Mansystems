@@ -33,7 +33,7 @@ public class MovementController : MonoBehaviour {
             targetPosition = new Vector3(targetWidth, targetPosition.y, targetPosition.z);
             transform.position = targetPosition;
         } else {
-            transform.position = new Vector2(Input.acceleration.x, 0);
+            transform.Translate(new Vector2(Input.acceleration.x, 0));
         }
     }
 }
