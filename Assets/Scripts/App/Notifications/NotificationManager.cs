@@ -55,10 +55,6 @@ public static class NotificationManager {
             new AndroidJavaClass(FullClassName).CallStatic("SetNotification", p.Id, delay, p.Title, p.Message, p.Ticker,
                 p.Sound ? 1 : 0, p.Vibrate ? 1 : 0, p.Light ? 1 : 0, p.LargeIcon, GetSmallIconName(p.SmallIcon), ColotToInt(p.SmallIconColor), MainActivityClassName);
 
-#else
-
-        Debug.LogWarning("Simple Android Notifications are not supported for current platform. Build and play this scene on android device!");
-
 #endif
 
         return notificationParams.Id;
