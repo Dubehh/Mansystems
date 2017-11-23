@@ -47,6 +47,7 @@ namespace Assets.Scripts.App.Tracking.Table {
             return builder.ToString().Substring(1);
         }
 
+
         /// <summary>
         /// Attempts to select data from the datatable based on the given clause
         /// </summary>
@@ -109,6 +110,5 @@ namespace Assets.Scripts.App.Tracking.Table {
         public void Drop(Action callback = null) {
             DataQuery.Query("DROP TABLE " + Name).Update(callback);
         }
-
     }
 }

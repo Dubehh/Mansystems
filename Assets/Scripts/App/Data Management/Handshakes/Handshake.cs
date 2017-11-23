@@ -13,6 +13,7 @@ namespace Assets.Scripts.App.Data_Management {
             _webController = "handshake";
 
         private const string _handshakeID = "streamType";
+        private Action _errorCallback;
         private List<IMultipartFormSection> _params;
         private HandshakeProtocol _protocol;
 
@@ -38,6 +39,14 @@ namespace Assets.Scripts.App.Data_Management {
         }
 
         /// <summary>
+        /// Sets the given callback as the error callback
+        /// </summary>
+        /// <param name="callback">Action callback</param>
+        public void SetErrorHandler(Action callback) {
+            _errorCallback = callback;
+        }
+
+        /// <summary>
         /// Attempts to send a async handshake to the defined webaddress.
         /// Uses a callback to respond with the result of the request
         /// </summary>
@@ -45,12 +54,12 @@ namespace Assets.Scripts.App.Data_Management {
         public void Shake(Action<UnityWebRequest> complete = null) {
             var handshake = UnityWebRequest.Post(_webReference + _webController+".php", _params);
             var request = handshake.SendWebRequest();
-            if (complete == null) return;
             request.completed += (action) => {
-                complete.Invoke(handshake);
+                if (handshake.isHttpError || handshake.isNetworkError && _errorCallback != null)
+                    _errorCallback.Invoke();
+                else if(complete!=null)
+                    complete.Invoke(handshake);
             };
         }
-
-        
     }
 }
