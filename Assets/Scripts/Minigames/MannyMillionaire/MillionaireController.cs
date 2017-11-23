@@ -30,7 +30,8 @@ public class MillionaireController : GameController {
     /// Gives the player the money he has won
     /// </summary>
     public override void OnUnload() {
-        FindObjectOfType<Manny>().Attribute.IncrementAttribute(Attribute.Coins, _prizeController.CurrentPrize);
+        AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Coins, _prizeController.CurrentPrize);
+        AppData.Instance().MannyAttribute.Save();
     }
 
     /// <summary>

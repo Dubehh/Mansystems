@@ -25,7 +25,8 @@ public class MannyAttribute {
     private Dictionary<Attribute, float> _attributes;
 
     public MannyAttribute() {
-        _attributes = new Dictionary<Attribute, float>();
+        _attributes = new Dictionary<Attribute, float>();        
+        AppData.Instance().MannyAttribute = this;
     }
 
     /// <summary>

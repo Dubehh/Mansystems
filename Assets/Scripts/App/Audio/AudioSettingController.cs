@@ -10,9 +10,9 @@ using UnityEngine.UI;
 public class AudioSettingController : MonoBehaviour {
 
     [SerializeField]
-    private Sprite _soundEnabled;
+    public Sprite SoundEnabled;
     [SerializeField]
-    private Sprite _soundDisabled;
+    public Sprite SoundDisabled;
     private Image _image;
     private bool _enabled;
 
@@ -26,7 +26,7 @@ public class AudioSettingController : MonoBehaviour {
     /// </summary>
     public void OnSettingChange() {
         _enabled = !_enabled;
-        _image.sprite = _enabled ? _soundEnabled : _soundDisabled;
+        _image.sprite = _enabled ? SoundEnabled : SoundDisabled;
         AudioListener.pause = _enabled;
         AudioListener.volume = _enabled ? 1 : 0;
     }
