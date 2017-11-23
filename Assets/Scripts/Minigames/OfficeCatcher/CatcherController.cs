@@ -22,6 +22,9 @@ public class CatcherController : GameController {
 
     [SerializeField]
     public List<OfficeObject> Objects;
+
+    [SerializeField]
+    public EntityHandler EntityHandler;
     private Camera _cam;
     public Text _TimerText;
     [SerializeField]
@@ -51,7 +54,7 @@ public class CatcherController : GameController {
             foreach (var o in Objects) {
                 var spawnPosition = new Vector3(
                 UnityEngine.Random.Range(-o.MaxWidth, o.MaxWidth),
-                transform.position.y,
+                o.GameObject.transform.position.y,
                 0.0f);
 
                 Quaternion spawnRotation = Quaternion.identity;
@@ -83,8 +86,13 @@ public class CatcherController : GameController {
     }
 
     public override void OnUnload() {
-        AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Coins, 0);
-        AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, 0);
+        var coins = Mathf.RoundToInt (EntityHandler.GameScore * 36/1080f);
+        AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Coins, coins);
+
+        var experience = EntityHandler.GameScore * 30/1080;
+        AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, experience);
+
+        AppData.Instance().MannyAttribute.Save();
     }
 
     /// <summary>
