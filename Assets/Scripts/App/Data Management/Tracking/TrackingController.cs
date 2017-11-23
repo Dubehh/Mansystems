@@ -34,8 +34,8 @@ namespace Assets.Scripts.App.Tracking {
                         handshake.AddParameter(property.Name + "[]", reader[property.Name].ToString());
                     });
                 }
+                handshake.Shake((callback) => { _source.Drop(); });
             });
-            handshake.Shake();
         }
     }
 }

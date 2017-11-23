@@ -19,7 +19,6 @@ namespace Assets.Scripts {
             var table = new DataTable("TestGame");
             table.AddProperty(new DataProperty("Won", DataProperty.DataPropertyType.INT));
             table.AddProperty(new DataProperty("Enemies_Killed", DataProperty.DataPropertyType.INT));
-            table.Drop();
             SetDataSource(table);
 
             Debug.Log("Database setup done!");
@@ -46,7 +45,7 @@ namespace Assets.Scripts {
             Debug.Log("Adding some data to the database..");
             DataSource.Insert(DataParams.Build("Won", 1).Append("Enemies_Killed", 8));
             DataSource.Insert(DataParams.Build("Won", 1).Append("Enemies_Killed", 3));
-            DataSource.Insert(DataParams.Build("Won", 0).Append("Enemies_Killed", 0));
+            DataSource.Insert(DataParams.Build("Won", 0).Append("Enemies_Killed", 4));
             yield return new WaitForSeconds(2f);
 
             Debug.Log("Starting to save tracking in 5 seconds..");
