@@ -22,7 +22,6 @@ public class MovementController : MonoBehaviour {
             maxWidth = targetWidth.x - MannyWidth;
         }
     }
-
     /// <summary>
     /// clamps Manny to the Mouseposition
     /// </summary>

@@ -4,9 +4,13 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
+using Assets.Scripts.App;
 
+/// <summary>
+/// Struct for Office Objects
+/// </summary>
 [Serializable]
-public struct CatcherObject {
+public struct OfficeObject {
     [SerializeField]
     public GameObject GameObject;
     public float MaxWidth { get; set; }
@@ -17,12 +21,13 @@ public struct CatcherObject {
 public class CatcherController : GameController {
 
     [SerializeField]
-    public List<CatcherObject> Objects;
+    public List<OfficeObject> Objects;
     private Camera _cam;
     public Text _TimerText;
     [SerializeField]
     private float _timeLeft;
     private bool _gameStarted;
+
 
     /// <summary>
     /// Sets objects active, used for disrupting coroutine (spawn)
@@ -32,13 +37,13 @@ public class CatcherController : GameController {
         foreach (var obj in Objects) {
             obj.GameObject.SetActive(active);
         }
-    }
 
+    }
     /// <summary>
     /// Spawns entities until timeLeft is zero
     /// </summary>
     /// <returns></returns>
-    private IEnumerator Spawn() {
+    private IEnumerator SpawnOffice() {
         ToggleObjects(true);
         if (!_gameStarted) yield return new WaitForSeconds(2.0f);
         _gameStarted = true;
@@ -74,11 +79,10 @@ public class CatcherController : GameController {
     }
 
     protected override void OnLoad() {
-        StartCoroutine(Spawn());
+        StartCoroutine(SpawnOffice());
     }
 
     public override void OnUnload() {
-
     }
 
     /// <summary>
@@ -89,9 +93,17 @@ public class CatcherController : GameController {
             _timeLeft -= Time.deltaTime;
             _TimerText.text = "Time Left:\n" + Mathf.RoundToInt(_timeLeft);
         } else {
-            StopCoroutine(Spawn());
+            StopCoroutine(SpawnOffice());
             ToggleObjects(false);
         }
+    }
+
+    /// <summary>
+    /// Returns the player to the Main screen
+    /// </summary>
+    public void ExitButton() {
+        Debug.Log("exit");
+        AppData.Instance().Game.Unload();
     }
 
     /// <summary>

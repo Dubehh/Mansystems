@@ -30,6 +30,6 @@ public class EntityHandler : MonoBehaviour {
     /// Updates score text
     /// </summary>
     void UpdateScore() {
-        ScoreText.text = "Punten:\n" + GameScore;
+        ScoreText.text = "" + GameScore;
     }
 }
