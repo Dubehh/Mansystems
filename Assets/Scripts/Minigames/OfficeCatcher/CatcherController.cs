@@ -102,7 +102,6 @@ public class CatcherController : GameController {
     /// Returns the player to the Main screen
     /// </summary>
     public void ExitButton() {
-        Debug.Log("exit");
         AppData.Instance().Game.Unload();
     }
 
