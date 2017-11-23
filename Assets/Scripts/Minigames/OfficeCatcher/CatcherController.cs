@@ -93,9 +93,16 @@ public class CatcherController : GameController {
     /// </summary>
     public override void OnUnload() {
         var coins = Mathf.RoundToInt (EntityHandler.GameScore * 36/1080f);
+        if (coins <= 0) {
+            coins = 0;
+        }
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Coins, coins);
 
         var experience = EntityHandler.GameScore * 30/1080;
+        if (experience <= 0) {
+            experience = 0;
+
+        }
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, experience);
 
         AppData.Instance().MannyAttribute.Save();
