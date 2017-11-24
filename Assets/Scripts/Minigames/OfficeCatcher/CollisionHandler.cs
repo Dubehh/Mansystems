@@ -14,14 +14,33 @@ public class CollisionHandler : MonoBehaviour {
     [SerializeField]
     public Text FinalScoreText;
     public bool Broken;
+    
+    // Use this for initialization
+    public void Start() {
+        GameScore = 0;
+        UpdateScore();
+    }
 
+    /// <summary>
+    /// Updates score and experience texts
+    /// </summary>
+    public void UpdateScore() {
+        ScoreText.text = "" + GameScore;
+        FinalScoreText.text = "" + GameScore;
+        CalcExperience();
+        FinalExpText.text = "" + Experience;
+    }
 
+    /// <summary>
+    /// Calculates the player's experience according to his score
+    /// </summary>
     public void CalcExperience() {
         Experience = GameScore * 30 / 1080;
         if (Experience <= 0) {
             Experience = 0;
         }
     }
+
     /// <summary>
     /// Destroys gameobject when it collides with collider
     /// </summary>
@@ -34,19 +53,5 @@ public class CollisionHandler : MonoBehaviour {
         UpdateScore();
 
         //Object.isCought(true);
-    }
-    // Use this for initialization
-    public void Start() {
-        GameScore = 0;
-        UpdateScore();
-    }
-    /// <summary>
-    /// Updates score and experience texts
-    /// </summary>
-    public void UpdateScore() {
-        ScoreText.text = "" + GameScore;
-        FinalScoreText.text = "" + GameScore;
-        CalcExperience();
-        FinalExpText.text = "" + Experience;
     }
 }
