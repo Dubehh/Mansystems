@@ -45,7 +45,6 @@ public class CatcherController : GameController {
         foreach (var obj in Objects) {
             obj.GameObject.SetActive(active);
         }
-
     }
 
     /// <summary>
