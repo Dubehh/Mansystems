@@ -52,14 +52,29 @@ namespace Assets.Scripts.App.Data_Management {
         /// </summary>
         /// <param name="complete">Callback that fires upon completion of the request</param>
         public void Shake(Action<UnityWebRequest> complete = null) {
-            var handshake = UnityWebRequest.Post(_webReference + _webController+".php", _params);
+            var handshake = UnityWebRequest.Post(_webReference + _webController + ".php", _params);
             var request = handshake.SendWebRequest();
             request.completed += (action) => {
-                if (handshake.isHttpError || handshake.isNetworkError && _errorCallback != null)
-                    _errorCallback.Invoke();
-                else if(complete!=null)
+                if (handshake.isHttpError || handshake.isNetworkError) {
+                    if (_errorCallback != null)
+                        _errorCallback.Invoke();
+                } else if (complete != null)
                     complete.Invoke(handshake);
+
             };
+        }
+
+        public static void Validate(Action onValidateSuccess = null, Action onValidateError = null) {
+            var handshake = new Handshake(HandshakeProtocol.Request);
+            handshake.SetErrorHandler(() => {
+                if (onValidateError != null)
+
+                    onValidateError.Invoke();
+            });
+            handshake.Shake((request) => {
+                if (onValidateSuccess != null)
+                    onValidateSuccess.Invoke();
+            });
         }
     }
 }
