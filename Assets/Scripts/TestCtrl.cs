@@ -32,7 +32,7 @@ namespace Assets.Scripts {
         private System.Collections.IEnumerator Save() {
             yield return new WaitForSeconds(2f);
             Debug.Log("Testing first handshake...");
-            new Handshake(HandshakeProtocol.Response).AddParameter("a", "b").Shake((request) => {
+            new Handshake(HandshakeProtocol.Response).AddParameter("moduleReference", "millionaireHandler").Shake((request) => {
                 if (request.isHttpError || request.isNetworkError) {
                     Debug.Log("Error");
                 } else {
