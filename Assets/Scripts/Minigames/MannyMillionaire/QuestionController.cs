@@ -45,6 +45,8 @@ public class QuestionController {
     /// <param name="index">The index used to determine the difficulty</param>
     public void AddQuestion(UnityWebRequest data, int index) {
         //TODO, USE DATA
+        if(_questions.Count >= 15) return;
+        
         _questions.Add(
             new Question("Question", 
             new List<Answer> {
