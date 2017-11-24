@@ -24,7 +24,7 @@ public class CatcherController : GameController {
     [SerializeField]
     public List<OfficeObject> Objects;
     [SerializeField]
-    public EntityHandler EntityHandler;
+    public CollisionHandler EntityHandler;
     private Camera _cam;
     public Text _TimerText;
     [SerializeField]

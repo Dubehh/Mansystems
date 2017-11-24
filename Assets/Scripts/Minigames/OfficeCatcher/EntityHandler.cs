@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EntityHandler : MonoBehaviour {
+public class CollisionHandler : MonoBehaviour {
 
     [SerializeField]
     public Text ScoreText;
