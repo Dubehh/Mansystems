@@ -20,6 +20,12 @@ public class MillionaireController : GameController {
     [SerializeField]
     public Slider Timer;
 
+    [SerializeField]
+    public Animator MannyAnimator;
+
+    [SerializeField]
+    public Animator LampAnimator;
+
     private QuestionController _questionController;
     private PrizeController _prizeController;
 
@@ -41,32 +47,23 @@ public class MillionaireController : GameController {
         _questionController = new QuestionController();
         _prizeController = new PrizeController();
 
-        /*
-        for (int i = 0; i < System.Enum.GetValues(typeof(Difficulty)).Length; i++) {
-            new Handshake(HandshakeProtocol.Response).AddParameter("query",
-                "SELECT * " +
-                "FROM MannyMillionaireQuestion " +
-                "WHERE difficulty = " + i + " " +
-                "ORDER BY rand() " +
-                "LIMIT 5").Shake((request) => {
-                    _questionController.AddQuestion(request, i);
-                });
-        }
-        */
+        new Handshake(HandshakeProtocol.Response).AddParameter("responseHandler", "millionaire").Shake((request) => {
+            _questionController.LoadQuestions(request);
+            UpdateUI();
+        });
     }
 
     /// <summary>
     /// Prepares the interface for the game
     /// </summary>
     protected override void OnLoad() {
-        UpdateUI();
     }
 
     /// <summary>
     /// Keeps updating the UI
     /// </summary>
     protected override void Update() {
-        if(!_gameCompleted) Timer.value -= Time.deltaTime;
+        if (!_gameCompleted) Timer.value -= Time.deltaTime;
 
         if (Timer.value <= 0)
             GameCompleted(false);
@@ -86,6 +83,7 @@ public class MillionaireController : GameController {
             Buttons[i].gameObject.SetActive(true);
             Buttons[i].GetComponentInChildren<Text>().text = currentQuestion.Answers[i].Text; ;
         }
+        Timer.value = Timer.maxValue;
     }
 
     private void UpdatePrize() {
@@ -96,8 +94,11 @@ public class MillionaireController : GameController {
     /// Method is called once the players wins the game. Updates the UI to the 'win screen'
     /// </summary>
     private void GameCompleted(bool won) {
-        if(won) QuestionText.text = "Gefeliciteerd, je hebt gewonnen!";
-        else {
+        if (won) {
+            LampAnimator.Play("game_completed");
+            FindObjectOfType<ParticleSystem>().Play();
+            QuestionText.text = "Gefeliciteerd, je hebt gewonnen!";
+        } else {
             _prizeController.CurrentPrize = _prizeController.StaticPrize;
             QuestionText.text = "Helaas, je hebt verloren!";
         }
@@ -113,20 +114,25 @@ public class MillionaireController : GameController {
     /// </summary>
     /// <param name="index">The index of the clicked button</param>
     public void AnswerClick(int index) {
+        MannyAnimator.Play("Talking", 2);
+
         var currentQuestion = _questionController.GetCurrentQuestion();
         if (_escapeActive || currentQuestion.Answers[index].IsAnswer) {
+            LampAnimator.Play("Answer_true");
+
             if (!_escapeActive) _prizeController.IncreasePrize();
             _questionController.NextQuestion();
             _escapeActive = false;
-            
-            if (_questionController.AllQuestionsAnswered()) {
+
+            if (_questionController.AllQuestionsAnswered())
                 GameCompleted(true);
-            } else {
-                Timer.value = Timer.maxValue;
+            else
                 UpdateUI();
-            }
-        } else 
+        } else {
+            LampAnimator.Play("Answer_false", 0, 0);
+            MannyAnimator.Play("Sad", 2);
             GameCompleted(false);
+        }
     }
 
     /// <summary>
