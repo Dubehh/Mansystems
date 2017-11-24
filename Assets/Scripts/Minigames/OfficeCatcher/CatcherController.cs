@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
-using Assets.Scripts.App;
+using Assets.Scripts.App.Tracking.Table;
 
 /// <summary>
 /// Struct for Office Objects
@@ -16,20 +16,24 @@ public struct OfficeObject {
     public float MaxWidth { get; set; }
     [SerializeField]
     public int ObjectScore;
+    public bool IsBroken;
 }
 
 public class CatcherController : GameController {
 
     [SerializeField]
     public List<OfficeObject> Objects;
-
     [SerializeField]
-    public EntityHandler EntityHandler;
+    public CollisionHandler CollisionHandler;
     private Camera _cam;
-    public Text _TimerText;
     [SerializeField]
-    private float _timeLeft;
+    private float _lifeLeft;
     private bool _gameStarted;
+    public GameObject Life1;
+    public GameObject Life2;
+    public GameObject Life3;
+    public GameObject GameOverScreen;
+    public GameObject StopButton;
 
 
     /// <summary>
@@ -40,8 +44,60 @@ public class CatcherController : GameController {
         foreach (var obj in Objects) {
             obj.GameObject.SetActive(active);
         }
-
     }
+
+    /// <summary>
+    /// activates game over screen
+    /// </summary>
+    public void StopGame() {
+        _lifeLeft = 0;
+        StopCoroutine(SpawnOfficeObject());
+        StopButton.SetActive(false);
+        CollisionHandler.UpdateScore();
+        GameOverScreen.SetActive(true);
+        ToggleObjects(false);
+    }
+
+    /// <summary>
+    /// updates lives of player
+    /// </summary>
+    private void Updatelife() {
+        if (CollisionHandler.Broken == true) {
+            _lifeLeft = _lifeLeft - 1;
+            CollisionHandler.Broken = false;
+            ShowLives();
+        }
+    }
+
+    /// <summary>
+    /// shows remaining lives of player
+    /// </summary>
+    private void ShowLives() {
+        if (_lifeLeft == 3) {
+            Life3.SetActive(true);
+            Life2.SetActive(true);
+            Life1.SetActive(true);
+        }
+        if (_lifeLeft == 2) {
+            Life3.SetActive(false);
+            Life2.SetActive(true);
+            Life1.SetActive(true);
+        }
+        if (_lifeLeft == 1) {
+            Life3.SetActive(false);
+            Life2.SetActive(false);
+            Life1.SetActive(true);
+
+        } else if (_lifeLeft == 0) {
+            StopCoroutine(SpawnOfficeObject());
+            Life3.SetActive(false);
+            Life2.SetActive(false);
+            Life1.SetActive(false);
+            ToggleObjects(false);
+            StopGame();
+        }
+    }
+
     /// <summary>
     /// Spawns entities until timeLeft is zero
     /// </summary>
@@ -50,7 +106,7 @@ public class CatcherController : GameController {
         ToggleObjects(true);
         if (!_gameStarted) yield return new WaitForSeconds(2.0f);
         _gameStarted = true;
-        while (_timeLeft > 0) {
+        while (_lifeLeft > 0) {
             foreach (var o in Objects) {
                 var spawnPosition = new Vector3(
                 UnityEngine.Random.Range(-o.MaxWidth, o.MaxWidth),
@@ -79,6 +135,12 @@ public class CatcherController : GameController {
             obj.MaxWidth = targetWidth.x - width;
             Objects[i] = obj;
         }
+
+        var source = new DataTable("Catcher");
+        source.AddProperty(new DataProperty("Points", DataProperty.DataPropertyType.INT));
+        source.AddProperty(new DataProperty("ExperienceGained", DataProperty.DataPropertyType.INT));
+        source.AddProperty(new DataProperty("Coins", DataProperty.DataPropertyType.INT));
+        SetDataSource(source);
     }
 
     /// <summary>
@@ -92,33 +154,32 @@ public class CatcherController : GameController {
     /// shuts down game and returns to menu
     /// </summary>
     public override void OnUnload() {
-        var coins = Mathf.RoundToInt (EntityHandler.GameScore * 36/1080f);
+        var coins = Mathf.RoundToInt (CollisionHandler.GameScore * 36/1080f);
         if (coins <= 0) {
             coins = 0;
         }
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Coins, coins);
 
-        var experience = EntityHandler.GameScore * 30/1080;
+        var experience = CollisionHandler.GameScore * 30/1080;
         if (experience <= 0) {
             experience = 0;
 
         }
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, experience);
-
         AppData.Instance().MannyAttribute.Save();
+
+        DataSource.Insert(DataParams.Build("Points", CollisionHandler.GameScore).
+            Append("ExperienceGained", experience).
+            Append("Coins", coins));
+
+        Tracking.RequestSend();
     }
 
     /// <summary>
     /// Checks if time is zero
     /// </summary>
     protected override void Update() {
-        if (_timeLeft > 0) {
-            _timeLeft -= Time.deltaTime;
-            _TimerText.text = "Time Left:\n" + Mathf.RoundToInt(_timeLeft);
-        } else {
-            StopCoroutine(SpawnOfficeObject());
-            ToggleObjects(false);
-        }
+        Updatelife();
     }
 
     /// <summary>
@@ -127,7 +188,7 @@ public class CatcherController : GameController {
     public void ExitButton() {
         AppData.Instance().Game.Unload();
     }
-
+    
     /// <summary>
     /// Destroys gameObject when it collides with the collider
     /// </summary>
