@@ -26,7 +26,6 @@ public class CatcherController : GameController {
     [SerializeField]
     public CollisionHandler CollisionHandler;
     private Camera _cam;
-    public Text _TimerText;
     [SerializeField]
     private float _lifeLeft;
     private bool _gameStarted;
@@ -140,7 +139,7 @@ public class CatcherController : GameController {
         var source = new DataTable("Catcher");
         source.AddProperty(new DataProperty("Points", DataProperty.DataPropertyType.INT));
         source.AddProperty(new DataProperty("ExperienceGained", DataProperty.DataPropertyType.INT));
-        source.AddProperty(new DataProperty("MonnyGained", DataProperty.DataPropertyType.INT));
+        source.AddProperty(new DataProperty("Coins", DataProperty.DataPropertyType.INT));
         SetDataSource(source);
     }
 
@@ -171,7 +170,7 @@ public class CatcherController : GameController {
 
         DataSource.Insert(DataParams.Build("Points", CollisionHandler.GameScore).
             Append("ExperienceGained", experience).
-            Append("MonnyGained", coins));
+            Append("Coins", coins));
 
         Tracking.RequestSend();
     }
