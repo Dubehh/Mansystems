@@ -77,9 +77,6 @@ public class MillionaireController : GameController {
         });
     }
 
-    /// <summary>
-    /// Prepares the interface for the game
-    /// </summary>
     protected override void OnLoad() { }
 
     /// <summary>
@@ -109,6 +106,9 @@ public class MillionaireController : GameController {
         Timer.value = Timer.maxValue;
     }
 
+    /// <summary>
+    /// Updates the prize indicator's text with the current prize
+    /// </summary>
     private void UpdatePrize() {
         PrizeText.text = _prizeController.CurrentPrize.ToString();
     }

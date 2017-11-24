@@ -64,6 +64,11 @@ namespace Assets.Scripts.App.Data_Management {
             };
         }
 
+        /// <summary>
+        /// Validates the connection to the server
+        /// </summary>
+        /// <param name="onValidateSuccess">Callback to invoke if there is a connection</param>
+        /// <param name="onValidateError">Callback to invoke if there is no connection</param>
         public static void Validate(Action onValidateSuccess = null, Action onValidateError = null) {
             var handshake = new Handshake(HandshakeProtocol.Request);
             handshake.SetErrorHandler(() => {
