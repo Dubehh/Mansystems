@@ -5,7 +5,7 @@ using UnityEngine;
 public class MovementController : MonoBehaviour {
 
     public Camera _cam;
-    private float maxWidth;
+    private float _maxWidth;
 
     /// <summary>
     /// Sets up variables used during the update
@@ -16,7 +16,7 @@ public class MovementController : MonoBehaviour {
             Vector3 upperCorner = new Vector3(Screen.width, Screen.height, 0.0f);
             Vector3 targetWidth = _cam.ScreenToWorldPoint(upperCorner);
             float MannyWidth = GetComponent<Renderer>().bounds.extents.x;
-            maxWidth = targetWidth.x - MannyWidth;        
+            _maxWidth = targetWidth.x - MannyWidth;        
     }
     /// <summary>
     /// Prevents Manny from leaving the screen
@@ -24,7 +24,7 @@ public class MovementController : MonoBehaviour {
     void FixedUpdate() {
         transform.Translate(new Vector2(Input.acceleration.x * (Time.deltaTime * 15), 0));
         Vector2 targetPosition = transform.position;
-        float targetWidth = Mathf.Clamp(targetPosition.x, -maxWidth, maxWidth);
+        float targetWidth = Mathf.Clamp(targetPosition.x, -_maxWidth, _maxWidth);
         targetPosition = new Vector2(targetWidth, targetPosition.y);
         transform.position = targetPosition;
     }
