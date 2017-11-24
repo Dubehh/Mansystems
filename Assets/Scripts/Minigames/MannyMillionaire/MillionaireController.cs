@@ -47,23 +47,16 @@ public class MillionaireController : GameController {
         _questionController = new QuestionController();
         _prizeController = new PrizeController();
 
-        for (int i = 0; i < System.Enum.GetValues(typeof(Difficulty)).Length; i++) {
-            new Handshake(HandshakeProtocol.Response).AddParameter("query",
-                "SELECT * " +
-                "FROM MannyMillionaireQuestion " +
-                "WHERE difficulty = " + i + " " +
-                "ORDER BY rand() " +
-                "LIMIT 5").Shake((request) => {
-                    _questionController.AddQuestion(request, i);
-                });
-        }
+        new Handshake(HandshakeProtocol.Response).AddParameter("responseHandler", "millionaire").Shake((request) => {
+            _questionController.LoadQuestions(request);
+            UpdateUI();
+        });
     }
 
     /// <summary>
     /// Prepares the interface for the game
     /// </summary>
     protected override void OnLoad() {
-        UpdateUI();
     }
 
     /// <summary>
