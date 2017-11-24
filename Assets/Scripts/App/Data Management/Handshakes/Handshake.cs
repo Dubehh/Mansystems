@@ -68,7 +68,6 @@ namespace Assets.Scripts.App.Data_Management {
             var handshake = new Handshake(HandshakeProtocol.Request);
             handshake.SetErrorHandler(() => {
                 if (onValidateError != null)
-
                     onValidateError.Invoke();
             });
             handshake.Shake((request) => {

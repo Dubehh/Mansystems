@@ -30,11 +30,6 @@ public class Minigame {
     /// Method that is called by the onclick event of the minigame's button
     /// </summary>
     public void StartGame() {
-        if (RequiresConnection)
-            Handshake.Validate(() => {
-                AppData.Instance().Game.Load(Scene);
-            });
-        else
             AppData.Instance().Game.Load(Scene);
     }
 }
