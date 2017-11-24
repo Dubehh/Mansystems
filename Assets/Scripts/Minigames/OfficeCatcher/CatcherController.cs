@@ -16,7 +16,7 @@ public struct OfficeObject {
     public float MaxWidth { get; set; }
     [SerializeField]
     public int ObjectScore;
-    public bool _isBroken;
+    public bool IsBroken;
 }
 
 public class CatcherController : GameController {
@@ -24,7 +24,7 @@ public class CatcherController : GameController {
     [SerializeField]
     public List<OfficeObject> Objects;
     [SerializeField]
-    public CollisionHandler EntityHandler;
+    public CollisionHandler CollisionHandler;
     private Camera _cam;
     public Text _TimerText;
     [SerializeField]
@@ -54,7 +54,7 @@ public class CatcherController : GameController {
         _lifeLeft = 0;
         StopCoroutine(SpawnOfficeObject());
         StopButton.SetActive(false);
-        EntityHandler.UpdateScore();
+        CollisionHandler.UpdateScore();
         GameOverScreen.SetActive(true);
         ToggleObjects(false);
     }
@@ -63,9 +63,9 @@ public class CatcherController : GameController {
     /// updates lives of player
     /// </summary>
     private void Updatelife() {
-        if (EntityHandler.Broken == true) {
+        if (CollisionHandler.Broken == true) {
             _lifeLeft = _lifeLeft - 1;
-            EntityHandler.Broken = false;
+            CollisionHandler.Broken = false;
             ShowLives();
         }
     }
@@ -155,13 +155,13 @@ public class CatcherController : GameController {
     /// shuts down game and returns to menu
     /// </summary>
     public override void OnUnload() {
-        var coins = Mathf.RoundToInt (EntityHandler.GameScore * 36/1080f);
+        var coins = Mathf.RoundToInt (CollisionHandler.GameScore * 36/1080f);
         if (coins <= 0) {
             coins = 0;
         }
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Coins, coins);
 
-        var experience = EntityHandler.GameScore * 30/1080;
+        var experience = CollisionHandler.GameScore * 30/1080;
         if (experience <= 0) {
             experience = 0;
 
@@ -169,7 +169,7 @@ public class CatcherController : GameController {
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, experience);
         AppData.Instance().MannyAttribute.Save();
 
-        DataSource.Insert(DataParams.Build("Points", EntityHandler.GameScore).
+        DataSource.Insert(DataParams.Build("Points", CollisionHandler.GameScore).
             Append("ExperienceGained", experience).
             Append("MonnyGained", coins));
 
