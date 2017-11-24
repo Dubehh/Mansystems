@@ -37,6 +37,7 @@ public class MillionaireController : GameController {
     private bool _won;
 
     private float _experience;
+    private float _timePlayed;
 
     /// <summary>
     /// Gives the player the money he has won
@@ -50,7 +51,8 @@ public class MillionaireController : GameController {
         DataSource.Insert(DataParams.Build("Won", _won ? 1 : 0).
             Append("CorrectAnswers", _questionController.CurrentQuestionIndex).
             Append("Prize", _prizeController.CurrentPrize).
-            Append("Experience", _experience));
+            Append("Experience", _experience).
+            Append("TimePlayedSeconds", Time.time));
         Tracking.RequestSend();
     }
 
@@ -63,6 +65,7 @@ public class MillionaireController : GameController {
         table.AddProperty(new DataProperty("CorrectAnswers", DataProperty.DataPropertyType.INT));
         table.AddProperty(new DataProperty("Prize", DataProperty.DataPropertyType.INT));
         table.AddProperty(new DataProperty("Experience", DataProperty.DataPropertyType.INT));
+        table.AddProperty(new DataProperty("TimePlayedSeconds", DataProperty.DataPropertyType.INT));
         SetDataSource(table);
 
         _questionController = new QuestionController();
