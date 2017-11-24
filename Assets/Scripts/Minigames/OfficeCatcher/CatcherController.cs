@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
+using Assets.Scripts.App.Tracking.Table;
 
 /// <summary>
 /// Struct for Office Objects
@@ -22,7 +23,6 @@ public class CatcherController : GameController {
 
     [SerializeField]
     public List<OfficeObject> Objects;
-
     [SerializeField]
     public EntityHandler EntityHandler;
     private Camera _cam;
@@ -136,6 +136,12 @@ public class CatcherController : GameController {
             obj.MaxWidth = targetWidth.x - width;
             Objects[i] = obj;
         }
+
+        var source = new DataTable("Catcher");
+        source.AddProperty(new DataProperty("Points", DataProperty.DataPropertyType.INT));
+        source.AddProperty(new DataProperty("ExperienceGained", DataProperty.DataPropertyType.INT));
+        source.AddProperty(new DataProperty("MonnyGained", DataProperty.DataPropertyType.INT));
+        SetDataSource(source);
     }
 
     /// <summary>
@@ -162,6 +168,12 @@ public class CatcherController : GameController {
         }
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, experience);
         AppData.Instance().MannyAttribute.Save();
+
+        DataSource.Insert(DataParams.Build("Points", EntityHandler.GameScore).
+            Append("ExperienceGained", experience).
+            Append("MonnyGained", coins));
+
+        Tracking.RequestSend();
     }
 
     /// <summary>
