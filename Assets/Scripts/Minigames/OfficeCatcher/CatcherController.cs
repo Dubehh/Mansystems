@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
-using Assets.Scripts.App;
 
 /// <summary>
 /// Struct for Office Objects
@@ -16,6 +15,7 @@ public struct OfficeObject {
     public float MaxWidth { get; set; }
     [SerializeField]
     public int ObjectScore;
+    public bool _isBroken;
 }
 
 public class CatcherController : GameController {
@@ -28,8 +28,13 @@ public class CatcherController : GameController {
     private Camera _cam;
     public Text _TimerText;
     [SerializeField]
-    private float _timeLeft;
+    private float _lifeLeft;
     private bool _gameStarted;
+    public GameObject Life1;
+    public GameObject Life2;
+    public GameObject Life3;
+    public GameObject GameOverScreen;
+    public GameObject StopButton;
 
 
     /// <summary>
@@ -42,6 +47,59 @@ public class CatcherController : GameController {
         }
 
     }
+
+    /// <summary>
+    /// activates game over screen
+    /// </summary>
+    public void StopGame() {
+        _lifeLeft = 0;
+        StopCoroutine(SpawnOfficeObject());
+        StopButton.SetActive(false);
+        EntityHandler.UpdateScore();
+        GameOverScreen.SetActive(true);
+        ToggleObjects(false);
+    }
+
+    /// <summary>
+    /// updates lives of player
+    /// </summary>
+    private void Updatelife() {
+        if (EntityHandler.Broken == true) {
+            _lifeLeft = _lifeLeft - 1;
+            EntityHandler.Broken = false;
+            ShowLives();
+        }
+    }
+
+    /// <summary>
+    /// shows remaining lives of player
+    /// </summary>
+    private void ShowLives() {
+        if (_lifeLeft == 3) {
+            Life3.SetActive(true);
+            Life2.SetActive(true);
+            Life1.SetActive(true);
+        }
+        if (_lifeLeft == 2) {
+            Life3.SetActive(false);
+            Life2.SetActive(true);
+            Life1.SetActive(true);
+        }
+        if (_lifeLeft == 1) {
+            Life3.SetActive(false);
+            Life2.SetActive(false);
+            Life1.SetActive(true);
+
+        } else if (_lifeLeft == 0) {
+            StopCoroutine(SpawnOfficeObject());
+            Life3.SetActive(false);
+            Life2.SetActive(false);
+            Life1.SetActive(false);
+            ToggleObjects(false);
+            StopGame();
+        }
+    }
+
     /// <summary>
     /// Spawns entities until timeLeft is zero
     /// </summary>
@@ -50,7 +108,7 @@ public class CatcherController : GameController {
         ToggleObjects(true);
         if (!_gameStarted) yield return new WaitForSeconds(2.0f);
         _gameStarted = true;
-        while (_timeLeft > 0) {
+        while (_lifeLeft > 0) {
             foreach (var o in Objects) {
                 var spawnPosition = new Vector3(
                 UnityEngine.Random.Range(-o.MaxWidth, o.MaxWidth),
@@ -104,7 +162,6 @@ public class CatcherController : GameController {
 
         }
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, experience);
-
         AppData.Instance().MannyAttribute.Save();
     }
 
@@ -112,13 +169,7 @@ public class CatcherController : GameController {
     /// Checks if time is zero
     /// </summary>
     protected override void Update() {
-        if (_timeLeft > 0) {
-            _timeLeft -= Time.deltaTime;
-            _TimerText.text = "Time Left:\n" + Mathf.RoundToInt(_timeLeft);
-        } else {
-            StopCoroutine(SpawnOfficeObject());
-            ToggleObjects(false);
-        }
+        Updatelife();
     }
 
     /// <summary>
@@ -127,7 +178,7 @@ public class CatcherController : GameController {
     public void ExitButton() {
         AppData.Instance().Game.Unload();
     }
-
+    
     /// <summary>
     /// Destroys gameObject when it collides with the collider
     /// </summary>
