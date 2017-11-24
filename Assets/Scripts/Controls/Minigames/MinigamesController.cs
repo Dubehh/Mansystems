@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Assets.Scripts.App.Data_Management;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 [Serializable]
 public class MinigamesController : MonoBehaviour {
@@ -14,15 +17,24 @@ public class MinigamesController : MonoBehaviour {
     [SerializeField]
     public GameObject Minigame;
 
+    private void Awake() {
+        Handshake.Validate(() => {
+            Initialize(true);
+        }, () => {
+            Initialize(false);
+        });
+    }
+
     // Use this for initialization
-    void Start() {
+    private void Initialize(bool hasConnection) {
         var y = -75f;
 
         // Loop through the Minigame array and create a MinigamePrefab with each one of them
         foreach (var game in Minigames) {
             var obj = Instantiate(Minigame, transform).GetComponent<MinigamePrefab>();
             obj.Minigame = game;
-            obj.Init();
+            obj.Init(hasConnection);
+            if (game.RequiresConnection && !hasConnection) obj.GetComponent<Image>().color = new Color(1, 1, 1, 0.2f);
 
             var rect = obj.GetComponent<RectTransform>().rect;
 
