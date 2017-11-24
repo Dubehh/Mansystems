@@ -24,7 +24,7 @@ public class QuestionController {
     /// </summary>
     /// <param name="data">The data from the webrequest</param>
     /// <param name="index">The index used to determine the difficulty</param>
-    public void AddQuestion(UnityWebRequest data) {
+    public void LoadQuestions(UnityWebRequest data) {
         var questions = new JSONObject(data.downloadHandler.text);
         var random = new System.Random();
 

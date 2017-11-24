@@ -48,7 +48,7 @@ public class MillionaireController : GameController {
         _prizeController = new PrizeController();
 
         new Handshake(HandshakeProtocol.Response).AddParameter("responseHandler", "millionaire").Shake((request) => {
-            _questionController.AddQuestion(request);
+            _questionController.LoadQuestions(request);
             UpdateUI();
         });
     }
