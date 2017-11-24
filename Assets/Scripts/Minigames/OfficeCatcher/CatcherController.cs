@@ -4,9 +4,13 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
+using Assets.Scripts.App;
 
+/// <summary>
+/// Struct for Office Objects
+/// </summary>
 [Serializable]
-public struct CatcherObject {
+public struct OfficeObject {
     [SerializeField]
     public GameObject GameObject;
     public float MaxWidth { get; set; }
@@ -17,12 +21,16 @@ public struct CatcherObject {
 public class CatcherController : GameController {
 
     [SerializeField]
-    public List<CatcherObject> Objects;
+    public List<OfficeObject> Objects;
+
+    [SerializeField]
+    public EntityHandler EntityHandler;
     private Camera _cam;
     public Text _TimerText;
     [SerializeField]
     private float _timeLeft;
     private bool _gameStarted;
+
 
     /// <summary>
     /// Sets objects active, used for disrupting coroutine (spawn)
@@ -32,13 +40,13 @@ public class CatcherController : GameController {
         foreach (var obj in Objects) {
             obj.GameObject.SetActive(active);
         }
-    }
 
+    }
     /// <summary>
     /// Spawns entities until timeLeft is zero
     /// </summary>
     /// <returns></returns>
-    private IEnumerator Spawn() {
+    private IEnumerator SpawnOfficeObject() {
         ToggleObjects(true);
         if (!_gameStarted) yield return new WaitForSeconds(2.0f);
         _gameStarted = true;
@@ -46,7 +54,7 @@ public class CatcherController : GameController {
             foreach (var o in Objects) {
                 var spawnPosition = new Vector3(
                 UnityEngine.Random.Range(-o.MaxWidth, o.MaxWidth),
-                transform.position.y,
+                o.GameObject.transform.position.y,
                 0.0f);
 
                 Quaternion spawnRotation = Quaternion.identity;
@@ -73,12 +81,31 @@ public class CatcherController : GameController {
         }
     }
 
+    /// <summary>
+    /// loads the game and starts it
+    /// </summary>
     protected override void OnLoad() {
-        StartCoroutine(Spawn());
+        StartCoroutine(SpawnOfficeObject());
     }
 
+    /// <summary>
+    /// shuts down game and returns to menu
+    /// </summary>
     public override void OnUnload() {
+        var coins = Mathf.RoundToInt (EntityHandler.GameScore * 36/1080f);
+        if (coins <= 0) {
+            coins = 0;
+        }
+        AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Coins, coins);
 
+        var experience = EntityHandler.GameScore * 30/1080;
+        if (experience <= 0) {
+            experience = 0;
+
+        }
+        AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, experience);
+
+        AppData.Instance().MannyAttribute.Save();
     }
 
     /// <summary>
@@ -89,9 +116,16 @@ public class CatcherController : GameController {
             _timeLeft -= Time.deltaTime;
             _TimerText.text = "Time Left:\n" + Mathf.RoundToInt(_timeLeft);
         } else {
-            StopCoroutine(Spawn());
+            StopCoroutine(SpawnOfficeObject());
             ToggleObjects(false);
         }
+    }
+
+    /// <summary>
+    /// Returns the player to the Main screen
+    /// </summary>
+    public void ExitButton() {
+        AppData.Instance().Game.Unload();
     }
 
     /// <summary>
@@ -102,3 +136,4 @@ public class CatcherController : GameController {
         Destroy(other.gameObject);
     }
 }
+

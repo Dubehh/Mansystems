@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class QuestionController {
@@ -6,29 +9,7 @@ public class QuestionController {
     private int _currentQuestionIndex;
 
     public QuestionController() {
-        _questions = new List<Question> {
-            new Question("Wat voor gebiedsbenaming verdient Hattem?",
-            new List<Answer> {
-                new Answer() { Text = "Stad" },
-                new Answer() { Text = "Dorp", IsAnswer = true },
-                new Answer() { Text = "Gehucht" },
-                new Answer() { Text = "Buurtschap" }
-            }, Difficulty.Easy),
-
-        new Question("Wie is de beste programmeur van Nederland?",
-            new List<Answer> {
-                new Answer() { Text = "Hugo Kamps", IsAnswer = true},
-                new Answer() { Text = "Hugo Kamps", IsAnswer = true },
-                new Answer() { Text = "Sylvana Simons" },
-                new Answer() { Text = "Eelco EIKELboom" }
-            }, Difficulty.Easy)};
-
-        for (int i = 0; i < 13; i++) {
-            if (_questions.Count < 15) {
-                if (i % 2 == 0) _questions.Add(_questions[0]);
-                else _questions.Add(_questions[1]);
-            }
-        }
+        _questions = new List<Question>();
     }
 
     /// <summary>
@@ -43,17 +24,26 @@ public class QuestionController {
     /// </summary>
     /// <param name="data">The data from the webrequest</param>
     /// <param name="index">The index used to determine the difficulty</param>
-    public void AddQuestion(UnityWebRequest data, int index) {
-        //TODO, USE DATA
-        _questions.Add(
-            new Question("Question", 
-            new List<Answer> {
-                new Answer { Text = "Answer 1" },
-                new Answer { Text = "Answer 2", IsAnswer = true },
-                new Answer { Text = "Answer 3" },
-                new Answer { Text = "Answer 4" }
-        }, (Difficulty)3 - index
-        ));
+    public void LoadQuestions(UnityWebRequest data) {
+        var questions = new JSONObject(data.downloadHandler.text);
+        var random = new System.Random();
+
+        for (int i = 0; i < questions.keys.Count; i++) {
+            var key = questions.keys[i];
+            for (int j = 0; j < questions[key].Count; j++) {
+                var value = questions[questions.keys[i]][j];
+
+                _questions.Add(new Question(
+                    value["question"].str,
+                    new List<Answer> {
+                        new Answer { Text = value["correct"].str, IsAnswer = true },
+                        new Answer { Text = value["wrong1"].str },
+                        new Answer { Text = value["wrong2"].str },
+                        new Answer { Text = value["wrong3"].str }
+                    }.OrderBy(x => random.Next()).ToList(), (Difficulty)value["difficulty"].i
+                ));
+            }
+        }
     }
 
     /// <summary>

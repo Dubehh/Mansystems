@@ -18,7 +18,6 @@ public class MovementController : MonoBehaviour {
             float MannyWidth = GetComponent<Renderer>().bounds.extents.x;
             maxWidth = targetWidth.x - MannyWidth;        
     }
-
     /// <summary>
     /// Prevents Manny from leaving the screen
     /// </summary>
