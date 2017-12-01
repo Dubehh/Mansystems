@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.App;
+using Assets.Scripts.App.Data_Management;
 using Assets.Scripts.App.Game;
 using System;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class Minigame {
 
     [SerializeField]
     public Texture Icon;
-    
+
     [SerializeField]
     public string Title;
 
@@ -22,10 +23,13 @@ public class Minigame {
     [SerializeField]
     public bool LandscapeMode;
 
+    [SerializeField]
+    public bool RequiresConnection;
+
     /// <summary>
     /// Method that is called by the onclick event of the minigame's button
     /// </summary>
     public void StartGame() {
-        AppData.Instance().Game.Load(Scene);
+            AppData.Instance().Game.Load(Scene);
     }
 }

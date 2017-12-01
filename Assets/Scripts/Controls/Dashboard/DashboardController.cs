@@ -55,7 +55,7 @@ public class DashboardController : MonoBehaviour {
     /// </summary>
     private void SetExperienceGoal() {
         var level = (int)Manny.Attribute.GetAttribute(Attribute.Level);
-        ExperienceIndicator.minValue = Manny.Attribute.GetAttribute(Attribute.Experience);
+        ExperienceIndicator.minValue = Manny.Leveling.GetRequiredExperience(level);
         LevelIndicator.text = "Level " + level;
         _indicator.SetMax((int)Manny.Leveling.GetRequiredExperience(level + 1));
     }

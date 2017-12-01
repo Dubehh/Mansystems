@@ -1,6 +1,6 @@
-﻿using Assets.Scripts.App;
+﻿using Assets.Scripts.App.Game;
 using Assets.Scripts.App.Data_Management;
-using Assets.Scripts.App.Game;
+using Assets.Scripts.App.Tracking.Table;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -26,24 +26,48 @@ public class MillionaireController : GameController {
     [SerializeField]
     public Animator LampAnimator;
 
+    [SerializeField]
+    public GameObject Summary;
+
     private QuestionController _questionController;
     private PrizeController _prizeController;
 
     private bool _escapeActive;
     private bool _gameCompleted;
+    private bool _won;
+
+    private float _experience;
+    private float _timePlayed;
 
     /// <summary>
     /// Gives the player the money he has won
     /// </summary>
     public override void OnUnload() {
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Coins, _prizeController.CurrentPrize);
+        AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, _experience);
+
         AppData.Instance().MannyAttribute.Save();
+
+        DataSource.Insert(DataParams.Build("Won", _won ? 1 : 0).
+            Append("CorrectAnswers", _questionController.CurrentQuestionIndex).
+            Append("Prize", _prizeController.CurrentPrize).
+            Append("Experience", _experience).
+            Append("TimePlayedSeconds", Time.time));
+        Tracking.RequestSend();
     }
 
     /// <summary>
     /// Retrieves 15 question from the database and fills an array with them
     /// </summary>
     protected override void BeforeLoad() {
+        var table = new DataTable("Millionaire");
+        table.AddProperty(new DataProperty("Won", DataProperty.DataPropertyType.TINYINT));
+        table.AddProperty(new DataProperty("CorrectAnswers", DataProperty.DataPropertyType.INT));
+        table.AddProperty(new DataProperty("Prize", DataProperty.DataPropertyType.INT));
+        table.AddProperty(new DataProperty("Experience", DataProperty.DataPropertyType.INT));
+        table.AddProperty(new DataProperty("TimePlayedSeconds", DataProperty.DataPropertyType.INT));
+        SetDataSource(table);
+
         _questionController = new QuestionController();
         _prizeController = new PrizeController();
 
@@ -53,11 +77,7 @@ public class MillionaireController : GameController {
         });
     }
 
-    /// <summary>
-    /// Prepares the interface for the game
-    /// </summary>
-    protected override void OnLoad() {
-    }
+    protected override void OnLoad() { }
 
     /// <summary>
     /// Keeps updating the UI
@@ -77,7 +97,7 @@ public class MillionaireController : GameController {
         var currentQuestion = _questionController.GetCurrentQuestion();
 
         UpdatePrize();
-        QuestionText.text = currentQuestion.Text;
+        QuestionText.text = currentQuestion.Difficulty + "  " + currentQuestion.Text;
         for (int i = 0; i < currentQuestion.Answers.Count; i++) {
             Buttons[i].interactable = true;
             Buttons[i].gameObject.SetActive(true);
@@ -86,6 +106,9 @@ public class MillionaireController : GameController {
         Timer.value = Timer.maxValue;
     }
 
+    /// <summary>
+    /// Updates the prize indicator's text with the current prize
+    /// </summary>
     private void UpdatePrize() {
         PrizeText.text = _prizeController.CurrentPrize.ToString();
     }
@@ -94,6 +117,9 @@ public class MillionaireController : GameController {
     /// Method is called once the players wins the game. Updates the UI to the 'win screen'
     /// </summary>
     private void GameCompleted(bool won) {
+        _gameCompleted = true;
+        _won = won;
+
         if (won) {
             LampAnimator.Play("game_completed");
             FindObjectOfType<ParticleSystem>().Play();
@@ -103,10 +129,30 @@ public class MillionaireController : GameController {
             QuestionText.text = "Helaas, je hebt verloren!";
         }
 
-        UpdatePrize();
+        _experience = _prizeController.CurrentPrize * 0.35f;
 
-        _gameCompleted = true;
+        UpdatePrize();
         foreach (var button in Buttons) button.gameObject.SetActive(false);
+        DisplaySummary(won);
+    }
+
+    /// <summary>
+    /// Prepares and displays the summary panel. This method is called once the game is completed.
+    /// </summary>
+    /// <param name="won">Used to determine the color of the panel</param>
+    private void DisplaySummary(bool won) {
+        var color = won ? new Color32(7, 175, 106, 255) : new Color32(255, 0, 89, 255);
+
+        Summary.GetComponent<Image>().color = color;
+
+        List<Text> textObjects = new List<Text>(Summary.GetComponentsInChildren<Text>());
+
+        textObjects.Find(x => x.name == "CorrectAnswers").text = _questionController.CurrentQuestionIndex.ToString();
+        textObjects.Find(x => x.name == "MonnyEarned").text = _prizeController.CurrentPrize.ToString();
+        textObjects.Find(x => x.name == "ExperienceEarned").text = _experience.ToString();
+        textObjects.Find(x => x.name == "Text").color = color;
+
+        Summary.gameObject.SetActive(true);
     }
 
     /// <summary>
