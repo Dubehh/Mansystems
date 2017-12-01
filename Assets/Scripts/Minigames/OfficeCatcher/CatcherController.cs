@@ -19,6 +19,8 @@ public struct OfficeObject {
 
     public float MaxWidth { get; set; }
     public bool IsBroken;
+    public bool isLogo;
+    public bool FakeLogo;
 }
 
 public class CatcherController : GameController {
@@ -37,6 +39,8 @@ public class CatcherController : GameController {
 
     [SerializeField]
     private float _lifeLeft;
+    private float _logosCaught;
+    private float _fakeLogosCaught;
 
     private Camera _cam;
     private bool _gameStarted;
@@ -59,10 +63,14 @@ public class CatcherController : GameController {
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, experience);
         AppData.Instance().MannyAttribute.Save();
 
-        DataSource.Insert(DataParams.Build("Points", CollisionHandler.GameScore).
-            Append("ExperienceGained", experience).
-            Append("Coins", coins));
+        Debug.Log(CollisionHandler.GameScore + " " + " " + experience + " " + coins + " " + _logosCaught + " " + _fakeLogosCaught);
 
+        DataSource.Insert(DataParams.
+            Build("Points", CollisionHandler.GameScore).
+            Append("ExperienceGained", experience).
+            Append("Coins", coins).
+            Append("LogosCaught", _logosCaught).
+            Append("FakeLogosCaught", _fakeLogosCaught));
         Tracking.RequestSend();
     }
 
@@ -86,6 +94,8 @@ public class CatcherController : GameController {
         source.AddProperty(new DataProperty("Points", DataProperty.DataPropertyType.INT));
         source.AddProperty(new DataProperty("ExperienceGained", DataProperty.DataPropertyType.INT));
         source.AddProperty(new DataProperty("Coins", DataProperty.DataPropertyType.INT));
+        source.AddProperty(new DataProperty("LogosCaught", DataProperty.DataPropertyType.INT));
+        source.AddProperty(new DataProperty("FakeLogosCaught", DataProperty.DataPropertyType.INT));
         SetDataSource(source);
     }
     
@@ -101,6 +111,7 @@ public class CatcherController : GameController {
     /// </summary>
     protected override void Update() {
         Updatelife();
+        UpdateLogo();
     }
 
     /// <summary>
@@ -134,6 +145,15 @@ public class CatcherController : GameController {
             _lifeLeft = _lifeLeft - 1;
             CollisionHandler.Broken = false;
             ShowLives();
+        }
+    }
+
+    private void UpdateLogo() {
+        if (CollisionHandler.Logo == true) {
+            _logosCaught = _logosCaught + 1;
+        }
+        else if(CollisionHandler.FakeLogo == true) {
+            _fakeLogosCaught = _fakeLogosCaught + 1;
         }
     }
 

@@ -14,6 +14,8 @@ public class CollisionHandler : MonoBehaviour {
     [SerializeField]
     public Text FinalScoreText;
     public bool Broken;
+    public bool Logo;
+    public bool FakeLogo;
     
     // Use this for initialization
     public void Start() {
@@ -50,6 +52,8 @@ public class CollisionHandler : MonoBehaviour {
         Destroy(other.gameObject);
         GameScore += FindObjectOfType<CatcherController>().Objects.Find(x => x.GameObject.name + prefix == other.gameObject.name).ObjectScore;
         Broken = other.gameObject.name.Contains("Broken");
+        Logo = other.gameObject.name.Contains("Logo");
+        FakeLogo = other.gameObject.name.Contains("FakeLogo");
         UpdateScore();
 
         //Object.isCought(true);
