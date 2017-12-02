@@ -43,7 +43,7 @@ public class UIController : MonoBehaviour {
     /// Loads the default control as the current view
     /// </summary>
     public void LoadDefault() {
-        var ctrl = IsFirstTime() ? Get("WelcomeControl") : Controls.Where(x => x.Default).FirstOrDefault();
+        var ctrl = IsFirstTime() ? Get("WelcomeControl") : Controls.FirstOrDefault(x => x.Default);
         if (ctrl != null)
             View(ctrl);
     }
@@ -77,7 +77,7 @@ public class UIController : MonoBehaviour {
     /// </summary>
     /// <param name="name">The name of the control</param>
     private UIControl Get(string name){
-        return Controls.Where(ctrl => ctrl.GetName() == name).FirstOrDefault();
+        return Controls.FirstOrDefault(ctrl => ctrl.GetName() == name);
     }
 
     /// <summary>
