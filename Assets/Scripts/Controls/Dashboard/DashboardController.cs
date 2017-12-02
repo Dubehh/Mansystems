@@ -18,7 +18,6 @@ public class DashboardController : MonoBehaviour {
     public DashboardBackground[] Backgrounds;
 
     private AnimationHandler _animationHandler;
-
     private DashboardBackground _current;
     private UIStatIndicator _indicator;
 
@@ -74,7 +73,7 @@ public class DashboardController : MonoBehaviour {
     /// </summary>
     private void InvalidateBackground() {
         var now = System.DateTime.Now.Hour;
-        _current = Backgrounds.Where(x => x.Time.Min <= now && x.Time.Max >= now).FirstOrDefault();
+        _current = Backgrounds.FirstOrDefault(x => x.Time.Min <= now && x.Time.Max >= now);
         _current = _current ?? Backgrounds[0];
         _current.Background.SetActive(true);
         _current.Manny.SetActive(true);
@@ -96,9 +95,5 @@ public class DashboardController : MonoBehaviour {
 
         _current.Background.SetActive(true);
         _current.Manny.SetActive(true);
-    }
-
-    private void CallAnimation(string name) {
-       
     }
 }
