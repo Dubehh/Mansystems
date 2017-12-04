@@ -14,17 +14,15 @@ namespace Assets.Scripts.App.Data_Management {
 
         private const string _handshakeID = "streamType";
         private Action _errorCallback;
-        private List<IMultipartFormSection> _params;
-        private HandshakeProtocol _protocol;
+        private readonly List<IMultipartFormSection> _params;
 
         /// <summary>
         /// Instantiates a new Handshake that may be used to communicate with the defined webhost
         /// </summary>
         /// <param name="protocol">The type of the handshake</param>
         public Handshake(HandshakeProtocol protocol) {
-            _protocol = protocol;
             _params = new List<IMultipartFormSection>();
-            AddParameter(_handshakeID, _protocol.ToString());
+            AddParameter(_handshakeID, protocol.ToString());
         }
 
         /// <summary>
@@ -35,6 +33,18 @@ namespace Assets.Scripts.App.Data_Management {
         /// <returns>The handshake instance; builder pattern principle</returns>
         public Handshake AddParameter(string key, string value) {
             _params.Add(new MultipartFormDataSection(key, value));
+            return this;
+        }
+
+        /// <summary>
+        /// Adds binary file data to the handshake
+        /// </summary>
+        /// <param name="key">string key</param>
+        /// <param name="fileName">string file name</param>
+        /// <param name="fileData">byte[] data</param>
+        /// <returns>The handshake instance; builder pattern principle</returns>
+        public Handshake AddFile(string key, string fileName, byte[] fileData) {
+            _params.Add(new MultipartFormFileSection(key, fileData, fileName, "image/png"));
             return this;
         }
 
@@ -70,7 +80,7 @@ namespace Assets.Scripts.App.Data_Management {
         /// <param name="onValidateSuccess">Callback to invoke if there is a connection</param>
         /// <param name="onValidateError">Callback to invoke if there is no connection</param>
         public static void Validate(Action onValidateSuccess = null, Action onValidateError = null) {
-            var handshake = new Handshake(HandshakeProtocol.Request);
+            var handshake = new Handshake(HandshakeProtocol.TrackingUpdate);
             handshake.SetErrorHandler(() => {
                 if (onValidateError != null)
                     onValidateError.Invoke();
