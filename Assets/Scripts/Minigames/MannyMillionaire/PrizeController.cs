@@ -4,8 +4,8 @@ public class PrizeController {
 
     private int[] _prizes;
     private int _currentPrizeIndex;
-    public int CurrentPrize { get; set; }
 
+    public int CurrentPrize { get; set; }
     public int StaticPrize { get; set; }
 
     public PrizeController() {

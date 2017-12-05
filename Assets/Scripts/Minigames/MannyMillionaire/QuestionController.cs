@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 
 public class QuestionController {
     private List<Question> _questions;
-    private int _currentQuestionIndex;
+    public int CurrentQuestionIndex { get; set; }
 
     public QuestionController() {
         _questions = new List<Question>();
@@ -16,7 +16,7 @@ public class QuestionController {
     /// Returns the current question from the list
     /// </summary>
     public Question GetCurrentQuestion() {
-        return _questions[_currentQuestionIndex];
+        return _questions[CurrentQuestionIndex];
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ public class QuestionController {
                         new Answer { Text = value["wrong1"].str },
                         new Answer { Text = value["wrong2"].str },
                         new Answer { Text = value["wrong3"].str }
-                    }.OrderBy(x => random.Next()).ToList(), (Difficulty)value["difficulty"].i
+                    }.OrderBy(x => random.Next()).ToList(), (Difficulty)int.Parse(value["difficulty"].str)
                 ));
             }
         }
@@ -50,7 +50,7 @@ public class QuestionController {
     /// Selects the next question
     /// </summary>
     public void NextQuestion() {
-        _currentQuestionIndex += 1;
+        CurrentQuestionIndex += 1;
     }
 
     /// <summary>
@@ -58,6 +58,6 @@ public class QuestionController {
     /// </summary>
     /// <returns>True = all questions answered</returns>
     public bool AllQuestionsAnswered() {
-        return _currentQuestionIndex >= _questions.Count;
+        return CurrentQuestionIndex >= _questions.Count;
     }
 }
