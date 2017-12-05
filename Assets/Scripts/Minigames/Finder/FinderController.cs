@@ -13,6 +13,7 @@ public class FinderController : GameController {
     }
 
     protected override void BeforeLoad() {
+        
     }
 
     protected override void OnLoad() {
