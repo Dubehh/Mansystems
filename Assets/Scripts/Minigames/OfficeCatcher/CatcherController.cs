@@ -18,9 +18,6 @@ public struct OfficeObject {
     public int ObjectScore;
 
     public float MaxWidth { get; set; }
-    public bool IsBroken;
-    public bool isLogo;
-    public bool FakeLogo;
 }
 
 public class CatcherController : GameController {
@@ -61,14 +58,13 @@ public class CatcherController : GameController {
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, experience);
         AppData.Instance().MannyAttribute.Save();
 
-        //Debug.Log(CollisionHandler.GameScore + " " + " " + experience + " " + coins + " " + _logosCaught + " " + _fakeLogosCaught);
-
         DataSource.Insert(DataParams.
             Build("Points", CollisionHandler.GameScore).
             Append("ExperienceGained", experience).
             Append("Coins", coins).
             Append("LogosCaught", CollisionHandler.LogosCaught).
-            Append("FakeLogosCaught", CollisionHandler.FakeLogosCaught));
+            Append("FakeLogosCaught", CollisionHandler.FakeLogosCaught).
+            Append("TimePlayedSeconds", Time.time));
         Tracking.RequestSend();
     }
 
@@ -94,6 +90,7 @@ public class CatcherController : GameController {
         source.AddProperty(new DataProperty("Coins", DataProperty.DataPropertyType.INT));
         source.AddProperty(new DataProperty("LogosCaught", DataProperty.DataPropertyType.INT));
         source.AddProperty(new DataProperty("FakeLogosCaught", DataProperty.DataPropertyType.INT));
+        source.AddProperty(new DataProperty("TimePlayedSeconds", DataProperty.DataPropertyType.INT));
         SetDataSource(source);
     }
     
@@ -149,12 +146,10 @@ public class CatcherController : GameController {
     private void UpdateLogo() {
         if (CollisionHandler.Logo == true) {
             CollisionHandler.LogosCaught = CollisionHandler.LogosCaught + 1;
-            Debug.Log("Realz" + CollisionHandler.LogosCaught);
             CollisionHandler.Logo = false;
         }
         else if(CollisionHandler.FakeLogo == true) {
             CollisionHandler.FakeLogosCaught = CollisionHandler.FakeLogosCaught + 1;
-            Debug.Log("Fakes" + CollisionHandler.FakeLogosCaught);
             CollisionHandler.FakeLogo = false;
         }
     }

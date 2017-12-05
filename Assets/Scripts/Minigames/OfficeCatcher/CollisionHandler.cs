@@ -60,7 +60,7 @@ public class CollisionHandler : MonoBehaviour {
         Destroy(other.gameObject);
         GameScore += FindObjectOfType<CatcherController>().Objects.Find(x => x.GameObject.name + prefix == other.gameObject.name).ObjectScore;
         Broken = other.gameObject.name.Contains("Broken");
-        Logo = other.gameObject.name.Contains("Logo");
+        Logo = other.gameObject.name.Contains("Customer");
         FakeLogo = other.gameObject.name.Contains("FakeLogo");
         UpdateScore();
     }
