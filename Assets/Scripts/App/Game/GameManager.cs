@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 namespace Assets.Scripts.App.Game {
     public class GameManager {
 
-        private const string _main = "0";
+        private string _main = "";
         private GameController _current;
 
         public GameManager() {
@@ -21,7 +21,8 @@ namespace Assets.Scripts.App.Game {
         /// </summary>
         /// <param name="scene">the name of the scene</param>
         public void Load(string scene) {
-            SceneManager.LoadScene(scene.ToLower()+"_minigame");
+            _main = SceneManager.GetActiveScene().name;
+            SceneManager.LoadScene("mg_" + scene);
         }
 
         /// <summary>
