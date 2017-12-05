@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.App.Data_Management;
+using UnityEngine;
 
 public class ProfileSetup : MonoBehaviour {
 
@@ -7,10 +8,27 @@ public class ProfileSetup : MonoBehaviour {
 
     private int _currentStepIndex;
 
+    private void Start() {
+        new Handshake(HandshakeProtocol.Response).AddParameter("responseHandler", "finder").Shake((request) => {
+            // Check if current player already has profile
+            // Yes --> Hide
+            // No --> Continue profile setup
+        });
+    }
+
+    /// <summary>
+    /// Disables the current panel and activates the next panel from the _steps list
+    /// </summary>
     public void NextStep() {
-        if (_currentStepIndex == _steps.Length - 1) gameObject.SetActive(false);
+        if (_currentStepIndex == _steps.Length - 1) {
+            gameObject.SetActive(false);
+            return;
+        }
+
         _steps[_currentStepIndex].SetActive(false);
         _currentStepIndex += 1;
         _steps[_currentStepIndex].SetActive(true);
     }
+
+
 }

@@ -7,11 +7,6 @@ using UnityEngine.UI;
 [Serializable]
 public class FinderController : MonoBehaviour {
 
-    private FinderProfile _finderProfile;
-
-    private List<FinderProfile> _profiles;
-    private int _currentProfileIndex;
-
     [SerializeField]
     private RawImage _picture;
 
@@ -21,48 +16,45 @@ public class FinderController : MonoBehaviour {
     [SerializeField]
     private Text _description;
 
-    [SerializeField]
-    private List<Texture> _textures;
+    private FinderProfileController _finderProfileController;
 
     private void Start() {
-        _profiles = new List<FinderProfile>();
+        _finderProfileController = new FinderProfileController();
 
         new Handshake(HandshakeProtocol.Response).AddParameter("responseHandler", "finder").Shake((request) => {
-            var profiles = new JSONObject(request.downloadHandler.text);
-            var random = new System.Random();
-
-            for (int i = 0; i < profiles.Count; i++) {
-                var profile = profiles[i];
-
-                _profiles.Add(new FinderProfile(
-                    _textures,
-                    profile["name"].str,
-                    profile["description"].str
-                ));
-            }
-
+            // Make sure that the player doesn't see his own profile
+            _finderProfileController.LoadProfiles(request);
+            UpdateUI();
         });
-
-        Debug.Log(_profiles[0].Description);
-
-        UpdateUI();
     }
 
-    public void SwitchPicture(bool next) {
-        _picture.texture = _finderProfile.GetPicture(next);
-    }
-
+    /// <summary>
+    /// Updates the screen with the currently selected profile
+    /// </summary>
     public void UpdateUI() {
-        var current = _profiles[_currentProfileIndex];
+        var current = _finderProfileController.GetCurrentProfile();
 
         _picture.texture = current.GetCurrentPicture();
         _name.text = current.Name;
         _description.text = current.Description;
     }
 
+    /// <summary>
+    /// OnClick event for the picture changing buttons
+    /// </summary>
+    /// <param name="next"></param>
+    public void SwitchPicture(bool next) {
+        _picture.texture = _finderProfileController.GetCurrentProfile().GetPicture(next);
+    }
+
+    /// <summary>
+    /// OnClick event for the like/pass buttons
+    /// </summary>
+    /// <param name="like"></param>
     public void NextProfile(bool like) {
         if (like) { } //Add to matches
-        _currentProfileIndex++;
+        _finderProfileController.NextProfile();
+
         UpdateUI();
     }
 }
