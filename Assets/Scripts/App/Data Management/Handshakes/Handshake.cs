@@ -34,7 +34,6 @@ namespace Assets.Scripts.App.Data_Management {
         /// <param name="value">string value</param>
         /// <returns>The handshake instance; builder pattern principle</returns>
         public Handshake AddParameter(string key, string value) {
-            Debug.Log(key + "      " + value);
             _params.Add(new MultipartFormDataSection(key, value));
             return this;
         }
