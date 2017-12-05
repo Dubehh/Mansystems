@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Scripts.App.Tracking.Table {
     public class DataParams {
@@ -29,6 +30,7 @@ namespace Assets.Scripts.App.Tracking.Table {
         /// <param name="value">the object value</param>
         /// <returns>The dataparams instance</returns>
         public DataParams Append(string key, object value) {
+            if (value == null) Debug.Log(key);
             Parameters.Add(new KeyValuePair<string, object>(key, value));
             return this;
         }
