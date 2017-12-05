@@ -18,9 +18,6 @@ public struct OfficeObject {
     public int ObjectScore;
 
     public float MaxWidth { get; set; }
-    //public bool IsBroken;
-    //public bool IsLogo;
-    //public bool FakeLogo;
 }
 
 public class CatcherController : GameController {
