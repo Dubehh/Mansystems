@@ -9,29 +9,11 @@ using UnityEngine.SceneManagement;
 namespace Assets.Scripts.App.Game {
     public class GameManager {
 
-        private const string 
-            _scenes = "Assets/Scenes",
-            _main   = "0",
-            _folder = "Minigames";
-
-        private HashSet<string> _sceneRegister;
+        private string _main;
         private GameController _current;
 
         public GameManager() {
             _current = null;
-            _sceneRegister = new HashSet<string>();
-            Initialize();
-        }
-
-        /// <summary>
-        /// Initializes the gamemanager and registers all minigames
-        /// using reflection
-        /// </summary>
-        private void Initialize() {
-            var dir = new DirectoryInfo(_scenes+"/"+_folder);
-            var scenes = dir.GetFiles("*.unity").Select(f=>f.Name.Split('.')[0]);
-            foreach (var scene in scenes)
-                _sceneRegister.Add(scene);
         }
 
         /// <summary>
@@ -39,9 +21,8 @@ namespace Assets.Scripts.App.Game {
         /// </summary>
         /// <param name="scene">the name of the scene</param>
         public void Load(string scene) {
-            var foundScene = _sceneRegister.Where(s => s.ToLower() == scene.ToLower()).FirstOrDefault();
-            if(foundScene != null)
-                SceneManager.LoadScene(Int32.Parse(foundScene));
+            _main = SceneManager.GetActiveScene().name;
+            SceneManager.LoadScene("mg_" + scene);
         }
 
         /// <summary>
@@ -50,7 +31,7 @@ namespace Assets.Scripts.App.Game {
         public void Unload() {
             if (_current == null) return;
             _current.OnUnload();
-            SceneManager.LoadSceneAsync(0);
+            SceneManager.LoadScene(_main);
             //TODO add loading thing somewhere
         }
 
