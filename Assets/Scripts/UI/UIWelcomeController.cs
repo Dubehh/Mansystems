@@ -20,10 +20,9 @@ public class UIWelcomeController : MonoBehaviour {
         foreach (var obj in Views) obj.SetActive(false);
         Views[_current].SetActive(true);
         _controller = GetComponentInParent<UIController>();
-        if (_controller.IsFirstTime()) {
-            _controller.Footer.SetActive(false);
-            _controller.Navigation.SetActive(false);
-        }
+        if (!_controller.IsFirstTime()) return;
+        _controller.Footer.SetActive(false);
+        _controller.Navigation.SetActive(false);
     }
 
     /// <summary>
