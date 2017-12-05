@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 namespace Assets.Scripts.App.Game {
     public class GameManager {
 
-        private string _main = "";
+        private string _main;
         private GameController _current;
 
         public GameManager() {
@@ -30,7 +30,6 @@ namespace Assets.Scripts.App.Game {
         /// </summary>
         public void Unload() {
             if (_current == null) return;
-            _current.Tracking.RequestSend();
             _current.OnUnload();
             SceneManager.LoadScene(_main);
             //TODO add loading thing somewhere
