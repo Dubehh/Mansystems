@@ -33,12 +33,12 @@ public class MillionaireController : GameController {
     private PrizeController _prizeController;
 
     private bool _escapeActive;
+    private bool _gameStarted;
     private bool _gameCompleted;
     private bool _won;
 
     private float _experience;
-    private float _timePlayed;
-
+    
     /// <summary>
     /// Gives the player the money he has won
     /// </summary>
@@ -48,7 +48,8 @@ public class MillionaireController : GameController {
 
         AppData.Instance().MannyAttribute.Save();
 
-        DataSource.Insert(DataParams.Build("Won", _won ? 1 : 0).
+        DataSource.Insert(DataParams.
+            Build("Won", _won ? 1 : 0).
             Append("CorrectAnswers", _questionController.CurrentQuestionIndex).
             Append("Prize", _prizeController.CurrentPrize).
             Append("Experience", _experience).
@@ -77,17 +78,18 @@ public class MillionaireController : GameController {
         });
     }
 
-    protected override void OnLoad() { }
+    protected override void OnLoad() {
+        //GameObject.Find("Loading Screen").SetActive(false);
+    }
 
     /// <summary>
     /// Keeps updating the UI
     /// </summary>
     protected override void Update() {
-        if (!_gameCompleted) Timer.value -= Time.deltaTime;
+        if (!_gameCompleted && _gameStarted) Timer.value -= Time.deltaTime;
 
         if (Timer.value <= 0)
             GameCompleted(false);
-
     }
 
     /// <summary>
@@ -224,6 +226,11 @@ public class MillionaireController : GameController {
             }
             Buttons[i].GetComponentInChildren<Text>().text = answer.Text + "(" + percentage + "%)";
         }
+    }
+
+    public void StartButton() {
+        _gameStarted = true;
+        GameObject.Find("Tutorial").SetActive(false);
     }
 
     /// <summary>
