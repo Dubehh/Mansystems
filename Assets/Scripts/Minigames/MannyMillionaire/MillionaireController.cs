@@ -38,8 +38,7 @@ public class MillionaireController : GameController {
     private bool _won;
 
     private float _experience;
-    private float _timePlayed;
-
+    
     /// <summary>
     /// Gives the player the money he has won
     /// </summary>
@@ -49,7 +48,8 @@ public class MillionaireController : GameController {
 
         AppData.Instance().MannyAttribute.Save();
 
-        DataSource.Insert(DataParams.Build("Won", _won ? 1 : 0).
+        DataSource.Insert(DataParams.
+            Build("Won", _won ? 1 : 0).
             Append("CorrectAnswers", _questionController.CurrentQuestionIndex).
             Append("Prize", _prizeController.CurrentPrize).
             Append("Experience", _experience).
@@ -79,7 +79,7 @@ public class MillionaireController : GameController {
     }
 
     protected override void OnLoad() {
-        GameObject.Find("Loading Screen").SetActive(false);
+        //GameObject.Find("Loading Screen").SetActive(false);
     }
 
     /// <summary>

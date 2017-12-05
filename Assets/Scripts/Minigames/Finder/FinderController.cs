@@ -21,7 +21,7 @@ public class FinderController : GameController {
     protected override void Update() {
         if (Input.touchCount == 1) {
             Debug.Log(Input.touches[0].position);
-            Match.transform.Translate(0, 0);           
+            Match.transform.Translate(0, 0, 0);           
 
         }
     }
