@@ -39,8 +39,6 @@ public class CatcherController : GameController {
 
     [SerializeField]
     private float _lifeLeft;
-    private float _logosCaught;
-    private float _fakeLogosCaught;
 
     private Camera _cam;
     private bool _gameStarted;
@@ -63,14 +61,14 @@ public class CatcherController : GameController {
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, experience);
         AppData.Instance().MannyAttribute.Save();
 
-        Debug.Log(CollisionHandler.GameScore + " " + " " + experience + " " + coins + " " + _logosCaught + " " + _fakeLogosCaught);
+        //Debug.Log(CollisionHandler.GameScore + " " + " " + experience + " " + coins + " " + _logosCaught + " " + _fakeLogosCaught);
 
         DataSource.Insert(DataParams.
             Build("Points", CollisionHandler.GameScore).
             Append("ExperienceGained", experience).
             Append("Coins", coins).
-            Append("LogosCaught", _logosCaught).
-            Append("FakeLogosCaught", _fakeLogosCaught));
+            Append("LogosCaught", CollisionHandler.LogosCaught).
+            Append("FakeLogosCaught", CollisionHandler.FakeLogosCaught));
         Tracking.RequestSend();
     }
 
@@ -150,10 +148,14 @@ public class CatcherController : GameController {
 
     private void UpdateLogo() {
         if (CollisionHandler.Logo == true) {
-            _logosCaught = _logosCaught + 1;
+            CollisionHandler.LogosCaught = CollisionHandler.LogosCaught + 1;
+            Debug.Log("Realz" + CollisionHandler.LogosCaught);
+            CollisionHandler.Logo = false;
         }
         else if(CollisionHandler.FakeLogo == true) {
-            _fakeLogosCaught = _fakeLogosCaught + 1;
+            CollisionHandler.FakeLogosCaught = CollisionHandler.FakeLogosCaught + 1;
+            Debug.Log("Fakes" + CollisionHandler.FakeLogosCaught);
+            CollisionHandler.FakeLogo = false;
         }
     }
 

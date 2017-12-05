@@ -16,7 +16,13 @@ public class CollisionHandler : MonoBehaviour {
     public bool Broken;
     public bool Logo;
     public bool FakeLogo;
-    
+    public float LogosCaught;
+    public float FakeLogosCaught;
+    [SerializeField]
+    public Text AmountOfCustomers;
+    [SerializeField]
+    public Text FinalAmountOfFakeCustomers;
+
     // Use this for initialization
     public void Start() {
         GameScore = 0;
@@ -31,6 +37,8 @@ public class CollisionHandler : MonoBehaviour {
         FinalScoreText.text = "" + GameScore;
         CalcExperience();
         FinalExpText.text = "" + Experience;
+        AmountOfCustomers.text = "" + LogosCaught;
+        FinalAmountOfFakeCustomers.text = "" + FakeLogosCaught;
     }
 
     /// <summary>
@@ -55,7 +63,5 @@ public class CollisionHandler : MonoBehaviour {
         Logo = other.gameObject.name.Contains("Logo");
         FakeLogo = other.gameObject.name.Contains("FakeLogo");
         UpdateScore();
-
-        //Object.isCought(true);
     }
 }
