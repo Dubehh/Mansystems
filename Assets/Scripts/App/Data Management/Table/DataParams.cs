@@ -30,7 +30,6 @@ namespace Assets.Scripts.App.Tracking.Table {
         /// <param name="value">the object value</param>
         /// <returns>The dataparams instance</returns>
         public DataParams Append(string key, object value) {
-            if (value == null) Debug.Log(key);
             Parameters.Add(new KeyValuePair<string, object>(key, value));
             return this;
         }
