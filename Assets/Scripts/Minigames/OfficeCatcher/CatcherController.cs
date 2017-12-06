@@ -37,8 +37,11 @@ public class CatcherController : GameController {
     [SerializeField]
     public GameObject Life3;
 
-    public GameObject GameOverScreen { get; set; }
-    public GameObject StopButton { get; set; }
+    [SerializeField]
+    public GameObject GameOverScreen;
+
+    [SerializeField]
+    public GameObject StopButton;
 
     [SerializeField]
     private float _lifeLeft;
