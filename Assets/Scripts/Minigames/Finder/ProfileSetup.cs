@@ -9,7 +9,7 @@ public class ProfileSetup : MonoBehaviour {
     private int _currentStepIndex;
 
     private void Start() {
-        new Handshake(HandshakeProtocol.Response).AddParameter("responseHandler", "finder").Shake((request) => {
+        new Handshake(HandshakeProtocol.DataFetch).AddParameter("responseHandler", "finder").Shake((request) => {
             // Check if current player already has profile
             // Yes --> Hide
             // No --> Continue profile setup
