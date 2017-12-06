@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 /// <summary>
 /// An enum with all the attributes related to Manny
 /// </summary>
 public enum Attribute {
+    [Description("Eten")]
     Food,
+
     Thirst,
     Level,
     Experience,
