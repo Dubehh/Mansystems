@@ -1,28 +1,60 @@
-﻿using Assets.Scripts.App.Game;
+﻿using Assets.Scripts.App.Data_Management;
+using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 [Serializable]
-public class FinderController : GameController {
+public class FinderController : MonoBehaviour {
 
     [SerializeField]
-    public RawImage Match;
+    private RawImage _picture;
 
-    public override void OnUnload() {
+    [SerializeField]
+    private Text _name;
+
+    [SerializeField]
+    private Text _description;
+
+    private FinderProfileController _finderProfileController;
+
+    private void Start() {
+        _finderProfileController = new FinderProfileController();
+
+        new Handshake(HandshakeProtocol.Response).AddParameter("responseHandler", "finder").Shake((request) => {
+            // Make sure that the player doesn't see his own profile
+            _finderProfileController.LoadProfiles(request);
+            UpdateUI();
+        });
     }
 
-    protected override void BeforeLoad() {
+    /// <summary>
+    /// Updates the screen with the currently selected profile
+    /// </summary>
+    public void UpdateUI() {
+        var current = _finderProfileController.GetCurrentProfile();
+
+        _picture.texture = current.GetCurrentPicture();
+        _name.text = current.Name;
+        _description.text = current.Description;
     }
 
-    protected override void OnLoad() {
+    /// <summary>
+    /// OnClick event for the picture changing buttons
+    /// </summary>
+    /// <param name="next"></param>
+    public void SwitchPicture(bool next) {
+        _picture.texture = _finderProfileController.GetCurrentProfile().GetPicture(next);
     }
 
-    protected override void Update() {
-        if (Input.touchCount == 1) {
-            Debug.Log(Input.touches[0].position);
-            Match.transform.Translate(0, 0, 0);           
+    /// <summary>
+    /// OnClick event for the like/pass buttons
+    /// </summary>
+    /// <param name="like"></param>
+    public void NextProfile(bool like) {
+        if (like) { } //Add to matches
+        _finderProfileController.NextProfile();
 
-        }
+        UpdateUI();
     }
 }
