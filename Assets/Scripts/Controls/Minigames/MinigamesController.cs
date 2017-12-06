@@ -20,7 +20,7 @@ public class MinigamesController : MonoBehaviour {
     public GameObject Minigame;
 
     private void Awake() {
-        HandshakeProtocol<UnityWebRequest>.Validate(() => {
+        InformationProtocol.Validate(() => {
             Initialize(true);
         }, () => {
             Initialize(false);

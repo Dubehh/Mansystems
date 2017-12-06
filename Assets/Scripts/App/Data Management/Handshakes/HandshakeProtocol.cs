@@ -56,21 +56,5 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
 
         public abstract void Send(Action<T> onComplete = null);
 
-        /// <summary>
-        /// Validates the connection to the server
-        /// </summary>
-        /// <param name="onValidateSuccess">Callback to invoke if there is a connection</param>
-        /// <param name="onValidateError">Callback to invoke if there is no connection</param>
-        public static void Validate(Action onValidateSuccess = null, Action onValidateError = null) {
-            var handshake = new InformationProtocol(Protocol.Update);
-            handshake.SetErrorCallback(() => {
-                if (onValidateError != null)
-                    onValidateError.Invoke();
-            });
-            handshake.Send((request) => {
-                if (onValidateSuccess != null)
-                    onValidateSuccess.Invoke();
-            });
-        }
     }
 }
