@@ -33,6 +33,9 @@ namespace Assets.Scripts.App.Data_Management {
         /// <param name="value">string value</param>
         /// <returns>The handshake instance; builder pattern principle</returns>
         public Handshake AddParameter(string key, string value) {
+            if(string.IsNullOrEmpty(value))
+                throw new ArgumentNullException(key, "Value is empty");
+            
             _params.Add(new MultipartFormDataSection(key, value));
             return this;
         }
