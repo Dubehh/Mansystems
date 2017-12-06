@@ -30,11 +30,11 @@ public class DNAController : MonoBehaviour {
     }
 
     private void Update() {
-        if (MoreInfo.activeSelf && Input.touchCount > 0) MoreInfo.SetActive(false);  
+        if (_moreInfo.activeSelf && Input.touchCount > 0) _moreInfo.SetActive(false);  
     }
 
     public void OnClickNavigation() {
-        MoreInfo.SetActive(true);
+        _moreInfo.SetActive(true);
     }
 
     /// <summary>
