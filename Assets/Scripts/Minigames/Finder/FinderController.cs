@@ -21,7 +21,7 @@ public class FinderController : MonoBehaviour {
     private void Start() {
         _finderProfileController = new FinderProfileController();
 
-        new Handshake(HandshakeProtocol.Response).AddParameter("responseHandler", "finder").Shake((request) => {
+        new Handshake(HandshakeProtocol.DataFetch).AddParameter("responseHandler", "finder").Shake((request) => {
             // Make sure that the player doesn't see his own profile
             _finderProfileController.LoadProfiles(request);
             UpdateUI();
