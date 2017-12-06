@@ -32,6 +32,7 @@ namespace Assets.Scripts.App.Game {
             if (_current == null) return;
             _current.OnUnload();
             SceneManager.LoadScene(_main);
+            Screen.orientation = ScreenOrientation.Portrait;
             //TODO add loading thing somewhere
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -42,7 +43,9 @@ public class ShopItemPrefab : MonoBehaviour {
 
         Name.text = Item.Name;
         Description.text = Item.Description;
-        Gain.text = "+" + Item.Value + " " + Enum.GetName(typeof(Attribute), Item.Attribute);
+
+        Gain.text = "+" + Item.Value + " " + ((Item.Attribute == Attribute.Food) ? "Eten" : "Drinken");
+
         Cost.text = Item.Cost.ToString();
         var emis = ParticleSystem.emission;
         emis.SetBurst(0, new ParticleSystem.Burst(0.0f, Item.Cost));
