@@ -23,23 +23,5 @@ public class JeMoetLefHebben : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        //get image
-        var imageData = _sprite.texture.GetRawTextureData();
-        var data = new List<IMultipartFormSection> {
-            new MultipartFormDataSection("foo", "bar"),
-            new MultipartFormFileSection("myImage", imageData, "test.png", "image/png")
-        };
-
-        //init handshake
-        var handshake = UnityWebRequest.Post("http://mypage/uload.php", data);
-        var request = handshake.SendWebRequest();
-
-
-        //response
-        request.completed += (action) => {
-            if (!handshake.isHttpError && !handshake.isNetworkError) {
-                Debug.Log(handshake.downloadHandler.text);
-            }
-        };
     }
 }
