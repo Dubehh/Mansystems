@@ -7,9 +7,7 @@ using UnityEngine;
 /// An enum with all the attributes related to Manny
 /// </summary>
 public enum Attribute {
-    [Description("Eten")]
     Food,
-
     Thirst,
     Level,
     Experience,
