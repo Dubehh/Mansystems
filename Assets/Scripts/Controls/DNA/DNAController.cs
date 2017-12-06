@@ -19,7 +19,7 @@ public class DNAController : MonoBehaviour {
     public ParticleSystem ParticleSystem;
 
     [SerializeField]
-    private GameObject MoreInfo;
+    private GameObject _moreInfo;
 
     private void Start() {
         DisplayText.text = Manny.Attribute.GetAttribute(Attribute.Skillpoints) + "";
