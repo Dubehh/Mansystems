@@ -9,19 +9,22 @@ public class JeMoetLefHebben : MonoBehaviour {
 
     [SerializeField]
     private Sprite _sprite;
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    private void Start() {
         if (_sprite == null) return;
 
-        var texture = _sprite.texture;
-        var file = new HandshakeFile("test.png", texture.GetRawTextureData(), "image/png");
-        new Handshake(HandshakeProtocol.Upload).AddFile("file", file).Shake((request) => {
-            Debug.Log(request.downloadHandler.text);
-        });
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        new FileProtocol(Protocol.Upload, this).Put("file", "eelco.png", ContentType.Png, _sprite.texture.EncodeToPNG())
+            .Send(
+                (response) => {
+                    Debug.Log(response.text);
+                });
+    }
+
+
+
+    // Update is called once per frame
+    private void Update() {
 
     }
 }

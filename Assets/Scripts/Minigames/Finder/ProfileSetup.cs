@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.App.Data_Management;
+using Assets.Scripts.App.Data_Management.Handshakes;
 using UnityEngine;
 
 public class ProfileSetup : MonoBehaviour {
@@ -9,7 +10,7 @@ public class ProfileSetup : MonoBehaviour {
     private int _currentStepIndex;
 
     private void Start() {
-        new Handshake(HandshakeProtocol.Fetch).AddParameter("responseHandler", "finder").Shake((request) => {
+        new InformationProtocol(Protocol.Fetch).AddParameter("responseHandler", "finder").Send((request) => {
             // Check if current player already has profile
             // Yes --> Hide
             // No --> Continue profile setup

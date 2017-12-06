@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.App.Data_Management.Handshakes;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -23,7 +24,7 @@ namespace Assets.Scripts.App.Tracking {
         /// Performs the instantiated  request using a HTTP POST request to serialize the data.
         /// </summary>
         public void RequestSend() {
-            var handshake = new Handshake(HandshakeProtocol.Update)
+            var handshake = new InformationProtocol(Protocol.Update)
                 .AddParameter("creation_query", _source.GenerateBuildQuery())
                 .AddParameter("table_name", _source.Name)
                 .AddParameter("player_name", PlayerPrefs.GetString("name"))
@@ -34,7 +35,7 @@ namespace Assets.Scripts.App.Tracking {
                         handshake.AddParameter(property.Name + "[]", reader[property.Name].ToString());
                     });
                 }
-                handshake.Shake((callback) => { _source.Drop(); });
+                handshake.Send((callback) => { _source.Drop(); });
             });
         }
     }
