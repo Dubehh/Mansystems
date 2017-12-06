@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.App.Data_Management.Handshakes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,11 +41,10 @@ namespace Assets.Scripts.App.Data_Management {
         /// Adds binary file data to the handshake
         /// </summary>
         /// <param name="key">string key</param>
-        /// <param name="fileName">string file name</param>
-        /// <param name="fileData">byte[] data</param>
+        /// <param name="file">HandshakeFile file</param>
         /// <returns>The handshake instance; builder pattern principle</returns>
-        public Handshake AddFile(string key, string fileName, byte[] fileData) {
-            _params.Add(new MultipartFormFileSection(key, fileData, fileName, "image/png"));
+        public Handshake AddFile(string key, HandshakeFile file) {
+            _params.Add(new MultipartFormFileSection(key, file.Data, file.Name, file.Type));
             return this;
         }
 
@@ -80,7 +80,7 @@ namespace Assets.Scripts.App.Data_Management {
         /// <param name="onValidateSuccess">Callback to invoke if there is a connection</param>
         /// <param name="onValidateError">Callback to invoke if there is no connection</param>
         public static void Validate(Action onValidateSuccess = null, Action onValidateError = null) {
-            var handshake = new Handshake(HandshakeProtocol.TrackingUpdate);
+            var handshake = new Handshake(HandshakeProtocol.Update);
             handshake.SetErrorHandler(() => {
                 if (onValidateError != null)
                     onValidateError.Invoke();

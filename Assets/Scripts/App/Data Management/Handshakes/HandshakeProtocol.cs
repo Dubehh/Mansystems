@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Assets.Scripts.App.Data_Management {
     public enum HandshakeProtocol {
-        TrackingUpdate,
-        DataFetch,
-        ImageUpload
+        Update,
+        Fetch,
+        Upload
     }
 }
