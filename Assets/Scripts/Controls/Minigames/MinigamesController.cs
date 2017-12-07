@@ -2,10 +2,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts.App.Data_Management.Handshakes;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 
 [Serializable]
@@ -20,7 +18,7 @@ public class MinigamesController : MonoBehaviour {
     public GameObject Minigame;
 
     private void Awake() {
-        InformationProtocol.Validate(() => {
+        Handshake.Validate(() => {
             Initialize(true);
         }, () => {
             Initialize(false);
