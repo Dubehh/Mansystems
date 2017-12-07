@@ -5,12 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class QuestionController {
-<<<<<<< HEAD
     private List<Question> _questions;
-=======
-
-    private readonly List<Question> _questions;
->>>>>>> 8f7bed1101ca49fdc5bea148efb916f0c508e773
     public int CurrentQuestionIndex { get; set; }
 
     public QuestionController() {
@@ -28,13 +23,15 @@ public class QuestionController {
     /// Adds a question to the list with data from a webrequest
     /// </summary>
     /// <param name="data">The data from the webrequest</param>
+    /// <param name="index">The index used to determine the difficulty</param>
     public void LoadQuestions(UnityWebRequest data) {
         var questions = new JSONObject(data.downloadHandler.text);
         var random = new System.Random();
 
-        foreach (var key in questions.keys) {
-            for (var j = 0; j < questions[key].Count; j++) {
-                var value = questions[key][j];
+        for (int i = 0; i < questions.keys.Count; i++) {
+            var key = questions.keys[i];
+            for (int j = 0; j < questions[key].Count; j++) {
+                var value = questions[questions.keys[i]][j];
 
                 _questions.Add(new Question(
                     value["question"].str,
