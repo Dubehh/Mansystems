@@ -22,6 +22,8 @@ public class ProfileSetup : MonoBehaviour {
     public void NextStep() {
         if (_currentStepIndex == _steps.Length - 1) {
             gameObject.SetActive(false);
+
+            // Save new profile to Database
             return;
         }
 
