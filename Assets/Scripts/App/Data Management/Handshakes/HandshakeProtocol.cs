@@ -54,6 +54,10 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
             return this;
         }
 
+        /// <summary>
+        /// Sends the protocol
+        /// </summary>
+        /// <param name="onComplete">Action callback</param>
         public abstract void Send(Action<T> onComplete = null);
 
     }

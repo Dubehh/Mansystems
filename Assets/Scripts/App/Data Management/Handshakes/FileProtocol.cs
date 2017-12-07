@@ -46,6 +46,7 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
                 if (_data.Data == null)
                     throw new ArgumentNullException("_data.Data", "An upload protocol requires a file to have binary data.");
                 form.AddBinaryData(_data.Key, _data.Data, _data.Name, _data.Type);
+                form.AddField("UUID", PlayerPrefs.GetString("uid"));
             }
             foreach (var pair in _params) {
                 var key = pair.sectionName;
