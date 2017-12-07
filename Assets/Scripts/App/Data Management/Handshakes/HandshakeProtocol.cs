@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine.Networking;
 
 namespace Assets.Scripts.App.Data_Management.Handshakes {
@@ -9,7 +8,8 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
     public enum Protocol {
         Update,
         Fetch,
-        Upload
+        Upload,
+        Insert
     }
 
     public abstract class HandshakeProtocol<T> {
