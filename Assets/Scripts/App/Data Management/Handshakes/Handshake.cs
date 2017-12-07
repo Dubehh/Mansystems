@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.App.Data_Management.Handshakes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,17 +15,15 @@ namespace Assets.Scripts.App.Data_Management {
 
         private const string _handshakeID = "streamType";
         private Action _errorCallback;
-        private List<IMultipartFormSection> _params;
-        private HandshakeProtocol _protocol;
+        private readonly List<IMultipartFormSection> _params;
 
         /// <summary>
         /// Instantiates a new Handshake that may be used to communicate with the defined webhost
         /// </summary>
         /// <param name="protocol">The type of the handshake</param>
         public Handshake(HandshakeProtocol protocol) {
-            _protocol = protocol;
             _params = new List<IMultipartFormSection>();
-            AddParameter(_handshakeID, _protocol.ToString());
+            AddParameter(_handshakeID, protocol.ToString());
         }
 
         /// <summary>
@@ -34,7 +33,21 @@ namespace Assets.Scripts.App.Data_Management {
         /// <param name="value">string value</param>
         /// <returns>The handshake instance; builder pattern principle</returns>
         public Handshake AddParameter(string key, string value) {
+            if(string.IsNullOrEmpty(value))
+                throw new ArgumentNullException(key, "Value is empty");
+            
             _params.Add(new MultipartFormDataSection(key, value));
+            return this;
+        }
+
+        /// <summary>
+        /// Adds binary file data to the handshake
+        /// </summary>
+        /// <param name="key">string key</param>
+        /// <param name="file">HandshakeFile file</param>
+        /// <returns>The handshake instance; builder pattern principle</returns>
+        public Handshake AddFile(string key, HandshakeFile file) {
+            _params.Add(new MultipartFormFileSection(key, file.Data, file.Name, file.Type));
             return this;
         }
 
@@ -70,7 +83,7 @@ namespace Assets.Scripts.App.Data_Management {
         /// <param name="onValidateSuccess">Callback to invoke if there is a connection</param>
         /// <param name="onValidateError">Callback to invoke if there is no connection</param>
         public static void Validate(Action onValidateSuccess = null, Action onValidateError = null) {
-            var handshake = new Handshake(HandshakeProtocol.Request);
+            var handshake = new Handshake(HandshakeProtocol.Update);
             handshake.SetErrorHandler(() => {
                 if (onValidateError != null)
                     onValidateError.Invoke();

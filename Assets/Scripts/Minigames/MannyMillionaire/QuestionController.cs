@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class QuestionController {
+
     private List<Question> _questions;
     public int CurrentQuestionIndex { get; set; }
 
