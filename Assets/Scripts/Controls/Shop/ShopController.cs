@@ -6,12 +6,15 @@ using UnityEngine.UI;
 public class ShopController : MonoBehaviour {
 
     private Manny _manny;
+
     private float _prefabHeight;
 
     [SerializeField]
     public Text CoinsIndicator;
+
     [SerializeField]
     public ShopItem[] Items;
+
     [SerializeField]
     public GameObject Item;
 
@@ -20,6 +23,7 @@ public class ShopController : MonoBehaviour {
         var y = -75f;
 
         _manny = FindObjectOfType<Manny>();
+
         UpdateCoins();
 
         // Loop through the ShopItem array and create a ShopItemPrefab with each one of them

@@ -28,10 +28,19 @@ public class CatcherController : GameController {
     [SerializeField]
     public CollisionHandler CollisionHandler;
 
+    [SerializeField]
     public GameObject Life1;
+
+    [SerializeField]
     public GameObject Life2;
+
+    [SerializeField]
     public GameObject Life3;
+
+    [SerializeField]
     public GameObject GameOverScreen;
+
+    [SerializeField]
     public GameObject StopButton;
 
     [SerializeField]
@@ -119,6 +128,7 @@ public class CatcherController : GameController {
         _gameStarted = true;
         while (_lifeLeft > 0) {
             foreach (var o in Objects) {
+                if(o.GameObject == null) continue;
                 var spawnPosition = new Vector3(
                 UnityEngine.Random.Range(-o.MaxWidth, o.MaxWidth),
                 o.GameObject.transform.position.y,

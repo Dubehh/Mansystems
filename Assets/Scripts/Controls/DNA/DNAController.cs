@@ -19,7 +19,7 @@ public class DNAController : MonoBehaviour {
     public ParticleSystem ParticleSystem;
 
     [SerializeField]
-    private GameObject _moreInfo;
+    public GameObject ParticleSystemBorder;
 
     private void Start() {
         DisplayText.text = Manny.Attribute.GetAttribute(Attribute.Skillpoints) + "";
@@ -29,12 +29,7 @@ public class DNAController : MonoBehaviour {
         }
     }
 
-    private void Update() {
-        if (_moreInfo.activeSelf && Input.touchCount > 0) _moreInfo.SetActive(false);  
-    }
-
     public void OnClickNavigation() {
-        _moreInfo.SetActive(true);
     }
 
     /// <summary>

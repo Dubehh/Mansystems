@@ -3,7 +3,6 @@ using Assets.Scripts.App.Data_Management;
 using Assets.Scripts.App.Tracking.Table;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.App.Data_Management.Handshakes;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -46,6 +45,7 @@ public class MillionaireController : GameController {
     public override void OnUnload() {
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Coins, _prizeController.CurrentPrize);
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, _experience);
+
         AppData.Instance().MannyAttribute.Save();
 
         DataSource.Insert(DataParams.
@@ -72,7 +72,7 @@ public class MillionaireController : GameController {
         _questionController = new QuestionController();
         _prizeController = new PrizeController();
 
-        new InformationProtocol(Protocol.Fetch).AddParameter("responseHandler", "millionaire").Send((request) => {
+        new Handshake(HandshakeProtocol.Fetch).AddParameter("responseHandler", "millionaire").Shake((request) => {
             _questionController.LoadQuestions(request);
             UpdateUI();
         });
@@ -87,6 +87,7 @@ public class MillionaireController : GameController {
     /// </summary>
     protected override void Update() {
         if (!_gameCompleted && _gameStarted) Timer.value -= Time.deltaTime;
+
         if (Timer.value <= 0)
             GameCompleted(false);
     }
@@ -99,7 +100,7 @@ public class MillionaireController : GameController {
 
         UpdatePrize();
         QuestionText.text = currentQuestion.Difficulty + "  " + currentQuestion.Text;
-        for (var i = 0; i < currentQuestion.Answers.Count; i++) {
+        for (int i = 0; i < currentQuestion.Answers.Count; i++) {
             Buttons[i].interactable = true;
             Buttons[i].gameObject.SetActive(true);
             Buttons[i].GetComponentInChildren<Text>().text = currentQuestion.Answers[i].Text; ;
@@ -146,7 +147,8 @@ public class MillionaireController : GameController {
 
         Summary.GetComponent<Image>().color = color;
 
-        var textObjects = new List<Text>(Summary.GetComponentsInChildren<Text>());
+        List<Text> textObjects = new List<Text>(Summary.GetComponentsInChildren<Text>());
+
         textObjects.Find(x => x.name == "CorrectAnswers").text = _questionController.CurrentQuestionIndex.ToString();
         textObjects.Find(x => x.name == "MonnyEarned").text = _prizeController.CurrentPrize.ToString();
         textObjects.Find(x => x.name == "ExperienceEarned").text = _experience.ToString();

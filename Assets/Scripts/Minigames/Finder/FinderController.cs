@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.App.Data_Management;
 using System.Collections.Generic;
 using System;
-using Assets.Scripts.App.Data_Management.Handshakes;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,7 +21,7 @@ public class FinderController : MonoBehaviour {
     private void Start() {
         _finderProfileController = new FinderProfileController();
 
-        new InformationProtocol(Protocol.Fetch).AddParameter("responseHandler", "finder").Send((request) => {
+        new Handshake(HandshakeProtocol.Fetch).AddParameter("responseHandler", "finder").Shake((request) => {
             // Make sure that the player doesn't see his own profile
             _finderProfileController.LoadProfiles(request);
             UpdateUI();
