@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine.Networking;
 
 namespace Assets.Scripts.App.Data_Management.Handshakes {
@@ -9,7 +10,8 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
         Update,
         Fetch,
         Upload,
-        Insert
+        Insert,
+        Download
     }
 
     public abstract class HandshakeProtocol<T> {
@@ -54,6 +56,10 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
             return this;
         }
 
+        /// <summary>
+        /// Sends the protocol
+        /// </summary>
+        /// <param name="onComplete">Action callback</param>
         public abstract void Send(Action<T> onComplete = null);
 
     }
