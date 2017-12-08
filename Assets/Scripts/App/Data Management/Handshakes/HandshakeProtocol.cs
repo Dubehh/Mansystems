@@ -9,7 +9,9 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
     public enum Protocol {
         Update,
         Fetch,
-        Upload
+        Upload,
+        Insert,
+        Download
     }
 
     public abstract class HandshakeProtocol<T> {
@@ -54,6 +56,10 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
             return this;
         }
 
+        /// <summary>
+        /// Sends the protocol
+        /// </summary>
+        /// <param name="onComplete">Action callback</param>
         public abstract void Send(Action<T> onComplete = null);
 
     }
