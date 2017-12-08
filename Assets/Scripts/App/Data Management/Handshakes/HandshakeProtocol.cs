@@ -9,7 +9,9 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
     public enum Protocol {
         Update,
         Fetch,
-        Upload
+        Upload,
+        Insert,
+        Download
     }
 
     public abstract class HandshakeProtocol<T> {

@@ -46,13 +46,13 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
                 if (_data.Data == null)
                     throw new ArgumentNullException("_data.Data", "An upload protocol requires a file to have binary data.");
                 form.AddBinaryData(_data.Key, _data.Data, _data.Name, _data.Type);
-                form.AddField("UUID", PlayerPrefs.GetString("uid"));
             }
             foreach (var pair in _params) {
                 var key = pair.sectionName;
                 var value = Encoding.Default.GetString(pair.sectionData);
                 form.AddField(key, value);
             }
+            form.AddField("UUID", PlayerPrefs.GetString("uid"));
             _caller.StartCoroutine(Request(form, onComplete));
         }
 
@@ -63,6 +63,8 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
                 _error.Invoke();
             else if(onComplete != null)
                 onComplete.Invoke(handshake);
+            handshake.Dispose();
+            handshake = null;
         }
     }
 }
