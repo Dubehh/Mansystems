@@ -30,6 +30,14 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
             _caller = caller;
         }
 
+        /// <summary>
+        /// Puts a file inside the handshake
+        /// </summary>
+        /// <param name="key">string key</param>
+        /// <param name="filename">string filename</param>
+        /// <param name="contentType">string contenttype</param>
+        /// <param name="data">byte[] file raw data</param>
+        /// <returns></returns>
         public FileProtocol Put(string key, string filename, string contentType, byte[] data) {
             _data = new FileData {
                 Data = data,
@@ -40,6 +48,10 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
             return this;
         }
 
+        /// <summary>
+        /// Sends the file protocol
+        /// </summary>
+        /// <param name="onComplete">callback that fires upon handshake completion</param>
         public override void Send(Action<WWW> onComplete = null) {
             var form = new WWWForm();
             if (_protocol == Protocol.Upload) {
@@ -56,6 +68,12 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
             _caller.StartCoroutine(Request(form, onComplete));
         }
 
+        /// <summary>
+        /// Starts the coroutine w/ request
+        /// </summary>
+        /// <param name="form">WWWForm data content</param>
+        /// <param name="onComplete">callback response</param>
+        /// <returns></returns>
         private IEnumerator Request(WWWForm form, Action<WWW> onComplete = null) {
             var handshake = new WWW(_webReference + _webController + ".php", form);
             yield return handshake;
