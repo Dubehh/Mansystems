@@ -74,11 +74,11 @@ public class CatcherController : GameController {
     protected override void BeforeLoad() {
         _cam = Camera.main;
 
-        Vector3 upperCorner = new Vector3(Screen.width, Screen.height, 0.0f);
-        Vector3 targetWidth = _cam.ScreenToWorldPoint(upperCorner);
+        var upperCorner = new Vector3(Screen.width, Screen.height, 0.0f);
+        var targetWidth = _cam.ScreenToWorldPoint(upperCorner);
 
         for (var i = 0; i < Objects.Count; i++) {
-            float width = Objects[i].GameObject.GetComponent<Renderer>().bounds.extents.x;
+            var width = Objects[i].GameObject.GetComponent<Renderer>().bounds.extents.x;
             var obj = Objects[i];
             obj.MaxWidth = targetWidth.x - width;
             Objects[i] = obj;
@@ -92,6 +92,7 @@ public class CatcherController : GameController {
         source.AddProperty(new DataProperty("FakeLogosCaught", DataProperty.DataPropertyType.INT));
         source.AddProperty(new DataProperty("TimePlayedSeconds", DataProperty.DataPropertyType.INT));
         SetDataSource(source);
+        Prepare();
     }
     
     /// <summary>

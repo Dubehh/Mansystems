@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.App.Tracking;
 using Assets.Scripts.App.Tracking.Table;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -57,7 +58,18 @@ namespace Assets.Scripts.App.Game {
         private void Start() {
             BeforeLoad();
             Build();
+            Debug.Log("Loading started");
+            //show loading screen
+        }
+
+        /// <summary>
+        /// Prepares the game itself.
+        /// Should be called upon init complete
+        /// </summary>
+        public void Prepare() {
             OnLoad();
+            Debug.Log("Loading ended");
+            //hide loading screen
         }
     }
 }

@@ -13,7 +13,7 @@ using UnityEngine.Networking;
 namespace Assets.Scripts.App.Tracking {
     public class TrackingController {
 
-        private DataTable _source;
+        private readonly DataTable _source;
 
         public TrackingController(DataTable source) {
             _source = source;
