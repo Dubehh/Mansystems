@@ -35,7 +35,7 @@ public class FinderProfileController {
     /// Returns the current profile from the list
     /// </summary>
     public FinderProfile GetCurrentProfile() {
-        return _profiles[_currentProfileIndex];
+        return _currentProfileIndex > _profiles.Count - 1 ? null : _profiles[_currentProfileIndex];
     }
 
     /// <summary>

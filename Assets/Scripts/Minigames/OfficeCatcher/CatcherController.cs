@@ -83,8 +83,8 @@ public class CatcherController : GameController {
             obj.MaxWidth = targetWidth.x - width;
             Objects[i] = obj;
         }
-
         var source = new DataTable("Catcher");
+
         source.AddProperty(new DataProperty("Points", DataProperty.DataPropertyType.INT));
         source.AddProperty(new DataProperty("ExperienceGained", DataProperty.DataPropertyType.INT));
         source.AddProperty(new DataProperty("Coins", DataProperty.DataPropertyType.INT));
@@ -93,13 +93,8 @@ public class CatcherController : GameController {
         source.AddProperty(new DataProperty("TimePlayedSeconds", DataProperty.DataPropertyType.INT));
         SetDataSource(source);
     }
-    
-    /// <summary>
-    /// loads the game and starts it
-    /// </summary>
-    protected override void OnLoad() {
-        StartCoroutine(SpawnOfficeObject());
-    }
+
+    protected override void OnLoad() { }
     
     /// <summary>
     /// Checks if time is zero
@@ -115,8 +110,8 @@ public class CatcherController : GameController {
     /// <returns></returns>
     private IEnumerator SpawnOfficeObject() {
         ToggleObjects(true);
-        if (!_gameStarted) yield return new WaitForSeconds(2.0f);
-        _gameStarted = true;
+        if (_gameStarted) yield return new WaitForSeconds(2.0f);
+        _gameStarted = false;
         while (_lifeLeft > 0) {
             foreach (var o in Objects) {
                 var spawnPosition = new Vector3(
@@ -203,6 +198,12 @@ public class CatcherController : GameController {
         CollisionHandler.UpdateScore();
         GameOverScreen.SetActive(true);
         ToggleObjects(false);
+    }
+
+    public void StartButton() {
+        _gameStarted = true;
+        GameObject.Find("Tutorial").SetActive(false);
+        StartCoroutine(SpawnOfficeObject());
     }
 
     /// <summary>

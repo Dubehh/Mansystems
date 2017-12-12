@@ -34,6 +34,7 @@ public class FinderController : MonoBehaviour {
     /// </summary>
     public void UpdateUI() {
         var current = _finderProfileController.GetCurrentProfile();
+        if (current == null) return;
 
         _picture.texture = current.GetCurrentPicture();
         _name.text = current.Name;

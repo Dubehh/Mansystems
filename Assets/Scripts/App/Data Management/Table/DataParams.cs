@@ -24,6 +24,14 @@ namespace Assets.Scripts.App.Tracking.Table {
         }
 
         /// <summary>
+        /// Uses the builder pattern to create a DataParams instance
+        /// </summary>
+        /// <returns>Dataparams instance</returns>
+        public static DataParams Build() {
+            return new DataParams();
+        }
+
+        /// <summary>
         /// Adds a new key/value pair to the parameters
         /// </summary>
         /// <param name="key">the name of the key</param>
