@@ -22,11 +22,13 @@ public class FinderController : MonoBehaviour {
     private void Start() {
         _finderProfileController = new FinderProfileController();
 
-        new InformationProtocol(Protocol.Fetch).AddParameter("responseHandler", "finder").Send((request) => {
-            // Make sure that the player doesn't see his own profile
-            _finderProfileController.LoadProfiles(request, this);
-            UpdateUI();
-        });
+        new InformationProtocol(Protocol.Fetch)
+            .AddParameter("uuid", PlayerPrefs.GetString("uid"))
+            .AddParameter("responseHandler", "finder")
+            .Send(request => {
+                _finderProfileController.LoadProfiles(request);
+                UpdateUI();
+            });
     }
 
     /// <summary>
@@ -34,11 +36,11 @@ public class FinderController : MonoBehaviour {
     /// </summary>
     public void UpdateUI() {
         var current = _finderProfileController.GetCurrentProfile();
-        if (current == null) return;
-
-        _picture.texture = current.GetCurrentPicture();
-        //_name.text = current.Name;
-        //_description.text = current.Description;
+        current.LoadPictures(this, () => {
+            _picture.texture = current.GetCurrentPicture();
+            _name.text = current.ProfileInfo.Name;
+            _description.text = current.ProfileInfo.City;
+        });
     }
 
     /// <summary>

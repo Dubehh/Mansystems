@@ -11,7 +11,6 @@ public class ProfileSetup : MonoBehaviour {
     
     private void Awake() {
         FinderProfile = new DataTable("FinderProfile");
-        FinderProfile.Drop();
         FinderProfile.AddProperty(new DataProperty("Name", DataProperty.DataPropertyType.VARCHAR));
         FinderProfile.AddProperty(new DataProperty("Age", DataProperty.DataPropertyType.INT));
         FinderProfile.AddProperty(new DataProperty("City", DataProperty.DataPropertyType.VARCHAR));
