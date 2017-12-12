@@ -45,16 +45,12 @@ public class CatcherController : GameController {
     /// </summary>
     public override void OnUnload() {
         var coins = Mathf.RoundToInt(CollisionHandler.GameScore * 36 / 1080f);
-        if (coins <= 0) {
-            coins = 0;
-        }
-        AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Coins, coins);
+        coins = coins <= 0 ? 0 : coins;
 
         var experience = CollisionHandler.GameScore * 30 / 1080;
-        if (experience <= 0) {
-            experience = 0;
+        experience = experience <= 0 ? 0 : experience;
 
-        }
+        AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Coins, coins);
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, experience);
         AppData.Instance().MannyAttribute.Save();
 
@@ -125,7 +121,7 @@ public class CatcherController : GameController {
                 o.GameObject.transform.position.y,
                 0.0f);
 
-                Quaternion spawnRotation = Quaternion.identity;
+                var spawnRotation = Quaternion.identity;
                 Instantiate(o.GameObject, spawnPosition, spawnRotation);
                 yield return new WaitForSeconds(UnityEngine.Random.Range(0.5f, 1.0f));
             }
@@ -137,19 +133,18 @@ public class CatcherController : GameController {
     /// updates lives of player
     /// </summary>
     private void Updatelife() {
-        if (CollisionHandler.Broken == true) {
-            _lifeLeft = _lifeLeft - 1;
-            CollisionHandler.Broken = false;
-            ShowLives();
-        }
+        if (CollisionHandler.Broken != true) return;
+        _lifeLeft = _lifeLeft - 1;
+        CollisionHandler.Broken = false;
+        ShowLives();
     }
 
     private void UpdateLogo() {
-        if (CollisionHandler.Logo == true) {
+        if (CollisionHandler.Logo) {
             CollisionHandler.LogosCaught = CollisionHandler.LogosCaught + 1;
             CollisionHandler.Logo = false;
         }
-        else if(CollisionHandler.FakeLogo == true) {
+        else if(CollisionHandler.FakeLogo) {
             CollisionHandler.FakeLogosCaught = CollisionHandler.FakeLogosCaught + 1;
             CollisionHandler.FakeLogo = false;
         }
