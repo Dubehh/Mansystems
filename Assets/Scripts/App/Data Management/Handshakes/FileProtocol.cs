@@ -23,11 +23,13 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
 
     public class FileProtocol : HandshakeProtocol<WWW> {
 
+        private string _uuid;
         private FileData _data;
         private readonly MonoBehaviour _caller;
 
         public FileProtocol(Protocol protocol, MonoBehaviour caller) : base(protocol) {
             _caller = caller;
+            _uuid = null;
         }
 
         /// <summary>
@@ -37,7 +39,7 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
         /// <param name="filename">string filename</param>
         /// <param name="contentType">string contenttype</param>
         /// <param name="data">byte[] file raw data</param>
-        /// <returns></returns>
+        /// <returns>Fileprotocol instance</returns>
         public FileProtocol Put(string key, string filename, string contentType, byte[] data) {
             _data = new FileData {
                 Data = data,
@@ -45,6 +47,26 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
                 Type = contentType,
                 Key = key
             };
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the target folder for the file protocol
+        /// </summary>
+        /// <param name="folder">string folder name</param>
+        /// <returns>Fileprotocol instance</returns>
+        public FileProtocol Target(string folder) {
+            AddParameter("targetFolder", folder);
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the uuid for the file protocol
+        /// </summary>
+        /// <param name="uuid">string uuid</param>
+        /// <returns>Fileprotocol instance</returns>
+        public FileProtocol For(string uuid) {
+            _uuid = uuid;
             return this;
         }
 
@@ -64,7 +86,7 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
                 var value = Encoding.Default.GetString(pair.sectionData);
                 form.AddField(key, value);
             }
-            form.AddField("UUID", PlayerPrefs.GetString("uid"));
+            form.AddField("UUID", _uuid ?? PlayerPrefs.GetString("uid"));
             _caller.StartCoroutine(Request(form, onComplete));
         }
 

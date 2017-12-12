@@ -24,7 +24,7 @@ public class FinderController : MonoBehaviour {
 
         new InformationProtocol(Protocol.Fetch).AddParameter("responseHandler", "finder").Send((request) => {
             // Make sure that the player doesn't see his own profile
-            _finderProfileController.LoadProfiles(request);
+            _finderProfileController.LoadProfiles(request, this);
             UpdateUI();
         });
     }
@@ -37,8 +37,8 @@ public class FinderController : MonoBehaviour {
         if (current == null) return;
 
         _picture.texture = current.GetCurrentPicture();
-        _name.text = current.Name;
-        _description.text = current.Description;
+        //_name.text = current.Name;
+        //_description.text = current.Description;
     }
 
     /// <summary>
@@ -59,4 +59,5 @@ public class FinderController : MonoBehaviour {
 
         UpdateUI();
     }
+
 }

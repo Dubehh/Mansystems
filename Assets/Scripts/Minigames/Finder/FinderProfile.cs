@@ -1,17 +1,23 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+public struct FinderProfileInfo {
+    public string PlayerID;
+    public string Name;
+    public int Age;
+    public string City;
+    public int PhoneNumber;
+    public string FavMovie, FavMusic, FavFood, FavSport, FavGame, FavVacation;
+}
+
 public class FinderProfile {
     public List<Texture> Pictures { get; set; }
-    public string Name;
-    public string Description;
+    public FinderProfileInfo ProfileInfo;
 
     private int _currentPictureIndex;
 
-    public FinderProfile(List<Texture> pictures, string name, string description) {
-        Pictures = pictures;
-        Name = name;
-        Description = description;
+    public FinderProfile(FinderProfileInfo info) {
+        ProfileInfo = info;
     }
 
     /// <summary>

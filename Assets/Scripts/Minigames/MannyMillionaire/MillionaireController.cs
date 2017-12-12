@@ -74,6 +74,7 @@ public class MillionaireController : GameController {
         new InformationProtocol(Protocol.Fetch).AddParameter("responseHandler", "millionaire").Send((request) => {
             _questionController.LoadQuestions(request);
             UpdateUI();
+            Prepare();
         });
     }
 
