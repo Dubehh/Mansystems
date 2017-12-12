@@ -21,9 +21,7 @@ public class AppData {
     /// </summary>
     /// <returns>AppData instance</returns>
     public static AppData Instance() {
-        if (_instance == null)
-            _instance = new AppData();
-        return _instance;
+        return _instance ?? (_instance = new AppData());
     }
 }
 
