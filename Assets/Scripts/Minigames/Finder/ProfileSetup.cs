@@ -13,6 +13,22 @@ public class ProfileSetup : MonoBehaviour {
     public DataTable FinderProfile;
     
     private void Awake() {
+        var likedProfileIDs = new List<string>();
+        var profile = AppData.Instance().Registry.Fetch("FinderProfile");
+        if (profile != null) {
+            var table = AppData.Instance().Registry.Fetch("FinderLikes");
+            table.Select("*", "", reader => {
+                while (reader.Read()) {
+                    likedProfileIDs.Add(reader["ProfileID"].ToString());
+                }
+            });
+
+            gameObject.SetActive(false);
+            FinderController.gameObject.SetActive(true);
+            FinderController.LikedProfileIDs = likedProfileIDs;
+            return;
+        }
+
         FinderProfile = new DataTable("FinderProfile");
         FinderProfile.AddProperty(new DataProperty("Name", DataProperty.DataPropertyType.VARCHAR));
         FinderProfile.AddProperty(new DataProperty("Age", DataProperty.DataPropertyType.INT));
@@ -25,22 +41,6 @@ public class ProfileSetup : MonoBehaviour {
         FinderProfile.AddProperty(new DataProperty("FavGame", DataProperty.DataPropertyType.VARCHAR));
         FinderProfile.AddProperty(new DataProperty("FavVacation", DataProperty.DataPropertyType.VARCHAR));
         AppData.Instance().Registry.Register(FinderProfile);
-
-        var likedProfileIDs = new List<string>();
-
-        if (FinderProfile.Exists("name")) {
-            var table = AppData.Instance().Registry.Fetch("FinderLikes");
-            table.Select("*", "", reader => {
-                while (reader.Read()) {
-                    likedProfileIDs.Add(reader["ProfileID"].ToString());
-                }
-            });
-
-            gameObject.SetActive(false);
-            FinderController.gameObject.SetActive(true);
-            FinderController.LikedProfileIDs = likedProfileIDs;
-        }
-       
     }
 
     /// <summary>

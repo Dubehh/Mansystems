@@ -14,7 +14,8 @@ public class FinderProfileController {
     /// Gathers a list of Finder profile's from a UnityWebRequest and fills a list with them
     /// </summary>
     /// <param name="data">The UnityWebRequest to retrieve the data from</param>
-    public void LoadProfiles(UnityWebRequest data, List<string> likes) {
+    public List<FinderProfile> LoadProfiles(UnityWebRequest data, List<string> likes) {
+        var likedProfiles = new List<FinderProfile>();
         _profiles = new List<FinderProfile>();
 
         var profiles = new JSONObject(data.downloadHandler.text);
@@ -23,23 +24,29 @@ public class FinderProfileController {
         for (var i = 0; i < profiles.Count; i++) {
             var profile = profiles[i];
 
-            if (likes.Contains(profile["uuid"].str)) break;
-            _profiles.Add(new FinderProfile(new FinderProfileInfo() {
+            var newProfile = new FinderProfile(new FinderProfileInfo {
                 PlayerUID = profile["uuid"].str,
                 Name = profile["Name"].str,
-                Age = (int)profile["Age"].i,
+                Age = (int) profile["Age"].i,
                 City = profile["City"].str,
-                PhoneNumber =  (int)profile["PhoneNumber"].i,
+                PhoneNumber = (int) profile["PhoneNumber"].i,
                 FavMovie = profile["FavMovie"].str,
                 FavMusic = profile["FavMusic"].str,
                 FavFood = profile["FavFood"].str,
                 FavSport = profile["FavSport"].str,
                 FavGame = profile["FavGame"].str,
                 FavVacation = profile["FavVacation"].str
-            }, profile["pictures"].list.Select(x=> x.str).ToArray()));
+            }, profile["pictures"].list.Select(x => x.str).ToArray());
+
+            if (likes.Contains(profile["uuid"].str)) {
+                likedProfiles.Add(newProfile);
+            }
+            else _profiles.Add(newProfile);
         }
 
         _profiles = _profiles.OrderBy(x => random.Next()).ToList();
+        Debug.Log(likedProfiles.Count);
+        return likedProfiles;
     }
 
     /// <summary>
@@ -53,7 +60,6 @@ public class FinderProfileController {
     /// Goes to the next profile in the list
     /// </summary>
     public void NextProfile() {
-        if (_currentProfileIndex >= _profiles.Count - 1) return;
         _currentProfileIndex++;
     }
 }
