@@ -47,6 +47,14 @@ namespace Assets.Scripts.App.Tracking.Table {
             return builder.ToString().Substring(1);
         }
 
+        /// <summary>
+        /// Checks whether the current table exists or not
+        /// </summary>
+        /// <returns>bool exists</returns>
+        public bool Exists() {
+            return DataQuery.Query("SELECT count(*) FROM sqlite_master WHERE type='table' AND name='" + Name + "'").Count() > 0;
+        }
+
 
         /// <summary>
         /// Attempts to select data from the datatable based on the given clause
