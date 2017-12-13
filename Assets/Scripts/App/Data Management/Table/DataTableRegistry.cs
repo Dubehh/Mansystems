@@ -17,9 +17,10 @@ namespace Assets.Scripts.App.Tracking.Table {
         /// Registers a new datatable and creates it
         /// </summary>
         /// <param name="table"></param>
-        public void Register(DataTable table) {
+        public void Register(DataTable table, bool create = true) {
             Tables[table.Name.ToLower()] = table;
-            table.Create();
+            if (create)
+                table.Create();
         }
 
         /// <summary>
@@ -27,7 +28,16 @@ namespace Assets.Scripts.App.Tracking.Table {
         /// </summary>
         /// <param name="name">The name of the datatable</param>
         public DataTable Fetch(string name) {
-            return Tables.ContainsKey(name.ToLower()) ? Tables[name.ToLower()] : null;
+            if (Tables.ContainsKey(name.ToLower()))
+                return Tables[name.ToLower()];
+            else {
+                var table = new DataTable(name);
+                if (table.Exists()) {
+                    Register(table, false);
+                    return table;
+                }
+                return null;
+            }
         }
     }
 }
