@@ -28,10 +28,19 @@ public class CatcherController : GameController {
     [SerializeField]
     public CollisionHandler CollisionHandler;
 
+    [SerializeField]
     public GameObject Life1;
+
+    [SerializeField]
     public GameObject Life2;
+
+    [SerializeField]
     public GameObject Life3;
+
+    [SerializeField]
     public GameObject GameOverScreen;
+
+    [SerializeField]
     public GameObject StopButton;
 
     [SerializeField]
