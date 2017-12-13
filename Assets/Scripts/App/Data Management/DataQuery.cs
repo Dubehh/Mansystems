@@ -41,5 +41,12 @@ namespace Assets.Scripts.App.Tracking {
                 callback();
         }
 
+        /// <summary>
+        /// Fires the query and returns the amount of affected rows
+        /// </summary>
+        public int Count() {
+            return _command.ExecuteNonQuery();
+        }
+
     }
 }
