@@ -1,7 +1,10 @@
-﻿using Assets.Scripts.App.Tracking.Table;
+﻿using System.Collections.Generic;
+using Assets.Scripts.App.Tracking.Table;
 using UnityEngine;
 
 public class ProfileSetup : MonoBehaviour {
+
+    [SerializeField] public FinderController FinderController;
 
     [SerializeField]
     private GameObject[] _steps;
@@ -23,8 +26,21 @@ public class ProfileSetup : MonoBehaviour {
         FinderProfile.AddProperty(new DataProperty("FavVacation", DataProperty.DataPropertyType.VARCHAR));
         AppData.Instance().Registry.Register(FinderProfile);
 
-        if (FinderProfile.Exists("name"))
+        var likedProfileIDs = new List<string>();
+
+        if (FinderProfile.Exists("name")) {
+            var table = AppData.Instance().Registry.Fetch("FinderLikes");
+            table.Select("*", "", reader => {
+                while (reader.Read()) {
+                    likedProfileIDs.Add(reader["ProfileID"].ToString());
+                }
+            });
+
             gameObject.SetActive(false);
+            FinderController.gameObject.SetActive(true);
+            FinderController.LikedProfileIDs = likedProfileIDs;
+        }
+       
     }
 
     /// <summary>

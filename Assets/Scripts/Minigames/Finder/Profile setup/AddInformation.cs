@@ -31,6 +31,11 @@ public class AddInformation : MonoBehaviour {
         profileSetup.FinderProfile.Insert(parameters);
         handshake.Send();
 
+        var likeTable = new DataTable("FinderLikes");
+        likeTable.AddProperty(new DataProperty("ProfileID", DataProperty.DataPropertyType.VARCHAR));
+        AppData.Instance().Registry.Register(likeTable);
+
         profileSetup.gameObject.SetActive(false);
+        profileSetup.FinderController.gameObject.SetActive(true);
     }
 }

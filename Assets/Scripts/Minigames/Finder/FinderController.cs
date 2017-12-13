@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using Assets.Scripts.App.Data_Management.Handshakes;
+using Assets.Scripts.App.Tracking.Table;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,14 +20,18 @@ public class FinderController : MonoBehaviour {
 
     private FinderProfileController _finderProfileController;
 
+    public List<string> LikedProfileIDs;
+    private List<FinderProfile> _likedProfiles;
+
     private void Start() {
         _finderProfileController = new FinderProfileController();
+        _likedProfiles = new List<FinderProfile>();
 
         new InformationProtocol(Protocol.Fetch)
             .AddParameter("uuid", PlayerPrefs.GetString("uid"))
             .AddParameter("responseHandler", "finder")
             .Send(request => {
-                _finderProfileController.LoadProfiles(request);
+                _finderProfileController.LoadProfiles(request, LikedProfileIDs);
                 UpdateUI();
             });
     }
@@ -56,9 +61,15 @@ public class FinderController : MonoBehaviour {
     /// </summary>
     /// <param name="like"></param>
     public void NextProfile(bool like) {
-        if (like) { } //Add to matches
-        _finderProfileController.NextProfile();
+        if (like && !_likedProfiles.Contains(_finderProfileController.GetCurrentProfile())) {
+            _likedProfiles.Add(_finderProfileController.GetCurrentProfile());
+            AppData.Instance().Registry.Fetch("FinderLikes").Insert(DataParams.Build("ProfileID", _finderProfileController.GetCurrentProfile().ProfileInfo.PlayerUID),
+                () => {
+                    Debug.Log("ID added");
+                });
+        }
 
+        _finderProfileController.NextProfile();
         UpdateUI();
     }
 

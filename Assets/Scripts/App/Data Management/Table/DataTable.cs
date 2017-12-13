@@ -103,14 +103,6 @@ namespace Assets.Scripts.App.Tracking.Table {
                 .Update(callback);
         }
 
-        public bool Exists(string key) {
-            var exists = false;
-            Select(key, "", reader => {
-                if (reader.Read()) exists = true;
-            });
-            return exists;
-        }
-
         /// <summary>
         /// Drops the table (deletes it!)
         /// </summary>

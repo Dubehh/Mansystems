@@ -14,7 +14,7 @@ public class FinderProfileController {
     /// Gathers a list of Finder profile's from a UnityWebRequest and fills a list with them
     /// </summary>
     /// <param name="data">The UnityWebRequest to retrieve the data from</param>
-    public void LoadProfiles(UnityWebRequest data) {
+    public void LoadProfiles(UnityWebRequest data, List<string> likes) {
         _profiles = new List<FinderProfile>();
 
         var profiles = new JSONObject(data.downloadHandler.text);
@@ -23,6 +23,7 @@ public class FinderProfileController {
         for (var i = 0; i < profiles.Count; i++) {
             var profile = profiles[i];
 
+            if (likes.Contains(profile["uuid"].str)) break;
             _profiles.Add(new FinderProfile(new FinderProfileInfo() {
                 PlayerUID = profile["uuid"].str,
                 Name = profile["Name"].str,
