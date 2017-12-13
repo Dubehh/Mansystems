@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Assets.Scripts.App.Tracking.Table;
+using UnityEngine.UI;
 
 /// <summary>
 /// Struct for Office Objects
 /// </summary>
 [Serializable]
-public struct OfficeObject {
+public class OfficeObject {
 
     [SerializeField]
     public GameObject GameObject;
@@ -18,6 +19,17 @@ public struct OfficeObject {
     public int ObjectScore;
 
     public float MaxWidth { get; set; }
+
+    [SerializeField]
+    public bool IsBroken;
+
+    [SerializeField]
+    public bool IsLogo;
+
+    [SerializeField]
+    public bool IsFakeLogo;
+    public int ID { get; set; }
+    
 }
 
 public class CatcherController : GameController {
@@ -44,32 +56,56 @@ public class CatcherController : GameController {
     public GameObject StopButton;
 
     [SerializeField]
-    private float _lifeLeft;
+    public int LifeLeft;
+
+    [SerializeField]
+    public Text AmountOfCustomers;
+
+    [SerializeField]
+    public Text FinalAmountOfFakeCustomers;
+
+    [SerializeField]
+    public Text FinalExpText;
+
+    [SerializeField]
+    public Text FinalScoreText;
+
+    [SerializeField]
+    public Text ScoreText;
+
+    [SerializeField]
+    public int GameScore;
+
+    public int Experience { get; set; }
+    public float LogosCaught { get; set; }
+    public float FakeLogosCaught { get; set; }
 
     private Camera _cam;
     private bool _gameStarted;
+
+    public Dictionary<GameObject, OfficeObject> ObjectRegister { get; private set; }
 
     /// <summary>
     /// shuts down game and returns to menu
     /// </summary>
     public override void OnUnload() {
-        var coins = Mathf.RoundToInt(CollisionHandler.GameScore * 36 / 1080f);
+        var coins = Mathf.RoundToInt(GameScore * 36 / 1080f);
         coins = coins <= 0 ? 0 : coins;
 
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Coins, coins);
 
-        var experience = CollisionHandler.GameScore * 30 / 1080;
+        var experience = GameScore * 30 / 1080;
         experience = experience <= 0 ? 0 : experience;
 
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, experience);
         AppData.Instance().MannyAttribute.Save();
 
         DataSource.Insert(DataParams.
-            Build("Points", CollisionHandler.GameScore).
+            Build("Points", GameScore).
             Append("ExperienceGained", experience).
             Append("Coins", coins).
-            Append("LogosCaught", CollisionHandler.LogosCaught).
-            Append("FakeLogosCaught", CollisionHandler.FakeLogosCaught).
+            Append("LogosCaught", LogosCaught).
+            Append("FakeLogosCaught", FakeLogosCaught).
             Append("TimePlayedSeconds", Time.time));
         Tracking.RequestSend();
     }
@@ -79,6 +115,7 @@ public class CatcherController : GameController {
     /// </summary>
     protected override void BeforeLoad() {
         _cam = Camera.main;
+        ObjectRegister = new Dictionary<GameObject, OfficeObject>();
 
         var upperCorner = new Vector3(Screen.width, Screen.height, 0.0f);
         var targetWidth = _cam.ScreenToWorldPoint(upperCorner);
@@ -112,8 +149,7 @@ public class CatcherController : GameController {
     /// Checks if time is zero
     /// </summary>
     protected override void Update() {
-        Updatelife();
-        UpdateLogo();
+        UpdateScore();
     }
 
     /// <summary>
@@ -124,7 +160,7 @@ public class CatcherController : GameController {
         ToggleObjects(true);
         if (!_gameStarted) yield return new WaitForSeconds(2.0f);
         _gameStarted = true;
-        while (_lifeLeft > 0) {
+        while (LifeLeft > 0) {
             foreach (var o in Objects) {
                 if (o.GameObject == null) continue;
                 var spawnPosition = new Vector3(
@@ -133,54 +169,32 @@ public class CatcherController : GameController {
                 0.0f);
 
                 var spawnRotation = Quaternion.identity;
-                Instantiate(o.GameObject, spawnPosition, spawnRotation);
+                ObjectRegister[Instantiate(o.GameObject, spawnPosition, spawnRotation)] = o;
                 yield return new WaitForSeconds(UnityEngine.Random.Range(0.5f, 1.0f));
             }
         }
     }
-
-
-    /// <summary>
-    /// updates lives of player
-    /// </summary>
-    private void Updatelife() {
-        if (CollisionHandler.Broken != true) return;
-        _lifeLeft = _lifeLeft - 1;
-        CollisionHandler.Broken = false;
-        ShowLives();
-    }
-
-    private void UpdateLogo() {
-        if (CollisionHandler.Logo) {
-            CollisionHandler.LogosCaught = CollisionHandler.LogosCaught + 1;
-            CollisionHandler.Logo = false;
-        } 
-        else if (CollisionHandler.FakeLogo) {
-            CollisionHandler.FakeLogosCaught = CollisionHandler.FakeLogosCaught + 1;
-            CollisionHandler.FakeLogo = false;
-        }
-    }
-
+    
     /// <summary>
     /// shows remaining lives of player
     /// </summary>
     private void ShowLives() {
-        if (_lifeLeft == 3) {
+        if (LifeLeft == 3) {
             Life3.SetActive(true);
             Life2.SetActive(true);
             Life1.SetActive(true);
         }
-        if (_lifeLeft == 2) {
+        if (LifeLeft == 2) {
             Life3.SetActive(false);
             Life2.SetActive(true);
             Life1.SetActive(true);
         }
-        if (_lifeLeft == 1) {
+        if (LifeLeft == 1) {
             Life3.SetActive(false);
             Life2.SetActive(false);
             Life1.SetActive(true);
 
-        } else if (_lifeLeft == 0) {
+        } else if (LifeLeft == 0) {
             StopCoroutine(SpawnOfficeObject());
             Life3.SetActive(false);
             Life2.SetActive(false);
@@ -201,13 +215,32 @@ public class CatcherController : GameController {
     }
 
     /// <summary>
+    /// Updates score and experience texts
+    /// </summary>
+    public void UpdateScore() {
+        ScoreText.text = "" + GameScore;
+        FinalScoreText.text = "" + GameScore;
+        FinalExpText.text = "" + Experience;
+        AmountOfCustomers.text = "" + LogosCaught;
+        FinalAmountOfFakeCustomers.text = "" + FakeLogosCaught;
+    }
+
+    /// <summary>
+    /// updates lives of player
+    /// </summary>
+    public void Updatelife() {
+        LifeLeft--;
+        ShowLives();
+    }
+
+    /// <summary>
     /// activates game over screen
     /// </summary>
     public void StopGame() {
-        _lifeLeft = 0;
+        LifeLeft = 0;
         StopCoroutine(SpawnOfficeObject());
         StopButton.SetActive(false);
-        CollisionHandler.UpdateScore();
+        UpdateScore();
         GameOverScreen.SetActive(true);
         ToggleObjects(false);
     }
