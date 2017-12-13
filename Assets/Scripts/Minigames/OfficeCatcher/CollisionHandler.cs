@@ -7,19 +7,37 @@ public class CollisionHandler : MonoBehaviour {
 
     [SerializeField]
     public Text ScoreText;
+
     [SerializeField]
     public Text FinalExpText;
+
+    [SerializeField]
     public int GameScore;
+
+    [SerializeField]
     public int Experience;
+
     [SerializeField]
     public Text FinalScoreText;
+
+    [SerializeField]
     public bool Broken;
+
+    [SerializeField]
     public bool Logo;
+
+    [SerializeField]
     public bool FakeLogo;
+
+    [SerializeField]
     public float LogosCaught;
+
+    [SerializeField]
     public float FakeLogosCaught;
+
     [SerializeField]
     public Text AmountOfCustomers;
+
     [SerializeField]
     public Text FinalAmountOfFakeCustomers;
 

@@ -56,10 +56,11 @@ public class CatcherController : GameController {
         var coins = Mathf.RoundToInt(CollisionHandler.GameScore * 36 / 1080f);
         coins = coins <= 0 ? 0 : coins;
 
+        AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Coins, coins);
+
         var experience = CollisionHandler.GameScore * 30 / 1080;
         experience = experience <= 0 ? 0 : experience;
 
-        AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Coins, coins);
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, experience);
         AppData.Instance().MannyAttribute.Save();
 
@@ -99,14 +100,14 @@ public class CatcherController : GameController {
         SetDataSource(source);
         Prepare();
     }
-    
+
     /// <summary>
     /// loads the game and starts it
     /// </summary>
     protected override void OnLoad() {
         StartCoroutine(SpawnOfficeObject());
     }
-    
+
     /// <summary>
     /// Checks if time is zero
     /// </summary>
@@ -125,6 +126,7 @@ public class CatcherController : GameController {
         _gameStarted = true;
         while (_lifeLeft > 0) {
             foreach (var o in Objects) {
+                if (o.GameObject == null) continue;
                 var spawnPosition = new Vector3(
                 UnityEngine.Random.Range(-o.MaxWidth, o.MaxWidth),
                 o.GameObject.transform.position.y,
@@ -152,8 +154,8 @@ public class CatcherController : GameController {
         if (CollisionHandler.Logo) {
             CollisionHandler.LogosCaught = CollisionHandler.LogosCaught + 1;
             CollisionHandler.Logo = false;
-        }
-        else if(CollisionHandler.FakeLogo) {
+        } 
+        else if (CollisionHandler.FakeLogo) {
             CollisionHandler.FakeLogosCaught = CollisionHandler.FakeLogosCaught + 1;
             CollisionHandler.FakeLogo = false;
         }
@@ -216,7 +218,7 @@ public class CatcherController : GameController {
     public void ExitButton() {
         AppData.Instance().Game.Unload();
     }
-    
+
     /// <summary>
     /// Destroys gameObject when it collides with the collider
     /// </summary>
@@ -225,4 +227,3 @@ public class CatcherController : GameController {
         Destroy(other.gameObject);
     }
 }
-
