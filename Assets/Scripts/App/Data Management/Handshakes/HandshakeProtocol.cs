@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Assets.Scripts.App.Data_Management.Handshakes {
@@ -23,7 +24,7 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
 
         protected readonly List<IMultipartFormSection> _params;
         protected readonly Protocol _protocol;
-        protected Action _error;
+        protected Action<string> _error;
 
         /// <summary>
         /// Instantiates a new Handshake that may be used to communicate with the defined webhost
@@ -39,8 +40,9 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
         /// Sets the error callback that is fired when the handshake returned an error
         /// </summary>
         /// <param name="callback">Action callback</param>
-        public void SetErrorCallback(Action callback) {
-            _error = callback;
+        public HandshakeProtocol<T> OnError(Action<string> error) {
+            _error = error;
+            return this;
         }
 
         /// <summary>

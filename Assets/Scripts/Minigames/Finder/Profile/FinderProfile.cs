@@ -6,14 +6,14 @@ using UnityEngine;
 public class FinderProfile {
     public List<Texture> Pictures { get; set; }
     public FinderProfileInfo ProfileInfo { get; set; }
+    public string[] ImageNames { get; private set; }
 
-    private readonly string[] _imageNames;
     private int _currentPictureIndex;
 
     public FinderProfile(FinderProfileInfo info, string[] imageNames) {
         Pictures = new List<Texture>();
         ProfileInfo = info;
-        _imageNames = imageNames;
+        ImageNames = imageNames;
     }
 
     /// <summary>
@@ -21,17 +21,15 @@ public class FinderProfile {
     /// </summary>
     /// <param name="controller">The controller which Monobehaviour's used in the request</param>
     /// <param name="onComplete">The method to fire when the loading is done</param>
-    public void LoadPictures(FinderController controller, Action onComplete) {
-        foreach (var imageName in _imageNames) {
-            new FileProtocol(Protocol.Download, controller)
+    public void LoadPictures(MonoBehaviour controller, Action<FileProtocolQueue> onComplete = null) {
+        var fileQueue = new FileProtocolQueue(onComplete, www => Pictures.Add(www.texture));
+        foreach (var imageName in ImageNames) {
+            fileQueue.Attach(new FileProtocol(Protocol.Download, controller)
                 .Target("finder")
                 .For(ProfileInfo.PlayerUID)
-                .AddParameter("name", imageName)
-                .Send(www => {
-                    Pictures.Add(www.texture);
-                    onComplete();
-                });
+                .AddParameter("name", imageName) as FileProtocol);
         }
+        fileQueue.Commit();
     }
 
     /// <summary>

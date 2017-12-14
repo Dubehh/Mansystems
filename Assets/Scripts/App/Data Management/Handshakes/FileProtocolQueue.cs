@@ -52,7 +52,7 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
         /// Notifies the queue that a request is complete
         /// </summary>
         private void Notify() {
-            if (--Count > 0) return;
+            if (--Count > 0 || _queueComplete==null) return;
             _queueComplete.Invoke(this);
         }
     }

@@ -14,7 +14,6 @@ public class ProfileSetup : MonoBehaviour {
     private void Awake() {
         var likedProfileIDs = new List<string>();
         var profile = AppData.Instance().Registry.Fetch(FinderController.ProfileTable);
-
         if (profile != null) {
             var table = AppData.Instance().Registry.Fetch(FinderController.LikeTable);
             table.Select("*", "", reader => {

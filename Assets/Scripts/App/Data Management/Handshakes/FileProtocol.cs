@@ -100,11 +100,10 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
             var handshake = new WWW(_webReference + _webController + ".php", form);
             yield return handshake;
             if(_error != null && !string.IsNullOrEmpty(handshake.error))
-                _error.Invoke();
+                _error.Invoke(handshake.error);
             else if(onComplete != null)
                 onComplete.Invoke(handshake);
             handshake.Dispose();
-            handshake = null;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class FinderProfileController {
@@ -14,6 +15,7 @@ public class FinderProfileController {
     /// <param name="data">The UnityWebRequest to retrieve the data from</param>
     /// <param name="likes">A list with UID's that the player has liked before</param> 
     public void LoadProfiles(UnityWebRequest data, List<string> likes) {
+        LikedProfiles = new List<FinderProfile>();
         _profiles = new List<FinderProfile>();
 
         var profiles = new JSONObject(data.downloadHandler.text);
@@ -36,7 +38,7 @@ public class FinderProfileController {
                 FavVacation = profile["FavVacation"].str
             }, profile["pictures"].list.Select(x => x.str).ToArray());
 
-            if (likes.Contains(profile["uuid"].str))
+            if (likes.Contains(profile["uuid"].str)) 
                 LikedProfiles.Add(newProfile);
             else _profiles.Add(newProfile);
         }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.Linq;
 using Assets.Scripts.App.Data_Management.Handshakes;
 using Assets.Scripts.App.Tracking.Table;
 using UnityEngine;
@@ -21,14 +22,18 @@ public class FinderController : MonoBehaviour {
 
     private void Start() {
         FinderProfileController = new FinderProfileController();
-        if(LikedProfileIDs == null) LikedProfileIDs = new List<string>();
-
+        if (LikedProfileIDs == null) LikedProfileIDs = new List<string>();
+        var a = this;
         new InformationProtocol(Protocol.Fetch)
             .AddParameter("uuid", PlayerPrefs.GetString("uid"))
             .AddParameter("responseHandler", "finder")
             .Send(request => {
                 FinderProfileController.LoadProfiles(request, LikedProfileIDs);
-                UpdateUI();
+                foreach (var likedProfile in FinderProfileController.LikedProfiles) {
+                    if (likedProfile == FinderProfileController.LikedProfiles.Last())
+                        likedProfile.LoadPictures(a, queue => { UpdateUI(); });
+                    else likedProfile.LoadPictures(a);
+                }
             });
     }
 
@@ -40,7 +45,8 @@ public class FinderController : MonoBehaviour {
 
         if (current == null) End();
         else
-            current.LoadPictures(this, () => {
+            current.LoadPictures(this, queue => {
+                Debug.Log(queue.Queue.Count + " committed");
                 Picture.texture = current.GetCurrentPicture() != null ? current.GetCurrentPicture() : new Texture();
                 Name.text = current.ProfileInfo.Name + " (" + current.ProfileInfo.Age + ")";
                 Description.text = current.ProfileInfo.City;
@@ -66,7 +72,7 @@ public class FinderController : MonoBehaviour {
             likedProfiles.Add(currentProfile);
             AppData.Instance().Registry.Fetch(LikeTable)
                 .Insert(DataParams.Build("ProfileID", currentProfile.ProfileInfo.PlayerUID));
-        } 
+        }
         FinderProfileController.NextProfile();
         UpdateUI();
     }

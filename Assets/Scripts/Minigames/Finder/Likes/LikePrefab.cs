@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.App.Data_Management.Handshakes;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class LikePrefab : MonoBehaviour {
@@ -13,6 +14,7 @@ public class LikePrefab : MonoBehaviour {
     /// </summary>
     public void Init() {
         Name.text = Profile.ProfileInfo.Name;
+        Picture.texture = Profile.GetCurrentPicture();
     }
 
     /// <summary>

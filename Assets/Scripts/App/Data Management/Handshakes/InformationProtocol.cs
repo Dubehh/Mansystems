@@ -21,7 +21,7 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
             request.completed += (action) => {
                 if (handshake.isHttpError || handshake.isNetworkError) {
                     if (_error != null)
-                        _error.Invoke();
+                        _error.Invoke(handshake.error);
                 } else if (complete != null)
                     complete.Invoke(handshake);
             };
@@ -34,11 +34,11 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
         /// <param name="onValidateError">Callback to invoke if there is no connection</param>
         public static void Validate(Action onValidateSuccess = null, Action onValidateError = null) {
             var handshake = new InformationProtocol(Protocol.Update);
-            handshake.SetErrorCallback(() => {
+            handshake.OnError(error => {
                 if (onValidateError != null)
                     onValidateError.Invoke();
             });
-            handshake.Send((request) => {
+            handshake.Send(request => {
                 if (onValidateSuccess != null)
                     onValidateSuccess.Invoke();
             });
