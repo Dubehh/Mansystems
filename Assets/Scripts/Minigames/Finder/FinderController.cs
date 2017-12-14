@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.App.Data_Management;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
 using Assets.Scripts.App.Data_Management.Handshakes;
 using Assets.Scripts.App.Tracking.Table;
@@ -9,22 +8,18 @@ using UnityEngine.UI;
 [Serializable]
 public class FinderController : MonoBehaviour {
 
-    [SerializeField]
-    private RawImage _picture;
+    public const string LikeTable = "FinderLikes";
+    public const string ProfileTable = "FinderProfile";
 
-    [SerializeField]
-    private Text _name;
+    [SerializeField] public RawImage Picture;
+    [SerializeField] public Text Name;
+    [SerializeField] public Text Description;
+    [SerializeField] public GameObject EndScreen;
 
-    [SerializeField]
-    private Text _description;
-
-    [SerializeField]
-    private GameObject _endScreen;
+    public List<string> LikedProfileIDs { get; set; }
+    public List<FinderProfile> LikedProfiles { get; private set; }
 
     private FinderProfileController _finderProfileController;
-
-    public List<string> LikedProfileIDs;
-    public List<FinderProfile> LikedProfiles;
 
     private void Start() {
         _finderProfileController = new FinderProfileController();
@@ -34,9 +29,7 @@ public class FinderController : MonoBehaviour {
             .AddParameter("responseHandler", "finder")
             .Send(request => {
                 LikedProfiles = _finderProfileController.LoadProfiles(request, LikedProfileIDs);
-                if (_finderProfileController.GetCurrentProfile() != null)
-                    UpdateUI();
-                else End();
+                UpdateUI();
             });
     }
 
@@ -49,9 +42,9 @@ public class FinderController : MonoBehaviour {
         if (current == null) End();
         else
             current.LoadPictures(this, () => {
-                _picture.texture = current.GetCurrentPicture() != null ? current.GetCurrentPicture() : new Texture();
-                _name.text = current.ProfileInfo.Name;
-                _description.text = current.ProfileInfo.City;
+                Picture.texture = current.GetCurrentPicture() != null ? current.GetCurrentPicture() : new Texture();
+                Name.text = current.ProfileInfo.Name + " (" + current.ProfileInfo.Age + ")";
+                Description.text = current.ProfileInfo.City;
             });
     }
 
@@ -60,7 +53,7 @@ public class FinderController : MonoBehaviour {
     /// </summary>
     /// <param name="next"></param>
     public void SwitchPicture(bool next) {
-        _picture.texture = _finderProfileController.GetCurrentProfile().GetPicture(next);
+        Picture.texture = _finderProfileController.GetCurrentProfile().GetPicture(next);
     }
 
     /// <summary>
@@ -68,20 +61,24 @@ public class FinderController : MonoBehaviour {
     /// </summary>
     /// <param name="like"></param>
     public void NextProfile(bool like) {
-        if (like && !LikedProfiles.Contains(_finderProfileController.GetCurrentProfile())) {
-            LikedProfiles.Add(_finderProfileController.GetCurrentProfile());
-            AppData.Instance().Registry.Fetch("FinderLikes").Insert(DataParams.Build("ProfileID", _finderProfileController.GetCurrentProfile().ProfileInfo.PlayerUID),
-                () => {
-                    Debug.Log("ID added");
-                });
+        var currentProfile = _finderProfileController.GetCurrentProfile();
+        if (like && !LikedProfiles.Contains(currentProfile)) {
+            LikedProfiles.Add(currentProfile);
+            AppData.Instance().Registry.
+                Fetch(LikeTable).
+                Insert(DataParams.Build("ProfileID", currentProfile.ProfileInfo.PlayerUID));
         }
 
         _finderProfileController.NextProfile();
         UpdateUI();
     }
 
+    /// <summary>
+    /// Is called when no profiles are available anymore
+    /// Opens a screen that displays a warning
+    /// </summary>
     private void End() {
-        _endScreen.SetActive(true);
+        EndScreen.SetActive(true);
         gameObject.SetActive(false);
     }
 

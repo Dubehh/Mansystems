@@ -38,7 +38,7 @@ public class MillionaireController : GameController {
     private bool _won;
 
     private float _experience;
-    
+
     /// <summary>
     /// Gives the player the money he has won
     /// </summary>
@@ -235,6 +235,9 @@ public class MillionaireController : GameController {
     /// Returns the player to the dashboard and gives him the current prize money
     /// </summary>
     public void BackButton() {
-        AppData.Instance().Game.Unload();
+        if (Summary.activeSelf)
+            AppData.Instance().Game.Unload();
+        else
+            GameCompleted(false);
     }
 }

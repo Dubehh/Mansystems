@@ -4,20 +4,24 @@ using Assets.Scripts.App.Data_Management.Handshakes;
 using UnityEngine;
 
 public struct FinderProfileInfo {
-    public string PlayerUID;
-    public string Name;
-    public int Age;
-    public string City;
-    public int PhoneNumber;
-    public string FavMovie, FavMusic, FavFood, FavSport, FavGame, FavVacation;
+    public string PlayerUID { get; set; }
+    public string Name { get; set; }
+    public int Age { get; set; }
+    public string City { get; set; }
+    public int PhoneNumber { get; set; }
+    public string FavMovie { get; set; }
+    public string FavMusic { get; set; }
+    public string FavFood { get; set; }
+    public string FavSport { get; set; }
+    public string FavGame { get; set; }
+    public string FavVacation { get; set; }
 }
 
 public class FinderProfile {
     public List<Texture> Pictures { get; set; }
     public FinderProfileInfo ProfileInfo { get; set; }
 
-    private string[] _imageNames;
-
+    private readonly string[] _imageNames;
     private int _currentPictureIndex;
 
     public FinderProfile(FinderProfileInfo info, string[] imageNames) {
@@ -26,6 +30,11 @@ public class FinderProfile {
         _imageNames = imageNames;
     }
 
+    /// <summary>
+    /// Loads the users pictures from the webserver
+    /// </summary>
+    /// <param name="controller">The controller which Monobehaviour's used in the request</param>
+    /// <param name="onComplete">The method to fire when the loading is done</param>
     public void LoadPictures(FinderController controller, Action onComplete) {
         foreach (var imageName in _imageNames) {
             new FileProtocol(Protocol.Download, controller)

@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using Assets.Scripts.App.Data_Management.Handshakes;
-using UnityEngine;
 using UnityEngine.Networking;
 
 public class FinderProfileController {
@@ -27,9 +24,9 @@ public class FinderProfileController {
             var newProfile = new FinderProfile(new FinderProfileInfo {
                 PlayerUID = profile["uuid"].str,
                 Name = profile["Name"].str,
-                Age = (int) profile["Age"].i,
+                Age = (int)profile["Age"].i,
                 City = profile["City"].str,
-                PhoneNumber = (int) profile["PhoneNumber"].i,
+                PhoneNumber = (int)profile["PhoneNumber"].i,
                 FavMovie = profile["FavMovie"].str,
                 FavMusic = profile["FavMusic"].str,
                 FavFood = profile["FavFood"].str,
@@ -38,14 +35,12 @@ public class FinderProfileController {
                 FavVacation = profile["FavVacation"].str
             }, profile["pictures"].list.Select(x => x.str).ToArray());
 
-            if (likes.Contains(profile["uuid"].str)) {
+            if (likes.Contains(profile["uuid"].str))
                 likedProfiles.Add(newProfile);
-            }
             else _profiles.Add(newProfile);
         }
 
         _profiles = _profiles.OrderBy(x => random.Next()).ToList();
-        Debug.Log(likedProfiles.Count);
         return likedProfiles;
     }
 

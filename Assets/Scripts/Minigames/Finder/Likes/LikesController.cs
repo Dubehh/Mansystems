@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LikesController : MonoBehaviour {
 
     public FinderController FinderController;
     public GameObject Like;
     
-	// Use this for initialization
+	// Fills the likes screen with Like prefabs according to the LikeProfiles list from the FinderController
     public void Init() {
         var y = 540f;
 

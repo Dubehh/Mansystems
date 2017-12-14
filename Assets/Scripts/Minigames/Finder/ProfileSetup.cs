@@ -6,21 +6,20 @@ public class ProfileSetup : MonoBehaviour {
 
     [SerializeField] public FinderController FinderController;
 
-    [SerializeField]
-    private GameObject[] _steps;
-    private int _currentStepIndex;
-
+    [SerializeField] public GameObject[] Steps;
     public DataTable FinderProfile;
+
+    private int _currentStepIndex;
     
     private void Awake() {
         var likedProfileIDs = new List<string>();
-        var profile = AppData.Instance().Registry.Fetch("FinderProfile");
+        var profile = AppData.Instance().Registry.Fetch(FinderController.ProfileTable);
+
         if (profile != null) {
-            var table = AppData.Instance().Registry.Fetch("FinderLikes");
+            var table = AppData.Instance().Registry.Fetch(FinderController.LikeTable);
             table.Select("*", "", reader => {
-                while (reader.Read()) {
+                while (reader.Read()) 
                     likedProfileIDs.Add(reader["ProfileID"].ToString());
-                }
             });
 
             gameObject.SetActive(false);
@@ -44,11 +43,11 @@ public class ProfileSetup : MonoBehaviour {
     }
 
     /// <summary>
-    /// Disables the current panel and activates the next panel from the _steps list
+    /// Disables the current panel and activates the next panel from the Steps list
     /// </summary>
     public void NextStep() {
-        _steps[_currentStepIndex].SetActive(false);
+        Steps[_currentStepIndex].SetActive(false);
         _currentStepIndex += 1;
-        _steps[_currentStepIndex].SetActive(true);
+        Steps[_currentStepIndex].SetActive(true);
     }
 }
