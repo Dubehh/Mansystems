@@ -7,16 +7,17 @@ using UnityEngine;
 namespace Assets.Scripts.App.Data_Management.Handshakes {
     public class FileProtocolQueue {
 
-        private Action<FileProtocolQueue> _queueComplete;
-        private Action<WWW> _requestComplete;
+        private readonly Action<FileProtocolQueue> _queueComplete;
+        private readonly Action<WWW> _requestComplete;
         public int Count { get; private set; }
 
         public HashSet<FileProtocol> Queue { get; private set; }
 
         /// <summary>
         /// Creates a new file protocol queue
-        /// </summary>d
-        /// <param name="onComplete">Callback oncomplete</param>
+        /// </summary>
+        /// <param name="queueComplete">Callback oncomplete</param>
+        /// <param name="requestComplete">Callback oncomplete</param>
         public FileProtocolQueue(Action<FileProtocolQueue> queueComplete, Action<WWW> requestComplete = null) {
             _queueComplete = queueComplete;
             _requestComplete = requestComplete;
@@ -27,7 +28,7 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
         /// <summary>
         /// Attaches a handshake protocol to the queue
         /// </summary>
-        /// <param name="instance">File protocol instance</param>
+        /// <param name="protocol">File protocol instance</param>
         /// <returns>Queue instance</returns>
         public FileProtocolQueue Attach(FileProtocol protocol) {
             Count++;

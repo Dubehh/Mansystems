@@ -27,8 +27,8 @@ public class MannyNotification {
         Eight = 2 * Four
     }
 
-    private List<Notification> _notifications;
-    private Manny _manny;
+    private readonly List<Notification> _notifications;
+    private readonly Manny _manny;
 
     public MannyNotification(Manny manny) {
         _manny = manny;
@@ -40,22 +40,12 @@ public class MannyNotification {
     /// Registers all notification, simple initialization method
     /// </summary>
     private void Register() {
-        Register("Er is een minuutje voorbij! Tijd voor een biertje!", (stamp, attr) => {
-            return stamp == IterationStamp.Minute;
-        });
-        Register("Hmm. Ik heb eigenlijk wel zin in wat eten!", (stamp, attr) => {
-            return attr.GetAttribute(Attribute.Food) < 40;
-        });
-        Register("Hey! Heb je misschien een drankje voor mij?", (stamp, attr) => {
-            return attr.GetAttribute(Attribute.Thirst) < 40;
-        });
-        Register("Pfff.. ik voel mij nogal zwak.. kan je even komen?", (stamp, attr) => {
-            return attr.GetAttribute(Attribute.Thirst) < 35 && attr.GetAttribute(Attribute.Food) < 30 && (int)stamp > (int)IterationStamp.Four;
-        });
-        Register("Hmm.. ga ik straks Pizza eten of Spaghetti..?", (stamp, attr) => {
-            return (int)stamp > (int)IterationStamp.Four;
-        });
-        Register("Hey kanjer! Heb je zin om een spelletje te spelen?", (stamp, attr) => { return true; });
+        Register("Er is een minuutje voorbij! Tijd voor een biertje!", (stamp, attr) => stamp == IterationStamp.Minute);
+        Register("Hmm. Ik heb eigenlijk wel zin in wat eten!", (stamp, attr) => attr.GetAttribute(Attribute.Food) < 40);
+        Register("Hey! Heb je misschien een drankje voor mij?", (stamp, attr) => attr.GetAttribute(Attribute.Thirst) < 40);
+        Register("Pfff.. ik voel mij nogal zwak.. kan je even komen?", (stamp, attr) => attr.GetAttribute(Attribute.Thirst) < 35 && attr.GetAttribute(Attribute.Food) < 30 && (int)stamp > (int)IterationStamp.Four);
+        Register("Hmm.. ga ik straks Pizza eten of Spaghetti..?", (stamp, attr) => (int)stamp > (int)IterationStamp.Four);
+        Register("Hey kanjer! Heb je zin om een spelletje te spelen?", (stamp, attr) => true);
     }
 
     /// <summary>
@@ -88,7 +78,7 @@ public class MannyNotification {
     public void Send() {
         Reset();
         foreach (var stamp in Enum.GetValues(typeof(IterationStamp)).Cast<IterationStamp>()) {
-            var notification = _notifications.Where(x => x.Condition.Invoke(stamp, _manny.Attribute)).FirstOrDefault();
+            var notification = _notifications.FirstOrDefault(x => x.Condition.Invoke(stamp, _manny.Attribute));
 #if UNITY_ANDROID
             NotificationUtil.Send(TimeSpan.FromMinutes((int)stamp), notification.Message);
 #endif

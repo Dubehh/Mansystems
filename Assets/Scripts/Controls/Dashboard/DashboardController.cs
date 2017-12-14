@@ -17,15 +17,14 @@ public class DashboardController : MonoBehaviour {
     [SerializeField]
     public DashboardBackground[] Backgrounds;
 
-    private AnimationHandler _animationHandler;
-
+    private DashboardAnimationHandler _dashboardAnimationHandler;
     private DashboardBackground _current;
     private UIStatIndicator _indicator;
 
     // Use this for initialization
     private void Start() {
         _indicator = new UIStatIndicator(ExperienceIndicator, Attribute.Experience, Manny);
-        _animationHandler = new AnimationHandler();
+        _dashboardAnimationHandler = new DashboardAnimationHandler();
         InvalidateBackground();
         SetExperienceGoal();
         UpdateIndicators();
@@ -33,7 +32,7 @@ public class DashboardController : MonoBehaviour {
 
     private void Update() {
         UpdateIndicators();
-        _animationHandler.ScanInput();
+        _dashboardAnimationHandler.ScanInput();
     }
 
     /// <summary>
@@ -74,11 +73,10 @@ public class DashboardController : MonoBehaviour {
     /// </summary>
     private void InvalidateBackground() {
         var now = System.DateTime.Now.Hour;
-        _current = Backgrounds.Where(x => x.Time.Min <= now && x.Time.Max >= now).FirstOrDefault();
+        _current = Backgrounds.FirstOrDefault(x => x.Time.Min <= now && x.Time.Max >= now);
         _current = _current ?? Backgrounds[0];
         _current.Background.SetActive(true);
         _current.Manny.SetActive(true);
-
-        _animationHandler.SetAnimator(_current.Manny);
+        _dashboardAnimationHandler.SetAnimator(_current.Manny);
     }
 }

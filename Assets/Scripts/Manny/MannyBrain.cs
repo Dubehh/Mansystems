@@ -5,7 +5,7 @@ public class MannyBrain {
 
     public const string StampKey = "systemTime";
     public MannyCondition Condition { get; private set; }
-    private Manny _manny;
+    private readonly Manny _manny;
 
     public MannyBrain(Manny manny) {
         _manny = manny;
@@ -20,10 +20,9 @@ public class MannyBrain {
     /// </summary>
     public void Update() {
         var status = Condition.UpdateCondition();
-        if (status.Count != 0) {
-            foreach (var condition in status) {
-                if(condition.Weak && _manny.Dashboard != null) _manny.Dashboard.DisplayDialog(condition.Message);
-            }
+        if (status.Count == 0) return;
+        foreach (var condition in status) {
+            if(condition.Weak && _manny.Dashboard != null) _manny.Dashboard.DisplayDialog(condition.Message);
         }
     }
 

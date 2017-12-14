@@ -22,7 +22,8 @@ public enum Attribute {
     DNA_Surpass
 }
 public class MannyAttribute {
-    private Dictionary<Attribute, float> _attributes;
+
+    private readonly Dictionary<Attribute, float> _attributes;
 
     public MannyAttribute() {
         _attributes = new Dictionary<Attribute, float>();        
