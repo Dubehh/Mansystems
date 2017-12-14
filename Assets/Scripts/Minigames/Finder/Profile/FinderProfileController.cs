@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine.Networking;
 
 public class FinderProfileController {
+    public List<FinderProfile> LikedProfiles { get; set; }
 
     private List<FinderProfile> _profiles;
     private int _currentProfileIndex;
@@ -11,8 +12,8 @@ public class FinderProfileController {
     /// Gathers a list of Finder profile's from a UnityWebRequest and fills a list with them
     /// </summary>
     /// <param name="data">The UnityWebRequest to retrieve the data from</param>
-    public List<FinderProfile> LoadProfiles(UnityWebRequest data, List<string> likes) {
-        var likedProfiles = new List<FinderProfile>();
+    /// <param name="likes">A list with UID's that the player has liked before</param> 
+    public void LoadProfiles(UnityWebRequest data, List<string> likes) {
         _profiles = new List<FinderProfile>();
 
         var profiles = new JSONObject(data.downloadHandler.text);
@@ -36,12 +37,11 @@ public class FinderProfileController {
             }, profile["pictures"].list.Select(x => x.str).ToArray());
 
             if (likes.Contains(profile["uuid"].str))
-                likedProfiles.Add(newProfile);
+                LikedProfiles.Add(newProfile);
             else _profiles.Add(newProfile);
         }
 
         _profiles = _profiles.OrderBy(x => random.Next()).ToList();
-        return likedProfiles;
     }
 
     /// <summary>
