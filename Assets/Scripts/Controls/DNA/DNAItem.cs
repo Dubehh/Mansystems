@@ -3,19 +3,18 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Represents a DNA attribute that can be changed
+///     Represents a DNA attribute that can be changed
 /// </summary>
 [Serializable]
 public class DNAItem {
-
-    [SerializeField]
-    public Attribute Attribute;
-    [SerializeField]
-    public Slider Slider;
     private Manny _manny;
 
+    [SerializeField] public Attribute Attribute;
+
+    [SerializeField] public Slider Slider;
+
     /// <summary>
-    /// Makes the reference to the Manny instance
+    ///     Makes the reference to the Manny instance
     /// </summary>
     /// <param name="manny">Manny main instance</param>
     public void SetInstance(Manny manny) {
@@ -25,11 +24,10 @@ public class DNAItem {
     }
 
     /// <summary>
-    /// Updates the slider
+    ///     Updates the slider
     /// </summary>
     public void Update() {
         Slider.value = _manny.Attribute.GetAttribute(Attribute);
-        Slider.GetComponentInChildren<Text>().text = (int)Slider.value + " / " + Slider.maxValue;
+        Slider.GetComponentInChildren<Text>().text = (int) Slider.value + " / " + Slider.maxValue;
     }
 }
-

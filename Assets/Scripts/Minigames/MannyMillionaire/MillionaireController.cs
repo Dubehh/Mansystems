@@ -1,64 +1,53 @@
-﻿using Assets.Scripts.App.Game;
-using Assets.Scripts.App.Data_Management;
-using Assets.Scripts.App.Tracking.Table;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.App.Data_Management.Handshakes;
+using Assets.Scripts.App.Game;
+using Assets.Scripts.App.Tracking.Table;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MillionaireController : GameController {
-
-    [SerializeField]
-    public Text QuestionText;
-
-    [SerializeField]
-    public Text PrizeText;
-
-    [SerializeField]
-    public Button[] Buttons;
-
-    [SerializeField]
-    public Slider Timer;
-
-    [SerializeField]
-    public Animator MannyAnimator;
-
-    [SerializeField]
-    public Animator LampAnimator;
-
-    [SerializeField]
-    public GameObject Summary;
-
-    private QuestionController _questionController;
-    private PrizeController _prizeController;
-
     private bool _escapeActive;
-    private bool _gameStarted;
-    private bool _gameCompleted;
-    private bool _won;
 
     private float _experience;
-    
+    private bool _gameCompleted;
+    private bool _gameStarted;
+    private PrizeController _prizeController;
+
+    private QuestionController _questionController;
+    private bool _won;
+
+    [SerializeField] public Button[] Buttons;
+
+    [SerializeField] public Animator LampAnimator;
+
+    [SerializeField] public Animator MannyAnimator;
+
+    [SerializeField] public Text PrizeText;
+
+    [SerializeField] public Text QuestionText;
+
+    [SerializeField] public GameObject Summary;
+
+    [SerializeField] public Slider Timer;
+
     /// <summary>
-    /// Gives the player the money he has won
+    ///     Gives the player the money he has won
     /// </summary>
     public override void OnUnload() {
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Coins, _prizeController.CurrentPrize);
         AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, _experience);
         AppData.Instance().MannyAttribute.Save();
 
-        DataSource.Insert(DataParams.
-            Build("Won", _won ? 1 : 0).
-            Append("CorrectAnswers", _questionController.CurrentQuestionIndex).
-            Append("Prize", _prizeController.CurrentPrize).
-            Append("Experience", _experience).
-            Append("TimePlayedSeconds", Time.time));
+        DataSource.Insert(DataParams.Build("Won", _won ? 1 : 0)
+            .Append("CorrectAnswers", _questionController.CurrentQuestionIndex)
+            .Append("Prize", _prizeController.CurrentPrize).Append("Experience", _experience)
+            .Append("TimePlayedSeconds", Time.time));
         Tracking.RequestSend();
     }
 
     /// <summary>
-    /// Retrieves 15 question from the database and fills an array with them
+    ///     Retrieves 15 question from the database and fills an array with them
     /// </summary>
     protected override void BeforeLoad() {
         var table = new DataTable("Millionaire");
@@ -72,7 +61,7 @@ public class MillionaireController : GameController {
         _questionController = new QuestionController();
         _prizeController = new PrizeController();
 
-        new InformationProtocol(Protocol.Fetch).AddParameter("responseHandler", "millionaire").Send((request) => {
+        new InformationProtocol(Protocol.Fetch).AddParameter("responseHandler", "millionaire").Send(request => {
             _questionController.LoadQuestions(request);
             UpdateUI();
             Prepare();
@@ -84,7 +73,7 @@ public class MillionaireController : GameController {
     }
 
     /// <summary>
-    /// Keeps updating the UI
+    ///     Keeps updating the UI
     /// </summary>
     protected override void Update() {
         if (!_gameCompleted && _gameStarted) Timer.value -= Time.deltaTime;
@@ -93,7 +82,7 @@ public class MillionaireController : GameController {
     }
 
     /// <summary>
-    /// Resets and fills the question and answer objects with the current question
+    ///     Resets and fills the question and answer objects with the current question
     /// </summary>
     private void UpdateUI() {
         var currentQuestion = _questionController.GetCurrentQuestion();
@@ -103,20 +92,21 @@ public class MillionaireController : GameController {
         for (var i = 0; i < currentQuestion.Answers.Count; i++) {
             Buttons[i].interactable = true;
             Buttons[i].gameObject.SetActive(true);
-            Buttons[i].GetComponentInChildren<Text>().text = currentQuestion.Answers[i].Text; ;
+            Buttons[i].GetComponentInChildren<Text>().text = currentQuestion.Answers[i].Text;
+            ;
         }
         Timer.value = Timer.maxValue;
     }
 
     /// <summary>
-    /// Updates the prize indicator's text with the current prize
+    ///     Updates the prize indicator's text with the current prize
     /// </summary>
     private void UpdatePrize() {
         PrizeText.text = _prizeController.CurrentPrize.ToString();
     }
 
     /// <summary>
-    /// Method is called once the players wins the game. Updates the UI to the 'win screen'
+    ///     Method is called once the players wins the game. Updates the UI to the 'win screen'
     /// </summary>
     private void GameCompleted(bool won) {
         _gameCompleted = true;
@@ -126,7 +116,8 @@ public class MillionaireController : GameController {
             LampAnimator.Play("game_completed");
             FindObjectOfType<ParticleSystem>().Play();
             QuestionText.text = "Gefeliciteerd, je hebt gewonnen!";
-        } else {
+        }
+        else {
             _prizeController.CurrentPrize = _prizeController.StaticPrize;
             QuestionText.text = "Helaas, je hebt verloren!";
         }
@@ -139,7 +130,7 @@ public class MillionaireController : GameController {
     }
 
     /// <summary>
-    /// Prepares and displays the summary panel. This method is called once the game is completed.
+    ///     Prepares and displays the summary panel. This method is called once the game is completed.
     /// </summary>
     /// <param name="won">Used to determine the color of the panel</param>
     private void DisplaySummary(bool won) {
@@ -157,7 +148,7 @@ public class MillionaireController : GameController {
     }
 
     /// <summary>
-    /// Event for when the player clicks an answer and checks if it was the right answer.
+    ///     Event for when the player clicks an answer and checks if it was the right answer.
     /// </summary>
     /// <param name="index">The index of the clicked button</param>
     public void AnswerClick(int index) {
@@ -175,7 +166,8 @@ public class MillionaireController : GameController {
                 GameCompleted(true);
             else
                 UpdateUI();
-        } else {
+        }
+        else {
             LampAnimator.Play("Answer_false", 0, 0);
             MannyAnimator.Play("Sad", 2);
             GameCompleted(false);
@@ -183,11 +175,12 @@ public class MillionaireController : GameController {
     }
 
     /// <summary>
-    /// FiftyFifty is one of the usables that halves the answer options for the player.
+    ///     FiftyFifty is one of the usables that halves the answer options for the player.
     /// </summary>
     public void FiftyFifty() {
         var currentQuestion = _questionController.GetCurrentQuestion();
-        var falseIndexes = currentQuestion.Answers.Where(x => !x.IsAnswer).Select(x => currentQuestion.Answers.IndexOf(x)).ToList();
+        var falseIndexes = currentQuestion.Answers.Where(x => !x.IsAnswer)
+            .Select(x => currentQuestion.Answers.IndexOf(x)).ToList();
         falseIndexes.RemoveAt(Random.Range(0, falseIndexes.Count - 1));
 
         foreach (var index in falseIndexes)
@@ -199,28 +192,32 @@ public class MillionaireController : GameController {
     }
 
     /// <summary>
-    /// Generates random percentages for each answer how likely that answer is to be the right one. 
-    /// Easy questions generate a high percentage for the right questions. The harder the questions 
-    /// get, the closer the percentages get to each other.
+    ///     Generates random percentages for each answer how likely that answer is to be the right one.
+    ///     Easy questions generate a high percentage for the right questions. The harder the questions
+    ///     get, the closer the percentages get to each other.
     /// </summary>
     public void CrowdHelp() {
         var currentQuestion = _questionController.GetCurrentQuestion();
-        var goodP = Random.Range(15 * (int)currentQuestion.Difficulty, 30 * (int)currentQuestion.Difficulty);
-        var falseP = Random.Range(0, (100 - goodP));
+        var goodP = Random.Range(15 * (int) currentQuestion.Difficulty, 30 * (int) currentQuestion.Difficulty);
+        var falseP = Random.Range(0, 100 - goodP);
         var falseP2 = Random.Range(0, 100 - (goodP + falseP));
         var falseP3 = Random.Range(0, 100 - (goodP + falseP + falseP2));
 
-        var falsePercentages = new List<float>() {
-            falseP, falseP2, falseP3
+        var falsePercentages = new List<float> {
+            falseP,
+            falseP2,
+            falseP3
         };
 
         var percentage = 0;
-        for (int i = 0; i < currentQuestion.Answers.Count; i++) {
+        for (var i = 0; i < currentQuestion.Answers.Count; i++) {
             var answer = currentQuestion.Answers[i];
 
-            if (answer.IsAnswer) percentage = goodP;
+            if (answer.IsAnswer) {
+                percentage = goodP;
+            }
             else {
-                percentage = (int)Mathf.Round(falsePercentages[Random.Range(0, falsePercentages.Count)]);
+                percentage = (int) Mathf.Round(falsePercentages[Random.Range(0, falsePercentages.Count)]);
                 falsePercentages.Remove(percentage);
             }
             Buttons[i].GetComponentInChildren<Text>().text = answer.Text + "(" + percentage + "%)";
@@ -233,9 +230,12 @@ public class MillionaireController : GameController {
     }
 
     /// <summary>
-    /// Returns the player to the dashboard and gives him the current prize money
+    ///     Returns the player to the dashboard and gives him the current prize money
     /// </summary>
     public void BackButton() {
-        AppData.Instance().Game.Unload();
+        if (Summary.activeSelf)
+            AppData.Instance().Game.Unload();
+        else
+            GameCompleted(false);
     }
 }

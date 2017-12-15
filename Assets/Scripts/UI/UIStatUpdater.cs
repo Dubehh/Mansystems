@@ -4,11 +4,9 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Manny))]
 public class UIStatUpdater : MonoBehaviour {
-    [SerializeField]
-    public Manny Manny;
+    [SerializeField] public Slider FoodIndicator, ThirstIndicator;
 
-    [SerializeField]
-    public Slider FoodIndicator, ThirstIndicator;
+    [SerializeField] public Manny Manny;
 
     private Dictionary<Attribute, UIStatIndicator> _sliders { get; set; }
 

@@ -1,28 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace Assets.Scripts.App {
-
     /// <summary>
-    /// Represents a unique audioclip that can be played throughout the game
+    ///     Represents a unique audioclip that can be played throughout the game
     /// </summary>
     [Serializable]
     public struct AudioItem {
+        /// <summary>
+        ///     The unique name/key of the audioclip.
+        ///     This is used to identify each clip
+        /// </summary>
+        [SerializeField] public string Key;
 
         /// <summary>
-        /// The unique name/key of the audioclip.
-        /// This is used to identify each clip
+        ///     The actual sound file
         /// </summary>
-        [SerializeField]
-        public string Key;
-
-        /// <summary>
-        /// The actual sound file
-        /// </summary>
-        [SerializeField]
-        public AudioClip Clip;
+        [SerializeField] public AudioClip Clip;
     }
 }
