@@ -5,50 +5,11 @@ using UnityEngine.UI;
 
 public class CollisionHandler : MonoBehaviour {
 
-    [SerializeField]
-    public Text ScoreText;
-    [SerializeField]
-    public Text FinalExpText;
-    public int GameScore;
-    public int Experience;
-    [SerializeField]
-    public Text FinalScoreText;
-    public bool Broken;
-    public bool Logo;
-    public bool FakeLogo;
-    public float LogosCaught;
-    public float FakeLogosCaught;
-    [SerializeField]
-    public Text AmountOfCustomers;
-    [SerializeField]
-    public Text FinalAmountOfFakeCustomers;
 
-    // Use this for initialization
-    public void Start() {
-        GameScore = 0;
-        UpdateScore();
-    }
+    private CatcherController _controller;
 
-    /// <summary>
-    /// Updates score and experience texts
-    /// </summary>
-    public void UpdateScore() {
-        ScoreText.text = "" + GameScore;
-        FinalScoreText.text = "" + GameScore;
-        CalcExperience();
-        FinalExpText.text = "" + Experience;
-        AmountOfCustomers.text = "" + LogosCaught;
-        FinalAmountOfFakeCustomers.text = "" + FakeLogosCaught;
-    }
-
-    /// <summary>
-    /// Calculates the player's experience according to his score
-    /// </summary>
-    public void CalcExperience() {
-        Experience = GameScore * 30 / 1080;
-        if (Experience <= 0) {
-            Experience = 0;
-        }
+    private void Start() {
+        _controller = FindObjectOfType<CatcherController>();
     }
 
     /// <summary>
@@ -56,12 +17,22 @@ public class CollisionHandler : MonoBehaviour {
     /// </summary>
     /// <param name="other"></param>
     private void OnTriggerEnter2D(Collider2D other) {
-        var prefix = "(Clone)";
-        Destroy(other.gameObject);
-        GameScore += FindObjectOfType<CatcherController>().Objects.Find(x => x.GameObject.name + prefix == other.gameObject.name).ObjectScore;
-        Broken = other.gameObject.name.Contains("Broken");
-        Logo = other.gameObject.name.Contains("Customer");
-        FakeLogo = other.gameObject.name.Contains("FakeLogo");
-        UpdateScore();
+        var gameObj = other.gameObject;
+        var obj = _controller.ObjectRegister[gameObj];
+        Destroy(gameObj);
+        _controller.GameScore = _controller.GameScore + obj.ObjectScore;
+        _controller.Experience = _controller.Experience + _controller.GameScore * 30 / 1080;
+
+        if (obj.IsBroken) {
+            _controller.Updatelife();
+        }
+        if (obj.IsLogo) {
+            _controller.LogosCaught++;
+        }
+        if (obj.IsFakeLogo) {
+            _controller.FakeLogosCaught++;
+        }
+        _controller.ObjectRegister.Remove(gameObj);
+        _controller.UpdateScore();
     }
 }
