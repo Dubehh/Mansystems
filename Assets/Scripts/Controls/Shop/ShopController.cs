@@ -7,10 +7,10 @@ public class ShopController : MonoBehaviour {
     private Manny _manny;
     private float _prefabHeight;
 
+    [SerializeField] Sprite BtnFood;
+    [SerializeField] Sprite BtnDrink;
     [SerializeField] public Text CoinsIndicator;
-
     [SerializeField] public GameObject Item;
-
     [SerializeField] public ShopItem[] Items;
 
     // Use this for initialization
@@ -24,6 +24,7 @@ public class ShopController : MonoBehaviour {
         foreach (var item in Items) {
             var obj = Instantiate(Item, transform).GetComponent<ShopItemPrefab>();
             obj.Item = item;
+            obj.GetComponentInChildren<Button>().GetComponent<Image>().sprite = item.Attribute == Attribute.Food ? BtnFood : BtnDrink;
             obj.Init();
 
             var rect = obj.GetComponent<RectTransform>().rect;
@@ -51,11 +52,10 @@ public class ShopController : MonoBehaviour {
         var scrollRect = GetComponent<RectTransform>();
 
         if (capacity < Items.Length) {
-            var maxY = (float) ((Items.Length - capacity) * _prefabHeight) - 15f;
+            var maxY = (float)((Items.Length - capacity) * _prefabHeight) - 15f;
             if (scrollRect.anchoredPosition.y < 0) scrollRect.anchoredPosition = new Vector2();
             if (scrollRect.anchoredPosition.y > maxY) scrollRect.anchoredPosition = new Vector2(0, maxY);
-        }
-        else {
+        } else {
             scrollRect.anchoredPosition = new Vector2();
         }
     }
