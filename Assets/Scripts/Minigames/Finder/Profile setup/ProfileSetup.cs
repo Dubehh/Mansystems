@@ -3,21 +3,20 @@ using Assets.Scripts.App.Tracking.Table;
 using UnityEngine;
 
 public class ProfileSetup : MonoBehaviour {
+    private int _currentStepIndex;
 
     [SerializeField] public FinderController FinderController;
-
-    [SerializeField] public GameObject[] Steps;
     public DataTable FinderProfile;
 
-    private int _currentStepIndex;
-    
+    [SerializeField] public GameObject[] Steps;
+
     private void Awake() {
         var likedProfileIDs = new List<string>();
         var profile = AppData.Instance().Registry.Fetch(FinderController.ProfileTable);
         if (profile != null) {
             var table = AppData.Instance().Registry.Fetch(FinderController.LikeTable);
             table.Select("*", "", reader => {
-                while (reader.Read()) 
+                while (reader.Read())
                     likedProfileIDs.Add(reader["ProfileID"].ToString());
             });
 
@@ -42,7 +41,7 @@ public class ProfileSetup : MonoBehaviour {
     }
 
     /// <summary>
-    /// Disables the current panel and activates the next panel from the Steps list
+    ///     Disables the current panel and activates the next panel from the Steps list
     /// </summary>
     public void NextStep() {
         Steps[_currentStepIndex].SetActive(false);

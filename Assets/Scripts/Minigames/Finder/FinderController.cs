@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.App.Data_Management.Handshakes;
 using Assets.Scripts.App.Tracking.Table;
@@ -8,14 +8,13 @@ using UnityEngine.UI;
 
 [Serializable]
 public class FinderController : MonoBehaviour {
-
     public const string LikeTable = "FinderLikes";
     public const string ProfileTable = "FinderProfile";
-
-    [SerializeField] public RawImage Picture;
-    [SerializeField] public Text Name;
     [SerializeField] public Text Description;
     [SerializeField] public GameObject EndScreen;
+    [SerializeField] public Text Name;
+
+    [SerializeField] public RawImage Picture;
 
     public List<string> LikedProfileIDs { get; set; }
     public FinderProfileController FinderProfileController { get; private set; }
@@ -29,16 +28,15 @@ public class FinderController : MonoBehaviour {
             .AddParameter("responseHandler", "finder")
             .Send(request => {
                 FinderProfileController.LoadProfiles(request, LikedProfileIDs);
-                foreach (var likedProfile in FinderProfileController.LikedProfiles) {
+                foreach (var likedProfile in FinderProfileController.LikedProfiles)
                     if (likedProfile == FinderProfileController.LikedProfiles.Last())
                         likedProfile.LoadPictures(a, queue => { UpdateUI(); });
                     else likedProfile.LoadPictures(a);
-                }
             });
     }
 
     /// <summary>
-    /// Updates the screen with the currently selected profile
+    ///     Updates the screen with the currently selected profile
     /// </summary>
     public void UpdateUI() {
         var current = FinderProfileController.GetCurrentProfile();
@@ -54,7 +52,7 @@ public class FinderController : MonoBehaviour {
     }
 
     /// <summary>
-    /// OnClick event for the picture changing buttons
+    ///     OnClick event for the picture changing buttons
     /// </summary>
     /// <param name="next"></param>
     public void SwitchPicture(bool next) {
@@ -62,7 +60,7 @@ public class FinderController : MonoBehaviour {
     }
 
     /// <summary>
-    /// OnClick event for the hasLiked/pass buttons
+    ///     OnClick event for the hasLiked/pass buttons
     /// </summary>
     /// <param name="hasLiked"></param>
     public void NextProfile(bool hasLiked) {
@@ -78,12 +76,11 @@ public class FinderController : MonoBehaviour {
     }
 
     /// <summary>
-    /// Is called when no profiles are available anymore
-    /// Opens a screen that displays a warning
+    ///     Is called when no profiles are available anymore
+    ///     Opens a screen that displays a warning
     /// </summary>
     private void End() {
         EndScreen.SetActive(true);
         gameObject.SetActive(false);
     }
-
 }

@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIWelcomeController : MonoBehaviour {
-
-    [SerializeField]
-    public Text NameResult;
-    [SerializeField]
-    public Text NameInput;
-    [SerializeField]
-    public GameObject[] Views;
-    private int _current;
     private UIController _controller;
+    private int _current;
+
+    [SerializeField] public Text NameInput;
+
+    [SerializeField] public Text NameResult;
+
+    [SerializeField] public GameObject[] Views;
 
     // Use this for initialization
     private void Awake() {
@@ -26,7 +23,7 @@ public class UIWelcomeController : MonoBehaviour {
     }
 
     /// <summary>
-    /// Requests the next view in the queue
+    ///     Requests the next view in the queue
     /// </summary>
     public void Next() {
         Views[_current++].SetActive(false);
@@ -34,7 +31,7 @@ public class UIWelcomeController : MonoBehaviour {
     }
 
     /// <summary>
-    /// Saves the input from the registration
+    ///     Saves the input from the registration
     /// </summary>
     public void SaveInput() {
         PlayerPrefs.SetString("name", NameInput.text);
@@ -44,12 +41,11 @@ public class UIWelcomeController : MonoBehaviour {
     }
 
     /// <summary>
-    /// Sends the registration request and loads the default game
+    ///     Sends the registration request and loads the default game
     /// </summary>
     public void RequestSend() {
         _controller.Footer.SetActive(true);
         _controller.Navigation.SetActive(true);
         _controller.LoadDefault();
     }
-	
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// An enum with all the attributes related to Manny
+///     An enum with all the attributes related to Manny
 /// </summary>
 public enum Attribute {
     Food,
@@ -12,7 +12,7 @@ public enum Attribute {
     Experience,
     Coins,
     Skillpoints,
-    
+
     // The DNA core values
     DNA_CustomerOriented,
     DNA_Initiative,
@@ -21,16 +21,17 @@ public enum Attribute {
     DNA_Communication,
     DNA_Surpass
 }
+
 public class MannyAttribute {
-    private Dictionary<Attribute, float> _attributes;
+    private readonly Dictionary<Attribute, float> _attributes;
 
     public MannyAttribute() {
-        _attributes = new Dictionary<Attribute, float>();        
+        _attributes = new Dictionary<Attribute, float>();
         AppData.Instance().MannyAttribute = this;
     }
 
     /// <summary>
-    /// Returns the value of a specific attribute
+    ///     Returns the value of a specific attribute
     /// </summary>
     /// <param name="attribute">The attribute which value needs to be returned</param>
     /// <returns>The attribute's float value</returns>
@@ -40,7 +41,7 @@ public class MannyAttribute {
     }
 
     /// <summary>
-    /// Sets a new value for an excisting attribute;
+    ///     Sets a new value for an excisting attribute;
     /// </summary>
     /// <param name="attribute">The attribute which value needs to be changed</param>
     /// <param name="value">The new float value for the attribute</param>
@@ -50,7 +51,7 @@ public class MannyAttribute {
     }
 
     /// <summary>
-    /// Adds an increment value to the value of an excisting attribute;
+    ///     Adds an increment value to the value of an excisting attribute;
     /// </summary>
     /// <param name="attribute">The attribute which value needs to be changed</param>
     /// <param name="value">The new float value that needs to be added to the current value</param>
@@ -61,27 +62,27 @@ public class MannyAttribute {
     }
 
     /// <summary>
-    /// Retrieves all the last saved attribute values from the playerprefs and fill the dictionary with them
+    ///     Retrieves all the last saved attribute values from the playerprefs and fill the dictionary with them
     /// </summary>
     private void Load() {
         foreach (var attribute in Enum.GetValues(typeof(Attribute))) {
             var name = Enum.GetName(typeof(Attribute), attribute);
-            if (!PlayerPrefs.HasKey(name)) PlayerPrefs.SetFloat(name, GetDefault((Attribute)attribute));
-            _attributes[(Attribute)attribute] = PlayerPrefs.GetFloat(name);
+            if (!PlayerPrefs.HasKey(name)) PlayerPrefs.SetFloat(name, GetDefault((Attribute) attribute));
+            _attributes[(Attribute) attribute] = PlayerPrefs.GetFloat(name);
         }
     }
 
     /// <summary>
-    /// When the application quits this method is called and saves all the attributes to the PlayerPrefs
+    ///     When the application quits this method is called and saves all the attributes to the PlayerPrefs
     /// </summary>
     public void Save() {
         PlayerPrefs.SetString(MannyBrain.StampKey, DateTime.Now.ToBinary().ToString());
-        foreach(var attribute in _attributes)            
+        foreach (var attribute in _attributes)
             PlayerPrefs.SetFloat(Enum.GetName(typeof(Attribute), attribute.Key), attribute.Value);
     }
 
     /// <summary>
-    /// Returns a default value for each attribute (only called at first time)
+    ///     Returns a default value for each attribute (only called at first time)
     /// </summary>
     /// <param name="attribute">The attribute to return the default value for</param>
     private float GetDefault(Attribute attribute) {
@@ -99,6 +100,4 @@ public class MannyAttribute {
                 return 0;
         }
     }
-
 }
-

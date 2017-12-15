@@ -1,29 +1,24 @@
-﻿using Assets.Scripts.UI;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using Assets.Scripts.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIController : MonoBehaviour {
-
-    [SerializeField]
-    public GameObject Navigation;
-    [SerializeField]
-    public GameObject Footer;
+    private Animator _animator;
 
     private UIControl _current;
-    private Animator _animator;
     private bool _navigationVisible;
 
-    [SerializeField]
-    public Text ControlHeader;
-    [SerializeField]
-    public UIControl[] Controls;
+    [SerializeField] public Text ControlHeader;
+
+    [SerializeField] public UIControl[] Controls;
+
+    [SerializeField] public GameObject Footer;
+
+    [SerializeField] public GameObject Navigation;
 
     /// <summary>
-    /// Fires when the application launches (awakes), this is called before the Start()
+    ///     Fires when the application launches (awakes), this is called before the Start()
     /// </summary>
     private void Awake() {
         _navigationVisible = false;
@@ -40,7 +35,7 @@ public class UIController : MonoBehaviour {
     }
 
     /// <summary>
-    /// Loads the default control as the current view
+    ///     Loads the default control as the current view
     /// </summary>
     public void LoadDefault() {
         var ctrl = IsFirstTime() ? Get("WelcomeControl") : Controls.FirstOrDefault(x => x.Default);
@@ -49,7 +44,7 @@ public class UIController : MonoBehaviour {
     }
 
     /// <summary>
-    /// Opens the control with the given name as the new view, the current control will be toggled off
+    ///     Opens the control with the given name as the new view, the current control will be toggled off
     /// </summary>
     /// <param name="control">The name of the control</param>
     public void View(string control) {
@@ -61,7 +56,7 @@ public class UIController : MonoBehaviour {
     }
 
     /// <summary>
-    /// Opens the given control as the new view, the current control will be toggled off
+    ///     Opens the given control as the new view, the current control will be toggled off
     /// </summary>
     /// <param name="control">The UIControl that you want to view</param>
     public void View(UIControl control) {
@@ -73,15 +68,15 @@ public class UIController : MonoBehaviour {
     }
 
     /// <summary>
-    /// Returns the UIControl that corresponds with the given name
+    ///     Returns the UIControl that corresponds with the given name
     /// </summary>
     /// <param name="name">The name of the control</param>
-    private UIControl Get(string name){
+    private UIControl Get(string name) {
         return Controls.FirstOrDefault(ctrl => ctrl.GetName() == name);
     }
 
     /// <summary>
-    /// Event that fires when the current UI control changes
+    ///     Event that fires when the current UI control changes
     /// </summary>
     /// <param name="ctrl">The new UIControl</param>
     private void OnControllerChange(UIControl ctrl) {
@@ -89,7 +84,7 @@ public class UIController : MonoBehaviour {
     }
 
     /// <summary>
-    /// Fires when the navigation button is pressed and toggles the navigation menu
+    ///     Fires when the navigation button is pressed and toggles the navigation menu
     /// </summary>
     public void OnNavigationInteract() {
         _navigationVisible = !_navigationVisible;

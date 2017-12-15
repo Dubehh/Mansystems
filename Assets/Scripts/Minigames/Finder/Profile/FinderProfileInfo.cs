@@ -11,4 +11,3 @@
     public string FavGame { get; set; }
     public string FavVacation { get; set; }
 }
-

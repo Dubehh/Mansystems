@@ -4,11 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class AddPicture : MonoBehaviour {
-
-    [SerializeField] public RawImage Camera;
-
     private WebCamTexture _cameraTexture;
     private Texture2D _picture;
+
+    [SerializeField] public RawImage Camera;
 
     // Use this for initialization
     private void Start() {
@@ -20,7 +19,7 @@ public class AddPicture : MonoBehaviour {
 
     // Update is called once per frame
     private void Update() {
-        var ratio = (float)_cameraTexture.width / (float)_cameraTexture.height;
+        var ratio = _cameraTexture.width / (float) _cameraTexture.height;
         GetComponentInChildren<AspectRatioFitter>().aspectRatio = ratio;
 
         var scaleY = _cameraTexture.videoVerticallyMirrored ? -1f : 1f;
@@ -31,7 +30,7 @@ public class AddPicture : MonoBehaviour {
     }
 
     /// <summary>
-    /// Function that uploads the taken picture to the webserver
+    ///     Function that uploads the taken picture to the webserver
     /// </summary>
     public void UploadPicture() {
         var fp = new FileProtocol(Protocol.Upload, this);
@@ -42,7 +41,7 @@ public class AddPicture : MonoBehaviour {
     }
 
     /// <summary>
-    /// Stops the camera and saves the picture into a texture
+    ///     Stops the camera and saves the picture into a texture
     /// </summary>
     public void TakePicture() {
         var data = _cameraTexture.GetPixels();

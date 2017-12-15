@@ -2,12 +2,12 @@
 using UnityEngine;
 
 public class LikesController : MonoBehaviour {
+    private bool _active;
+
+    private Animator _animator;
 
     public FinderController FinderController;
     public GameObject Like;
-
-    private Animator _animator;
-    private bool _active;
 
     private void Awake() {
         _animator = GetComponentInParent<Animator>();
@@ -15,7 +15,8 @@ public class LikesController : MonoBehaviour {
 
     // Fills the likes screen with Like prefabs according to the LikeProfiles list from the FinderController
     public void Init() {
-        if(transform.childCount > 0) GetComponentsInChildren<LikePrefab>().ToList().ForEach(x => Destroy(x.gameObject));       
+        if (transform.childCount > 0)
+            GetComponentsInChildren<LikePrefab>().ToList().ForEach(x => Destroy(x.gameObject));
 
         var y = 506f;
 

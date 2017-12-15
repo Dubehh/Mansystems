@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 namespace Assets.Scripts.App.Tracking.Table {
     public class DataParams {
-
-        public List<KeyValuePair<string, object>> Parameters { get; private set; }
-
         private DataParams() {
             Parameters = new List<KeyValuePair<string, object>>();
         }
 
+        public List<KeyValuePair<string, object>> Parameters { get; private set; }
+
         /// <summary>
-        /// Uses the builder pattern to create a DataParams instance
+        ///     Uses the builder pattern to create a DataParams instance
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
@@ -24,7 +19,7 @@ namespace Assets.Scripts.App.Tracking.Table {
         }
 
         /// <summary>
-        /// Uses the builder pattern to create a DataParams instance
+        ///     Uses the builder pattern to create a DataParams instance
         /// </summary>
         /// <returns>Dataparams instance</returns>
         public static DataParams Build() {
@@ -32,7 +27,7 @@ namespace Assets.Scripts.App.Tracking.Table {
         }
 
         /// <summary>
-        /// Adds a new key/value pair to the parameters
+        ///     Adds a new key/value pair to the parameters
         /// </summary>
         /// <param name="key">the name of the key</param>
         /// <param name="value">the object value</param>
@@ -41,6 +36,5 @@ namespace Assets.Scripts.App.Tracking.Table {
             Parameters.Add(new KeyValuePair<string, object>(key, value));
             return this;
         }
-
     }
 }

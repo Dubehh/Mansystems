@@ -5,14 +5,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class AddInformation : MonoBehaviour {
-
     [SerializeField] public GameObject FormContent;
 
     /// <summary>
-    /// Event for the final button of the profile setup:
-    /// - Inserts the user's information into the database
-    /// - Creates a table for liked profiles
-    /// - Opens the finder screen and closes the profile setup screen
+    ///     Event for the final button of the profile setup:
+    ///     - Inserts the user's information into the database
+    ///     - Creates a table for liked profiles
+    ///     - Opens the finder screen and closes the profile setup screen
     /// </summary>
     public void Finish() {
         var profileSetup = GetComponentInParent<ProfileSetup>();

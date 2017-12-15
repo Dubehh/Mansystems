@@ -1,42 +1,40 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Data;
 using Mono.Data.SqliteClient;
-using System.Data;
 using UnityEngine;
 
 /// <summary>
-/// Class that manages the raw connection to the SQLite database.
-/// This class is singleton and therefore accessible from anywhere.
+///     Class that manages the raw connection to the SQLite database.
+///     This class is singleton and therefore accessible from anywhere.
 /// </summary>
 public class DataSource {
+    private const string _db = "TrackingMaster";
 
     private static DataSource _instance;
-    private const string _db = "TrackingMaster";
-    private IDbConnection _connection;
-    private IDbCommand _command;
+    private readonly IDbCommand _command;
+    private readonly IDbConnection _connection;
 
     private DataSource() {
-        _connection = new SqliteConnection("URI=file:"+Application.persistentDataPath+"/"+_db+".db");
+        _connection = new SqliteConnection("URI=file:" + Application.persistentDataPath + "/" + _db + ".db");
         _connection.Open();
         _command = _connection.CreateCommand();
     }
 
     /// <summary>
-    /// Returns the connection instance
+    ///     Returns the connection instance
     /// </summary>
     public IDbConnection GetConnection() {
         return _connection;
     }
 
     /// <summary>
-    /// Returns the command interface
+    ///     Returns the command interface
     /// </summary>
     public IDbCommand GetCommand() {
         return _command;
     }
 
     /// <summary>
-    /// Returns the singleton instance
+    ///     Returns the singleton instance
     /// </summary>
     /// <returns>DataSource instance</returns>
     public static DataSource GetInstance() {
@@ -44,7 +42,4 @@ public class DataSource {
             _instance = new DataSource();
         return _instance;
     }
-
-
-	
 }

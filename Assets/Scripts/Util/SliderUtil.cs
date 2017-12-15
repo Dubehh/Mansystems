@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public static class SliderUtil {
     /// <summary>
-    /// Changes the background color of a given slider to a lighter version
+    ///     Changes the background color of a given slider to a lighter version
     /// </summary>
     /// <param name="slider">The slider to be given a new background color</param>
     /// <returns>The updated slider</returns>
@@ -24,7 +22,7 @@ public static class SliderUtil {
     }
 
     /// <summary>
-    /// Gradually fills the slider to a given value and plays the particle system
+    ///     Gradually fills the slider to a given value and plays the particle system
     /// </summary>
     /// <param name="slider">The slider to update</param>
     /// <param name="amount">The goal value to reach</param>
@@ -32,9 +30,8 @@ public static class SliderUtil {
         var particles = slider.GetComponentInChildren<ParticleSystem>();
         slider.value = Mathf.Lerp(slider.value, amount, 2 * Time.deltaTime);
 
-        if (particles != null) {
-            if(!particles.isPlaying) particles.Play();
-            else if(amount - slider.value < 3) particles.Stop();
-        }
+        if (particles != null)
+            if (!particles.isPlaying) particles.Play();
+            else if (amount - slider.value < 3) particles.Stop();
     }
 }

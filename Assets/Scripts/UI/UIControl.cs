@@ -1,23 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace Assets.Scripts.UI {
     [Serializable]
     public class UIControl {
+        [SerializeField] public bool Default;
 
-        [SerializeField]
-        public bool Default;
-        [SerializeField]
-        public string Title;
-        [SerializeField]
-        public GameObject Parent;
+        [SerializeField] public GameObject Parent;
+
+        [SerializeField] public string Title;
+
         public bool Active { get; set; }
 
         /// <summary>
-        /// Toggles the visibility of the control
+        ///     Toggles the visibility of the control
         /// </summary>
         /// <param name="active"></param>
         public void Toggle(bool active) {
@@ -26,11 +22,10 @@ namespace Assets.Scripts.UI {
         }
 
         /// <summary>
-        /// Returns the name of the control
+        ///     Returns the name of the control
         /// </summary>
         public string GetName() {
             return Parent.name;
         }
-
     }
 }
