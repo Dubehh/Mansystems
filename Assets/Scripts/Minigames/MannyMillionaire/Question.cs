@@ -7,13 +7,13 @@ public enum Difficulty {
 }
 
 public class Question {
-    public string Text { get; set; }
-    public List<Answer> Answers { get; set; }
-    public Difficulty Difficulty { get; set; }
-
     public Question(string text, List<Answer> answers, Difficulty difficulty) {
         Text = text;
         Answers = answers;
         Difficulty = difficulty;
     }
+
+    public string Text { get; set; }
+    public List<Answer> Answers { get; set; }
+    public Difficulty Difficulty { get; set; }
 }

@@ -4,19 +4,17 @@ using UnityEngine.UI;
 
 [Serializable]
 public class ShopController : MonoBehaviour {
-
     private Manny _manny;
     private float _prefabHeight;
 
-    [SerializeField]
-    public Text CoinsIndicator;
-    [SerializeField]
-    public ShopItem[] Items;
-    [SerializeField]
-    public GameObject Item;
+    [SerializeField] public Text CoinsIndicator;
+
+    [SerializeField] public GameObject Item;
+
+    [SerializeField] public ShopItem[] Items;
 
     // Use this for initialization
-    void Start() {
+    private void Start() {
         var y = -75f;
 
         _manny = FindObjectOfType<Manny>();
@@ -38,14 +36,14 @@ public class ShopController : MonoBehaviour {
     }
 
     /// <summary>
-    /// Updates the coins in the indicator panel on the top of the shop once the player buys an item or opens the shop
+    ///     Updates the coins in the indicator panel on the top of the shop once the player buys an item or opens the shop
     /// </summary>
     public void UpdateCoins() {
         CoinsIndicator.text = _manny.Attribute.GetAttribute(Attribute.Coins).ToString();
     }
 
     /// <summary>
-    /// This method makes sure that the user cannot scroll outside of the content of the panel
+    ///     This method makes sure that the user cannot scroll outside of the content of the panel
     /// </summary>
     public void OnValueChanged() {
         var scrollView = transform.parent.parent;
@@ -53,10 +51,11 @@ public class ShopController : MonoBehaviour {
         var scrollRect = GetComponent<RectTransform>();
 
         if (capacity < Items.Length) {
-            var maxY = (float)((Items.Length - capacity) * _prefabHeight) - 15f;
+            var maxY = (float) ((Items.Length - capacity) * _prefabHeight) - 15f;
             if (scrollRect.anchoredPosition.y < 0) scrollRect.anchoredPosition = new Vector2();
             if (scrollRect.anchoredPosition.y > maxY) scrollRect.anchoredPosition = new Vector2(0, maxY);
-        } else {
+        }
+        else {
             scrollRect.anchoredPosition = new Vector2();
         }
     }

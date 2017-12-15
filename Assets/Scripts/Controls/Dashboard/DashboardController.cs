@@ -1,26 +1,25 @@
-﻿using Assets.Scripts.Dashboard;
+﻿using System;
 using System.Linq;
+using Assets.Scripts.Dashboard;
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Manny))]
 public class DashboardController : MonoBehaviour {
-
-    [SerializeField]
-    public Manny Manny;
-    [SerializeField]
-    public Slider ExperienceIndicator;
-    [SerializeField]
-    public Text LevelIndicator;
-    [SerializeField]
-    public RawImage Dialog;
-    [SerializeField]
-    public DashboardBackground[] Backgrounds;
-
     private AnimationHandler _animationHandler;
 
     private DashboardBackground _current;
     private UIStatIndicator _indicator;
+
+    [SerializeField] public DashboardBackground[] Backgrounds;
+
+    [SerializeField] public RawImage Dialog;
+
+    [SerializeField] public Slider ExperienceIndicator;
+
+    [SerializeField] public Text LevelIndicator;
+
+    [SerializeField] public Manny Manny;
 
     // Use this for initialization
     private void Start() {
@@ -37,8 +36,8 @@ public class DashboardController : MonoBehaviour {
     }
 
     /// <summary>
-    /// Updates the experience indicator and level if the player reaches a new level
-    /// and contains the functionality for the dialog to vanish on touch
+    ///     Updates the experience indicator and level if the player reaches a new level
+    ///     and contains the functionality for the dialog to vanish on touch
     /// </summary>
     private void UpdateIndicators() {
         _indicator.Update();
@@ -51,17 +50,17 @@ public class DashboardController : MonoBehaviour {
     }
 
     /// <summary>
-    /// Gets the needed experience for the next level and passes it to the slider
+    ///     Gets the needed experience for the next level and passes it to the slider
     /// </summary>
     private void SetExperienceGoal() {
-        var level = (int)Manny.Attribute.GetAttribute(Attribute.Level);
+        var level = (int) Manny.Attribute.GetAttribute(Attribute.Level);
         ExperienceIndicator.minValue = Manny.Leveling.GetRequiredExperience(level);
         LevelIndicator.text = "Level " + level;
-        _indicator.SetMax((int)Manny.Leveling.GetRequiredExperience(level + 1));
+        _indicator.SetMax((int) Manny.Leveling.GetRequiredExperience(level + 1));
     }
 
     /// <summary>
-    /// Displays a dialog on the screen with a message
+    ///     Displays a dialog on the screen with a message
     /// </summary>
     /// <param name="message">The message to be displayed in the dialog</param>
     public void DisplayDialog(string message) {
@@ -70,10 +69,10 @@ public class DashboardController : MonoBehaviour {
     }
 
     /// <summary>
-    /// Invalidates the background with its manny design
+    ///     Invalidates the background with its manny design
     /// </summary>
     private void InvalidateBackground() {
-        var now = System.DateTime.Now.Hour;
+        var now = DateTime.Now.Hour;
         _current = Backgrounds.Where(x => x.Time.Min <= now && x.Time.Max >= now).FirstOrDefault();
         _current = _current ?? Backgrounds[0];
         _current.Background.SetActive(true);

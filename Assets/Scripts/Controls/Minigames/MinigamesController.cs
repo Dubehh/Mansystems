@@ -1,30 +1,18 @@
-﻿using Assets.Scripts.App.Data_Management;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using Assets.Scripts.App.Data_Management.Handshakes;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 
 [Serializable]
 public class MinigamesController : MonoBehaviour {
-
     private float _prefabHeight;
 
-    [SerializeField]
-    public Minigame[] Minigames;
+    [SerializeField] public GameObject Minigame;
 
-    [SerializeField]
-    public GameObject Minigame;
+    [SerializeField] public Minigame[] Minigames;
 
     private void Awake() {
-        InformationProtocol.Validate(() => {
-            Initialize(true);
-        }, () => {
-            Initialize(false);
-        });
+        InformationProtocol.Validate(() => { Initialize(true); }, () => { Initialize(false); });
     }
 
     // Use this for initialization
@@ -48,7 +36,7 @@ public class MinigamesController : MonoBehaviour {
     }
 
     /// <summary>
-    /// This method makes sure that the user cannot scroll outside of the content of the panel
+    ///     This method makes sure that the user cannot scroll outside of the content of the panel
     /// </summary>
     public void OnValueChanged() {
         var scrollView = transform.parent.parent;
@@ -56,10 +44,11 @@ public class MinigamesController : MonoBehaviour {
         var _scrollRect = GetComponent<RectTransform>();
 
         if (capacity < Minigames.Length) {
-            var maxY = (float)((Minigames.Length - capacity) * _prefabHeight) - 15f;
+            var maxY = (float) ((Minigames.Length - capacity) * _prefabHeight) - 15f;
             if (_scrollRect.anchoredPosition.y < 0) _scrollRect.anchoredPosition = new Vector2();
             if (_scrollRect.anchoredPosition.y > maxY) _scrollRect.anchoredPosition = new Vector2(0, maxY);
-        } else {
+        }
+        else {
             _scrollRect.anchoredPosition = new Vector2();
         }
     }

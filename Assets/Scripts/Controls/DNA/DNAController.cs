@@ -1,25 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class DNAController : MonoBehaviour {
+    [SerializeField] private GameObject _moreInfo;
 
-    [SerializeField]
-    public Text DisplayText;
-    [SerializeField]
-    public Manny Manny;
-    [SerializeField]
-    public DNAItem[] Items;
+    [SerializeField] public Text DisplayText;
 
-    [SerializeField]
-    public ParticleSystem ParticleSystem;
+    [SerializeField] public DNAItem[] Items;
 
-    [SerializeField]
-    private GameObject _moreInfo;
+    [SerializeField] public Manny Manny;
+
+    [SerializeField] public ParticleSystem ParticleSystem;
 
     private void Start() {
         DisplayText.text = Manny.Attribute.GetAttribute(Attribute.Skillpoints) + "";
@@ -30,7 +23,7 @@ public class DNAController : MonoBehaviour {
     }
 
     private void Update() {
-        if (_moreInfo.activeSelf && Input.touchCount > 0) _moreInfo.SetActive(false);  
+        if (_moreInfo.activeSelf && Input.touchCount > 0) _moreInfo.SetActive(false);
     }
 
     public void OnClickNavigation() {
@@ -38,7 +31,7 @@ public class DNAController : MonoBehaviour {
     }
 
     /// <summary>
-    /// Fires when the button next to the DNAItem sliders are being clicked
+    ///     Fires when the button next to the DNAItem sliders are being clicked
     /// </summary>
     public void OnClickButton() {
         var obj = EventSystem.current.currentSelectedGameObject;
@@ -50,8 +43,7 @@ public class DNAController : MonoBehaviour {
             Manny.Attribute.IncrementAttribute(item.Attribute, 1);
             item.Update();
             ParticleSystem.Play();
-            DisplayText.text = Manny.Attribute.GetAttribute(Attribute.Skillpoints)+"";
+            DisplayText.text = Manny.Attribute.GetAttribute(Attribute.Skillpoints) + "";
         }
     }
-
 }

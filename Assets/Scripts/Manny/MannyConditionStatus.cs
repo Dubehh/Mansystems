@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Assets.Scripts.Manny {
+﻿namespace Assets.Scripts.Manny {
     /// <summary>
-    /// A data class that represents a specific state of Manny.
+    ///     A data class that represents a specific state of Manny.
     /// </summary>
     public class MannyConditionStatus {
-
         public float Minimum { get; set; }
         public float Decrease { get; set; }
         public bool Weak { get; set; }

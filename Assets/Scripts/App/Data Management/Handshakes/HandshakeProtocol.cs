@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine.Networking;
 
 namespace Assets.Scripts.App.Data_Management.Handshakes {
-
     public enum Protocol {
         Update,
         Fetch,
@@ -15,18 +12,18 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
     }
 
     public abstract class HandshakeProtocol<T> {
-
         private const string _handshakeID = "streamType";
+
         protected const string
             _webReference = "http://localhost/app/",
             _webController = "handshake";
 
         protected readonly List<IMultipartFormSection> _params;
         protected readonly Protocol _protocol;
-        protected Action _error;
+        protected Action<string> _error;
 
         /// <summary>
-        /// Instantiates a new Handshake that may be used to communicate with the defined webhost
+        ///     Instantiates a new Handshake that may be used to communicate with the defined webhost
         /// </summary>
         /// <param name="protocol">The type of the handshake</param>
         protected HandshakeProtocol(Protocol protocol) {
@@ -36,15 +33,16 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
         }
 
         /// <summary>
-        /// Sets the error callback that is fired when the handshake returned an error
+        ///     Sets the error callback that is fired when the handshake returned an error
         /// </summary>
         /// <param name="callback">Action callback</param>
-        public void SetErrorCallback(Action callback) {
-            _error = callback;
+        public HandshakeProtocol<T> OnError(Action<string> error) {
+            _error = error;
+            return this;
         }
 
         /// <summary>
-        /// Adds a data parameter to the handshake
+        ///     Adds a data parameter to the handshake
         /// </summary>
         /// <param name="key">string key</param>
         /// <param name="value">string value</param>
@@ -57,10 +55,9 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
         }
 
         /// <summary>
-        /// Sends the protocol
+        ///     Sends the protocol
         /// </summary>
         /// <param name="onComplete">Action callback</param>
         public abstract void Send(Action<T> onComplete = null);
-
     }
 }

@@ -4,27 +4,22 @@ using UnityEngine.UI;
 
 [Serializable]
 public class MinigamePrefab : MonoBehaviour {
+    private bool _canAccess;
+
+    [SerializeField] public RawImage Connection;
+
+    [SerializeField] public Text Description;
+
+    [SerializeField] public RawImage Icon;
+
+    [SerializeField] public Texture NoConnectionIcon;
+
+    [SerializeField] public Text Title;
 
     public Minigame Minigame { get; set; }
 
-    [SerializeField]
-    public RawImage Icon;
-
-    [SerializeField]
-    public Text Title;
-
-    [SerializeField]
-    public Text Description;
-
-    [SerializeField]
-    public RawImage Connection;
-
-    [SerializeField]
-    public Texture NoConnectionIcon;
-
-    private bool _canAccess;
     /// <summary>
-    /// Fill the prefab with the information from the minigame
+    ///     Fill the prefab with the information from the minigame
     /// </summary>
     public void Init(bool hasConnection) {
         Icon.texture = Minigame.Icon;
@@ -36,11 +31,11 @@ public class MinigamePrefab : MonoBehaviour {
     }
 
     /// <summary>
-    /// OnClick event for the minigame's buy button
+    ///     OnClick event for the minigame's buy button
     /// </summary>
     public void OnClick() {
         if (Minigame.RequiresConnection && !_canAccess) return;
-        if(Minigame.LandscapeMode)
+        if (Minigame.LandscapeMode)
             Screen.orientation = ScreenOrientation.LandscapeLeft;
         Minigame.StartGame();
     }

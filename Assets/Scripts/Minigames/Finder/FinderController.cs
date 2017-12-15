@@ -1,61 +1,86 @@
-﻿using Assets.Scripts.App.Data_Management;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using System.Linq;
 using Assets.Scripts.App.Data_Management.Handshakes;
+using Assets.Scripts.App.Tracking.Table;
 using UnityEngine;
 using UnityEngine.UI;
 
 [Serializable]
 public class FinderController : MonoBehaviour {
+    public const string LikeTable = "FinderLikes";
+    public const string ProfileTable = "FinderProfile";
+    [SerializeField] public Text Description;
+    [SerializeField] public GameObject EndScreen;
+    [SerializeField] public Text Name;
 
-    [SerializeField]
-    private RawImage _picture;
+    [SerializeField] public RawImage Picture;
 
-    [SerializeField]
-    private Text _name;
-
-    [SerializeField]
-    private Text _description;
-
-    private FinderProfileController _finderProfileController;
+    public List<string> LikedProfileIDs { get; set; }
+    public FinderProfileController FinderProfileController { get; private set; }
 
     private void Start() {
-        _finderProfileController = new FinderProfileController();
-
-        new InformationProtocol(Protocol.Fetch).AddParameter("responseHandler", "finder").Send((request) => {
-            // Make sure that the player doesn't see his own profile
-            _finderProfileController.LoadProfiles(request);
-            UpdateUI();
-        });
+        FinderProfileController = new FinderProfileController();
+        if (LikedProfileIDs == null) LikedProfileIDs = new List<string>();
+        var a = this;
+        new InformationProtocol(Protocol.Fetch)
+            .AddParameter("uuid", PlayerPrefs.GetString("uid"))
+            .AddParameter("responseHandler", "finder")
+            .Send(request => {
+                FinderProfileController.LoadProfiles(request, LikedProfileIDs);
+                foreach (var likedProfile in FinderProfileController.LikedProfiles)
+                    if (likedProfile == FinderProfileController.LikedProfiles.Last())
+                        likedProfile.LoadPictures(a, queue => { UpdateUI(); });
+                    else likedProfile.LoadPictures(a);
+            });
     }
 
     /// <summary>
-    /// Updates the screen with the currently selected profile
+    ///     Updates the screen with the currently selected profile
     /// </summary>
     public void UpdateUI() {
-        var current = _finderProfileController.GetCurrentProfile();
+        var current = FinderProfileController.GetCurrentProfile();
 
-        _picture.texture = current.GetCurrentPicture();
-        _name.text = current.Name;
-        _description.text = current.Description;
+        if (current == null) End();
+        else
+            current.LoadPictures(this, queue => {
+                Debug.Log(queue.Queue.Count + " committed");
+                Picture.texture = current.GetCurrentPicture() != null ? current.GetCurrentPicture() : new Texture();
+                Name.text = current.ProfileInfo.Name + " (" + current.ProfileInfo.Age + ")";
+                Description.text = current.ProfileInfo.City;
+            });
     }
 
     /// <summary>
-    /// OnClick event for the picture changing buttons
+    ///     OnClick event for the picture changing buttons
     /// </summary>
     /// <param name="next"></param>
     public void SwitchPicture(bool next) {
-        _picture.texture = _finderProfileController.GetCurrentProfile().GetPicture(next);
+        Picture.texture = FinderProfileController.GetCurrentProfile().GetPicture(next);
     }
 
     /// <summary>
-    /// OnClick event for the like/pass buttons
+    ///     OnClick event for the hasLiked/pass buttons
     /// </summary>
-    /// <param name="like"></param>
-    public void NextProfile(bool like) {
-        if (like) { } //Add to matches
-        _finderProfileController.NextProfile();
-
+    /// <param name="hasLiked"></param>
+    public void NextProfile(bool hasLiked) {
+        var likedProfiles = FinderProfileController.LikedProfiles;
+        var currentProfile = FinderProfileController.GetCurrentProfile();
+        if (hasLiked && !likedProfiles.Contains(currentProfile)) {
+            likedProfiles.Add(currentProfile);
+            AppData.Instance().Registry.Fetch(LikeTable)
+                .Insert(DataParams.Build("ProfileID", currentProfile.ProfileInfo.PlayerUID));
+        }
+        FinderProfileController.NextProfile();
         UpdateUI();
+    }
+
+    /// <summary>
+    ///     Is called when no profiles are available anymore
+    ///     Opens a screen that displays a warning
+    /// </summary>
+    private void End() {
+        EndScreen.SetActive(true);
+        gameObject.SetActive(false);
     }
 }
