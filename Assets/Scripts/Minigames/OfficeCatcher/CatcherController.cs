@@ -29,7 +29,7 @@ public class OfficeObject {
     [SerializeField]
     public bool IsFakeLogo;
     public int ID { get; set; }
-    
+
 }
 
 public class CatcherController : GameController {
@@ -41,13 +41,7 @@ public class CatcherController : GameController {
     public CollisionHandler CollisionHandler;
 
     [SerializeField]
-    public GameObject Life1;
-
-    [SerializeField]
-    public GameObject Life2;
-
-    [SerializeField]
-    public GameObject Life3;
+    public List<GameObject> Lives;
 
     [SerializeField]
     public GameObject GameOverScreen;
@@ -174,31 +168,16 @@ public class CatcherController : GameController {
             }
         }
     }
-    
+
     /// <summary>
     /// shows remaining lives of player
     /// </summary>
     private void ShowLives() {
-        if (LifeLeft == 3) {
-            Life3.SetActive(true);
-            Life2.SetActive(true);
-            Life1.SetActive(true);
-        }
-        if (LifeLeft == 2) {
-            Life3.SetActive(false);
-            Life2.SetActive(true);
-            Life1.SetActive(true);
-        }
-        if (LifeLeft == 1) {
-            Life3.SetActive(false);
-            Life2.SetActive(false);
-            Life1.SetActive(true);
+        Lives.ForEach(x => x.SetActive(false));
+        Lives.GetRange(0, LifeLeft).ForEach(x => x.SetActive(true));
 
-        } else if (LifeLeft == 0) {
+        if (LifeLeft <= 0) {
             StopCoroutine(SpawnOfficeObject());
-            Life3.SetActive(false);
-            Life2.SetActive(false);
-            Life1.SetActive(false);
             ToggleObjects(false);
             StopGame();
         }
