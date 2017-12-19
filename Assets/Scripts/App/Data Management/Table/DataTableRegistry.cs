@@ -11,7 +11,8 @@ namespace Assets.Scripts.App.Tracking.Table {
         /// <summary>
         ///     Registers a new datatable and creates it
         /// </summary>
-        /// <param name="table"></param>
+        /// <param name="table">Datatable</param>
+        /// <param name="create">set to false if you do not want to create the table upon registration</param>
         public void Register(DataTable table, bool create = true) {
             Tables[table.Name.ToLower()] = table;
             if (create)
@@ -23,15 +24,14 @@ namespace Assets.Scripts.App.Tracking.Table {
         /// </summary>
         /// <param name="name">The name of the datatable</param>
         public DataTable Fetch(string name) {
-            if (Tables.ContainsKey(name.ToLower())) {
+            if (Tables.ContainsKey(name.ToLower()))
                 return Tables[name.ToLower()];
-            }
-            var table = new DataTable(name);
-            if (table.Exists()) {
+            else {
+                var table = new DataTable(name);
+                if (!table.Exists()) return null;
                 Register(table, false);
                 return table;
             }
-            return null;
         }
     }
 }

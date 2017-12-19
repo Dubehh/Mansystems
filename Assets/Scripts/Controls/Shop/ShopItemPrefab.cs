@@ -8,18 +8,13 @@ public class ShopItemPrefab : MonoBehaviour {
     private ShopController _shop;
 
     [SerializeField] public Text Cost;
-
     [SerializeField] public Text Description;
-
     [SerializeField] public Text Gain;
-
     [SerializeField] public RawImage Icon;
-
     [SerializeField] public Text Name;
-
     [SerializeField] public ParticleSystem ParticleSystem;
 
-    public ShopItem Item { get; set; }
+    public ShopItem Item { get; set; } 
 
     /// <summary>
     ///     Fill the prefab with the information from the shopitem

@@ -26,9 +26,9 @@ public class FinderController : MonoBehaviour {
         FinderProfileController = new FinderProfileController();
         if (LikedProfileIDs == null) LikedProfileIDs = new List<string>();
         var a = this;
-        new InformationProtocol(Protocol.Fetch)
+        new InformationProtocol(Protocol.Data)
+            .SetHandler("finderProfiles", InformationProtocol.HandlerType.Fetch)
             .AddParameter("uuid", PlayerPrefs.GetString("uid"))
-            .AddParameter("responseHandler", "finder")
             .Send(request => {
                 FinderProfileController.LoadProfiles(request, LikedProfileIDs);
                 foreach (var likedProfile in FinderProfileController.LikedProfiles)

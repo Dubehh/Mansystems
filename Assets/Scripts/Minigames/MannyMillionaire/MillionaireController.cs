@@ -7,28 +7,21 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MillionaireController : GameController {
-    private bool _escapeActive;
 
+    private bool _escapeActive;
     private float _experience;
     private bool _gameCompleted;
     private bool _gameStarted;
     private PrizeController _prizeController;
-
     private QuestionController _questionController;
     private bool _won;
 
     [SerializeField] public Button[] Buttons;
-
     [SerializeField] public Animator LampAnimator;
-
     [SerializeField] public Animator MannyAnimator;
-
     [SerializeField] public Text PrizeText;
-
     [SerializeField] public Text QuestionText;
-
     [SerializeField] public GameObject Summary;
-
     [SerializeField] public Slider Timer;
 
     /// <summary>
@@ -61,11 +54,13 @@ public class MillionaireController : GameController {
         _questionController = new QuestionController();
         _prizeController = new PrizeController();
 
-        new InformationProtocol(Protocol.Fetch).AddParameter("responseHandler", "millionaire").Send(request => {
-            _questionController.LoadQuestions(request);
-            UpdateUI();
-            Prepare();
-        });
+        new InformationProtocol(Protocol.Data)
+            .SetHandler("millionaireQuestions", InformationProtocol.HandlerType.Fetch)
+            .Send(request => {
+                _questionController.LoadQuestions(request);
+                UpdateUI();
+                Prepare();
+            });
     }
 
     protected override void OnLoad() {
@@ -116,8 +111,7 @@ public class MillionaireController : GameController {
             LampAnimator.Play("game_completed");
             FindObjectOfType<ParticleSystem>().Play();
             QuestionText.text = "Gefeliciteerd, je hebt gewonnen!";
-        }
-        else {
+        } else {
             _prizeController.CurrentPrize = _prizeController.StaticPrize;
             QuestionText.text = "Helaas, je hebt verloren!";
         }
@@ -166,8 +160,7 @@ public class MillionaireController : GameController {
                 GameCompleted(true);
             else
                 UpdateUI();
-        }
-        else {
+        } else {
             LampAnimator.Play("Answer_false", 0, 0);
             MannyAnimator.Play("Sad", 2);
             GameCompleted(false);
@@ -198,7 +191,7 @@ public class MillionaireController : GameController {
     /// </summary>
     public void CrowdHelp() {
         var currentQuestion = _questionController.GetCurrentQuestion();
-        var goodP = Random.Range(15 * (int) currentQuestion.Difficulty, 30 * (int) currentQuestion.Difficulty);
+        var goodP = Random.Range(15 * (int)currentQuestion.Difficulty, 30 * (int)currentQuestion.Difficulty);
         var falseP = Random.Range(0, 100 - goodP);
         var falseP2 = Random.Range(0, 100 - (goodP + falseP));
         var falseP3 = Random.Range(0, 100 - (goodP + falseP + falseP2));
@@ -215,9 +208,8 @@ public class MillionaireController : GameController {
 
             if (answer.IsAnswer) {
                 percentage = goodP;
-            }
-            else {
-                percentage = (int) Mathf.Round(falsePercentages[Random.Range(0, falsePercentages.Count)]);
+            } else {
+                percentage = (int)Mathf.Round(falsePercentages[Random.Range(0, falsePercentages.Count)]);
                 falsePercentages.Remove(percentage);
             }
             Buttons[i].GetComponentInChildren<Text>().text = answer.Text + "(" + percentage + "%)";
