@@ -56,7 +56,6 @@ namespace Assets.Scripts.App.Game {
         private void Start() {
             BeforeLoad();
             Build();
-            Debug.Log("Loading started");
             //show loading screen
         }
 
@@ -64,9 +63,8 @@ namespace Assets.Scripts.App.Game {
         ///     Prepares the game itself.
         ///     Should be called upon init complete
         /// </summary>
-        public void Prepare() {
+        protected void Prepare() {
             OnLoad();
-            Debug.Log("Loading ended");
             //hide loading screen
         }
     }

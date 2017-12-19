@@ -6,25 +6,21 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Manny))]
 public class DashboardController : MonoBehaviour {
-    private AnimationHandler _animationHandler;
 
+    private DashboardAnimationHandler _dashboardAnimationHandler;
     private DashboardBackground _current;
     private UIStatIndicator _indicator;
 
     [SerializeField] public DashboardBackground[] Backgrounds;
-
     [SerializeField] public RawImage Dialog;
-
     [SerializeField] public Slider ExperienceIndicator;
-
     [SerializeField] public Text LevelIndicator;
-
     [SerializeField] public Manny Manny;
 
     // Use this for initialization
     private void Start() {
         _indicator = new UIStatIndicator(ExperienceIndicator, Attribute.Experience, Manny);
-        _animationHandler = new AnimationHandler();
+        _dashboardAnimationHandler = new DashboardAnimationHandler();
         InvalidateBackground();
         SetExperienceGoal();
         UpdateIndicators();
@@ -32,7 +28,7 @@ public class DashboardController : MonoBehaviour {
 
     private void Update() {
         UpdateIndicators();
-        _animationHandler.ScanInput();
+        _dashboardAnimationHandler.ScanInput();
     }
 
     /// <summary>
@@ -53,10 +49,10 @@ public class DashboardController : MonoBehaviour {
     ///     Gets the needed experience for the next level and passes it to the slider
     /// </summary>
     private void SetExperienceGoal() {
-        var level = (int) Manny.Attribute.GetAttribute(Attribute.Level);
+        var level = (int)Manny.Attribute.GetAttribute(Attribute.Level);
         ExperienceIndicator.minValue = Manny.Leveling.GetRequiredExperience(level);
         LevelIndicator.text = "Level " + level;
-        _indicator.SetMax((int) Manny.Leveling.GetRequiredExperience(level + 1));
+        _indicator.SetMax((int)Manny.Leveling.GetRequiredExperience(level + 1));
     }
 
     /// <summary>
@@ -73,11 +69,10 @@ public class DashboardController : MonoBehaviour {
     /// </summary>
     private void InvalidateBackground() {
         var now = DateTime.Now.Hour;
-        _current = Backgrounds.Where(x => x.Time.Min <= now && x.Time.Max >= now).FirstOrDefault();
+        _current = Backgrounds.FirstOrDefault(x => x.Time.Min <= now && x.Time.Max >= now);
         _current = _current ?? Backgrounds[0];
         _current.Background.SetActive(true);
         _current.Manny.SetActive(true);
-
-        _animationHandler.SetAnimator(_current.Manny);
+        _dashboardAnimationHandler.SetAnimator(_current.Manny);
     }
 }

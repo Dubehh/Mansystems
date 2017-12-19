@@ -3,22 +3,23 @@ using Assets.Scripts.App.Data_Management.Handshakes;
 using UnityEngine;
 using UnityEngine.UI;
 
-[Serializable]
 public class MinigamesController : MonoBehaviour {
+
     private float _prefabHeight;
 
+    [SerializeField] public GameObject Loading;
     [SerializeField] public GameObject Minigame;
-
     [SerializeField] public Minigame[] Minigames;
 
     private void Awake() {
+        Loading.SetActive(true);
         InformationProtocol.Validate(() => { Initialize(true); }, () => { Initialize(false); });
     }
 
     // Use this for initialization
     private void Initialize(bool hasConnection) {
         var y = -75f;
-
+        Loading.SetActive(false);
         // Loop through the Minigame array and create a MinigamePrefab with each one of them
         foreach (var game in Minigames) {
             var obj = Instantiate(Minigame, transform).GetComponent<MinigamePrefab>();
@@ -47,9 +48,7 @@ public class MinigamesController : MonoBehaviour {
             var maxY = (float) ((Minigames.Length - capacity) * _prefabHeight) - 15f;
             if (_scrollRect.anchoredPosition.y < 0) _scrollRect.anchoredPosition = new Vector2();
             if (_scrollRect.anchoredPosition.y > maxY) _scrollRect.anchoredPosition = new Vector2(0, maxY);
-        }
-        else {
+        } else 
             _scrollRect.anchoredPosition = new Vector2();
-        }
     }
 }

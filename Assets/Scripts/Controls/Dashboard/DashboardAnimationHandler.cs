@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class AnimationHandler {
+public class DashboardAnimationHandler {
+
     private Animator _animator;
     private GameObject _manny;
 

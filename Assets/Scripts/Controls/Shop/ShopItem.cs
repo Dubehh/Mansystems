@@ -3,16 +3,12 @@ using UnityEngine;
 
 [Serializable]
 public class ShopItem {
+
     [SerializeField] public Attribute Attribute;
-
     [SerializeField] public int Cost;
-
     [SerializeField] public string Description;
-
     [SerializeField] public Texture Icon;
-
     [SerializeField] public string Name;
-
     [SerializeField] public float Value;
 
     /// <summary>
