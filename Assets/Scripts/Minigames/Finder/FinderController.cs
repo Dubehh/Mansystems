@@ -11,15 +11,18 @@ public class FinderController : MonoBehaviour {
     public const string LikeTable = "FinderLikes";
     public const string ProfileTable = "FinderProfile";
     [SerializeField] public Text Description;
-    [SerializeField] public GameObject EndScreen;
-    [SerializeField] public Text Name;
 
+    [SerializeField] public List<GameObject> Views;
+    [SerializeField] public Text Name;
     [SerializeField] public RawImage Picture;
+
+    private GameObject _current;
 
     public List<string> LikedProfileIDs { get; set; }
     public FinderProfileController FinderProfileController { get; private set; }
 
     private void Start() {
+        _current = ChangeView("Main");
         FinderProfileController = new FinderProfileController();
         if (LikedProfileIDs == null) LikedProfileIDs = new List<string>();
         var a = this;
@@ -41,7 +44,8 @@ public class FinderController : MonoBehaviour {
     public void UpdateUI() {
         var current = FinderProfileController.GetCurrentProfile();
 
-        if (current == null) End();
+        if (current == null) 
+            ChangeView("EndScreen");
         else
             current.LoadPictures(this, queue => {
                 Debug.Log(queue.Queue.Count + " committed");
@@ -75,12 +79,14 @@ public class FinderController : MonoBehaviour {
         UpdateUI();
     }
 
-    /// <summary>
-    ///     Is called when no profiles are available anymore
-    ///     Opens a screen that displays a warning
-    /// </summary>
-    private void End() {
-        EndScreen.SetActive(true);
-        gameObject.SetActive(false);
+    public GameObject ChangeView(string name) {
+        if (_current != null)
+            _current.SetActive(false);
+
+        var view = Views.Find(x => x.name == name);
+        if (view == null) return _current;
+        _current = view;
+        _current.SetActive(true);
+        return _current;
     }
 }
