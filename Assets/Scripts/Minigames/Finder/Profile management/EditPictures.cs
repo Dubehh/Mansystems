@@ -15,9 +15,7 @@ public class EditPictures : MonoBehaviour {
         _personalProfile = finderController.PersonalProfile ??
                            finderController.LikedProfiles[0];
 
-        _personalProfile.LoadPictures(this, queue => {
-            Picture.texture = _personalProfile.GetCurrentPicture();
-        });
+        Picture.texture = _personalProfile.GetCurrentPicture();
     }
 
     /// <summary>

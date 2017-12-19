@@ -43,7 +43,7 @@ public class FinderProfileController {
 
             if (likes.Contains(profile["uuid"].str))
                 LikedProfiles.Add(newProfile);
-            else if (profile["uuid"].str == PlayerPrefs.GetString("uuid"))
+            else if (profile["uuid"].str == PlayerPrefs.GetString("uid"))
                 PersonalProfile = newProfile;
             else
                 _profiles.Add(newProfile);

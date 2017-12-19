@@ -29,15 +29,22 @@ public class EditInformation : MonoBehaviour {
     public void SaveChanges() {
         var parameters = DataParams.Build();
 
-        //TODO: Handshake EditProtocol so online values are changed as well
+        var handshake = new InformationProtocol(Protocol.Data)
+            .SetHandler("finderProfileUpdate", InformationProtocol.HandlerType.Update)
+            .AddParameter("targetTable", "module_finder")
+            .AddParameter("uid", PlayerPrefs.GetString("uid"));
 
         foreach (var field in _fields) {
             var key = field.name;
             var value = field.GetComponentInChildren<InputField>().text;
 
             parameters.Append(key, value);
+            handshake.AddParameter(key, value);
         }
 
         _profileTable.Update(parameters, "");
+        handshake.Send(request => {
+            Debug.Log(request.downloadHandler.text);
+        });
     }
 }
