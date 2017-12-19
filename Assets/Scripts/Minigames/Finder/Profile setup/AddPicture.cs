@@ -35,9 +35,7 @@ public class AddPicture : MonoBehaviour {
     public void UploadPicture() {
         var fp = new FileProtocol(Protocol.Upload, this);
         fp.AddParameter("targetFolder", "finder");
-        fp.Put("file", "profilePicture.jpeg", ContentType.Jpeg, _picture.EncodeToJPG()).Send(www => {
-            GetComponentInParent<ProfileSetup>().NextStep();
-        });
+        fp.Put("file", "profilePicture.jpeg", ContentType.Jpeg, _picture.EncodeToJPG()).Send();
     }
 
     /// <summary>

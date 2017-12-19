@@ -10,19 +10,19 @@ using UnityEngine.UI;
 public class FinderController : MonoBehaviour {
     public const string LikeTable = "FinderLikes";
     public const string ProfileTable = "FinderProfile";
-    [SerializeField] public Text Description;
 
-    [SerializeField] public List<GameObject> Views;
+    [SerializeField] public Text Description;
     [SerializeField] public Text Name;
     [SerializeField] public RawImage Picture;
+    [SerializeField] public List<GameObject> Views;
 
-    private GameObject _current;
+    private GameObject _currentView;
 
     public List<string> LikedProfileIDs { get; set; }
     public FinderProfileController FinderProfileController { get; private set; }
 
     private void Start() {
-        _current = ChangeView("Main");
+        ChangeView("Main");
         FinderProfileController = new FinderProfileController();
         if (LikedProfileIDs == null) LikedProfileIDs = new List<string>();
         var a = this;
@@ -44,7 +44,7 @@ public class FinderController : MonoBehaviour {
     public void UpdateUI() {
         var current = FinderProfileController.GetCurrentProfile();
 
-        if (current == null) 
+        if (current == null)
             ChangeView("EndScreen");
         else
             current.LoadPictures(this, queue => {
@@ -79,14 +79,14 @@ public class FinderController : MonoBehaviour {
         UpdateUI();
     }
 
-    public GameObject ChangeView(string name) {
-        if (_current != null)
-            _current.SetActive(false);
+    public void ChangeView(string name) {
+        if (_currentView != null)
+            _currentView.SetActive(false);
 
         var view = Views.Find(x => x.name == name);
-        if (view == null) return _current;
-        _current = view;
-        _current.SetActive(true);
-        return _current;
+        _currentView = view ?? _currentView;
+
+        if (_currentView != null)
+            _currentView.SetActive(true);
     }
 }

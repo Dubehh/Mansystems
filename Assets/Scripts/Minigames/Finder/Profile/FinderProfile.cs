@@ -6,15 +6,15 @@ using UnityEngine;
 public class FinderProfile {
     private int _currentPictureIndex;
 
+    public List<Texture> Pictures { get; set; }
+    public FinderProfileInfo ProfileInfo { get; set; }
+    public string[] ImageNames { get; private set; }
+
     public FinderProfile(FinderProfileInfo info, string[] imageNames) {
         Pictures = new List<Texture>();
         ProfileInfo = info;
         ImageNames = imageNames;
     }
-
-    public List<Texture> Pictures { get; set; }
-    public FinderProfileInfo ProfileInfo { get; set; }
-    public string[] ImageNames { get; private set; }
 
     /// <summary>
     ///     Loads the users pictures from the webserver
@@ -49,5 +49,9 @@ public class FinderProfile {
     /// </summary>
     public Texture GetCurrentPicture() {
         return Pictures.Count > 0 ? Pictures[_currentPictureIndex] : null;
+    }
+
+    public string GetCurrentPictureName() {
+        return ImageNames[_currentPictureIndex];
     }
 }
