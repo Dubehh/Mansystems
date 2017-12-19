@@ -26,12 +26,28 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
         }
 
         /// <summary>
+        /// Used to seperate the different handshake handler types
+        /// </summary>
+        public enum HandlerType { Update, Fetch }
+
+        /// <summary>
+        /// Sets the webreceiver handler
+        /// </summary>
+        /// <param name="handlerReference">string handler name</param>
+        /// <returns></returns>
+        public InformationProtocol SetHandler(string handlerReference, HandlerType type) {
+            AddParameter("handler", handlerReference);
+            AddParameter("handlerType", type.ToString());
+            return this;
+        }
+
+        /// <summary>
         ///     Validates the connection to the server
         /// </summary>
         /// <param name="onValidateSuccess">Callback to invoke if there is a connection</param>
         /// <param name="onValidateError">Callback to invoke if there is no connection</param>
         public static void Validate(Action onValidateSuccess = null, Action onValidateError = null) {
-            var handshake = new InformationProtocol(Protocol.Update);
+            var handshake = new InformationProtocol(Protocol.Tracking);
             handshake.OnError(error => {
                 if (onValidateError != null)
                     onValidateError.Invoke();

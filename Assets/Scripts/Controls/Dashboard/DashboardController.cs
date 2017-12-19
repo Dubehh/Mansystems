@@ -11,6 +11,7 @@ public class DashboardController : MonoBehaviour {
     private DashboardBackground _current;
     private UIStatIndicator _indicator;
 
+    [SerializeField] public DashboardBackground BackgroundDead;
     [SerializeField] public DashboardBackground[] Backgrounds;
     [SerializeField] public RawImage Dialog;
     [SerializeField] public Slider ExperienceIndicator;
@@ -69,7 +70,7 @@ public class DashboardController : MonoBehaviour {
     /// </summary>
     private void InvalidateBackground() {
         var now = DateTime.Now.Hour;
-        _current = Backgrounds.FirstOrDefault(x => x.Time.Min <= now && x.Time.Max >= now);
+        _current = Manny.HasDied() ? BackgroundDead : Backgrounds.FirstOrDefault(x => x.Time.Min <= now && x.Time.Max >= now);
         _current = _current ?? Backgrounds[0];
         _current.Background.SetActive(true);
         _current.Manny.SetActive(true);

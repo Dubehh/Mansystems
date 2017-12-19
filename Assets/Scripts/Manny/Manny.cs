@@ -21,6 +21,7 @@ public class Manny : MonoBehaviour {
     }
 
     private void Update() {
+        if (HasDied()) return;
         _brain.Update();
     }
 
@@ -40,4 +41,16 @@ public class Manny : MonoBehaviour {
         _notification.Send();
         if (DeleteAttributes) PlayerPrefs.DeleteAll();
     }
+
+    /// <summary>
+    ///     Returns true if manny is considered dead
+    /// </summary>
+    public bool HasDied() {
+        return Attribute.GetAttribute(global::Attribute.Food) <= 0 && Attribute.GetAttribute(global::Attribute.Thirst) <= 0;
+    }
+
+    public void Revive() {
+
+    }
+
 }
