@@ -5,9 +5,7 @@ namespace Assets.Scripts.Dashboard {
     [Serializable]
     public class DashboardBackground {
         [SerializeField] public GameObject Background;
-
         [SerializeField] public GameObject Manny;
-
         [SerializeField] public BackgroundTime Time;
     }
 

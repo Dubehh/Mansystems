@@ -15,7 +15,7 @@ namespace Assets.Scripts.App.Tracking {
         ///     Performs the instantiated  request using a HTTP POST request to serialize the data.
         /// </summary>
         public void RequestSend() {
-            var handshake = new InformationProtocol(Protocol.Update)
+            var handshake = new InformationProtocol(Protocol.Tracking)
                 .AddParameter("creation_query", _source.GenerateBuildQuery())
                 .AddParameter("table_name", _source.Name)
                 .AddParameter("player_name", PlayerPrefs.GetString("name"))
