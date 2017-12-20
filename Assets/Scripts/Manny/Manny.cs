@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.IO;
+using UnityEngine;
 
 public class Manny : MonoBehaviour {
     private MannyBrain _brain;
@@ -39,7 +40,9 @@ public class Manny : MonoBehaviour {
     private void OnExit() {
         Attribute.Save();
         _notification.Send();
-        if (DeleteAttributes) PlayerPrefs.DeleteAll();
+        if (!DeleteAttributes) return;
+        PlayerPrefs.DeleteAll();
+        File.Delete(DataSource.GetInstance().GetConnection().Database);
     }
 
     /// <summary>

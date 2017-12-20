@@ -10,11 +10,15 @@ public class AddPicture : MonoBehaviour {
     [SerializeField] public RawImage Camera;
 
     // Use this for initialization
-    private void Start() {
+    private void Awake() {
         var device = WebCamTexture.devices.First(x => x.isFrontFacing);
         _cameraTexture = new WebCamTexture(device.name, 550, 550);
-        _cameraTexture.Play();
+        PlayCamera();
         Camera.texture = _cameraTexture;
+    }
+
+    public void PlayCamera() {
+        _cameraTexture.Play();
     }
 
     // Update is called once per frame
@@ -32,10 +36,15 @@ public class AddPicture : MonoBehaviour {
     /// <summary>
     ///     Function that uploads the taken picture to the webserver
     /// </summary>
-    public void UploadPicture() {
+    public void UploadPicture(FinderController controller) {
         var fp = new FileProtocol(Protocol.Upload, this);
         fp.AddParameter("targetFolder", "finder");
-        fp.Put("file", "profilePicture.jpeg", ContentType.Jpeg, _picture.EncodeToJPG()).Send();
+        fp.Put("file", "profilePicture.jpeg", ContentType.Jpeg, _picture.EncodeToJPG()).Send(www => {
+            if (controller != null) {
+                controller.FinderProfileController.PersonalProfile.ImageNames.Add(www.text);
+                FindObjectOfType<ProfileManagement>().OpenView();
+            }
+        });
     }
 
     /// <summary>

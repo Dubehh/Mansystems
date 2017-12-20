@@ -11,17 +11,15 @@ public class FinderController : MonoBehaviour {
     public const string LikeTable = "FinderLikes";
     public const string ProfileTable = "FinderProfile";
 
-    [SerializeField] public Text Description;
-    [SerializeField] public Text Name;
-    [SerializeField] public RawImage Picture;
     [SerializeField] public List<GameObject> Views;
-
-    private GameObject _currentView;
+    [SerializeField] public ProfileDetailsInitializer ProfileDetailsInitializer;
 
     public List<string> LikedProfileIDs { get; set; }
     public FinderProfileController FinderProfileController { get; private set; }
 
-    private void Start() {
+    private GameObject _currentView;
+
+    private void Awake() {
         ChangeView("Main");
         FinderProfileController = new FinderProfileController();
         if (LikedProfileIDs == null) LikedProfileIDs = new List<string>();
@@ -33,8 +31,10 @@ public class FinderController : MonoBehaviour {
                 FinderProfileController.LoadProfiles(request, LikedProfileIDs);
                 foreach (var likedProfile in FinderProfileController.LikedProfiles)
                     if (likedProfile == FinderProfileController.LikedProfiles.Last())
-                        likedProfile.LoadPictures(a, queue => { UpdateUI(); });
+                        likedProfile.LoadPictures(a);
                     else likedProfile.LoadPictures(a);
+                FinderProfileController.PersonalProfile.LoadPictures(a);
+                UpdateUI();
             });
     }
 
@@ -48,19 +48,9 @@ public class FinderController : MonoBehaviour {
             ChangeView("EndScreen");
         else
             current.LoadPictures(this, queue => {
-                Debug.Log(queue.Queue.Count + " committed");
-                Picture.texture = current.GetCurrentPicture() != null ? current.GetCurrentPicture() : new Texture();
-                Name.text = current.ProfileInfo.Name + " (" + current.ProfileInfo.Age + ")";
-                Description.text = current.ProfileInfo.City;
+                ProfileDetailsInitializer.Profile = current;
+                ProfileDetailsInitializer.Init();
             });
-    }
-
-    /// <summary>
-    ///     OnClick event for the picture changing buttons
-    /// </summary>
-    /// <param name="next"></param>
-    public void SwitchPicture(bool next) {
-        Picture.texture = FinderProfileController.GetCurrentProfile().GetPicture(next);
     }
 
     /// <summary>

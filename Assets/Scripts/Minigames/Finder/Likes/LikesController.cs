@@ -2,8 +2,8 @@
 using UnityEngine;
 
 public class LikesController : MonoBehaviour {
-    public FinderController FinderController;
-    public GameObject Like;
+    [SerializeField] public FinderController FinderController;
+    [SerializeField] public GameObject Like;
 
     private bool _active;
     private Animator _animator;

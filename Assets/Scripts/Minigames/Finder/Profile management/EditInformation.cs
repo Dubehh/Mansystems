@@ -31,7 +31,8 @@ public class EditInformation : MonoBehaviour {
 
         var handshake = new InformationProtocol(Protocol.Data)
             .SetHandler("finderProfileUpdate", InformationProtocol.HandlerType.Update)
-            .AddParameter("targetTable", "module_finder")
+            .AddParameter("action", "update")
+            .AddParameter("name", PlayerPrefs.GetString("name"))
             .AddParameter("uid", PlayerPrefs.GetString("uid"));
 
         foreach (var field in _fields) {
@@ -43,8 +44,6 @@ public class EditInformation : MonoBehaviour {
         }
 
         _profileTable.Update(parameters, "");
-        handshake.Send(request => {
-            Debug.Log(request.downloadHandler.text);
-        });
+        handshake.Send();
     }
 }
