@@ -20,6 +20,9 @@ public class LikePrefab : MonoBehaviour {
     ///     Event for when the user clicks the prefab's detail button
     /// </summary>
     public void DetailsClick() {
-        // Open profile with Profile.ID
+        FindObjectOfType<FinderController>().ChangeView("ProfileDetails");
+        var initializer = FindObjectOfType<ProfileDetailsInitializer>();
+        initializer.Profile = Profile;
+        initializer.Init();
     }
 }

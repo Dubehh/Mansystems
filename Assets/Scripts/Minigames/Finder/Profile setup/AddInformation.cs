@@ -18,8 +18,9 @@ public class AddInformation : MonoBehaviour {
         var fields = FormContent.GetComponentsInChildren<Text>().Where(x => x.tag == "InputName");
 
         var handshake = new InformationProtocol(Protocol.Data)
-            .SetHandler("finderProfileInsert", InformationProtocol.HandlerType.Update)
-            .AddParameter("targetTable", "module_finder")
+            .SetHandler("finderProfileUpdate", InformationProtocol.HandlerType.Update)
+            .AddParameter("action", "insert")
+            .AddParameter("name", PlayerPrefs.GetString("name"))
             .AddParameter("uid", PlayerPrefs.GetString("uid"));
 
         var parameters = DataParams.Build();

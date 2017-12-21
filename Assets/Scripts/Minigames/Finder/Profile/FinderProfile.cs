@@ -6,15 +6,15 @@ using UnityEngine;
 public class FinderProfile {
     private int _currentPictureIndex;
 
+    public List<Texture> Pictures { get; set; }
+    public FinderProfileInfo ProfileInfo { get; set; }
+    public List<string> ImageNames { get; private set; }
+
     public FinderProfile(FinderProfileInfo info, string[] imageNames) {
         Pictures = new List<Texture>();
         ProfileInfo = info;
-        ImageNames = imageNames;
+        ImageNames = new List<string>(imageNames);
     }
-
-    public List<Texture> Pictures { get; set; }
-    public FinderProfileInfo ProfileInfo { get; set; }
-    public string[] ImageNames { get; private set; }
 
     /// <summary>
     ///     Loads the users pictures from the webserver
@@ -22,6 +22,7 @@ public class FinderProfile {
     /// <param name="controller">The controller which Monobehaviour's used in the request</param>
     /// <param name="onComplete">The method to fire when the loading is done</param>
     public void LoadPictures(MonoBehaviour controller, Action<FileProtocolQueue> onComplete = null) {
+        Pictures.Clear();
         var fileQueue = new FileProtocolQueue(onComplete, www => Pictures.Add(www.texture));
         foreach (var imageName in ImageNames)
             fileQueue.Attach(new FileProtocol(Protocol.Download, controller)
@@ -45,9 +46,33 @@ public class FinderProfile {
     }
 
     /// <summary>
-    ///     Returns the current picture from the Pictures list
+    /// Returns the current picture from the Pictures list
     /// </summary>
     public Texture GetCurrentPicture() {
         return Pictures.Count > 0 ? Pictures[_currentPictureIndex] : null;
+    }
+
+    /// <summary>
+    /// Returns the filename of the current picture
+    /// </summary>
+    public string GetCurrentPictureName() {
+        return ImageNames.Count > 0 ? ImageNames[_currentPictureIndex] : null;
+    }
+
+    /// <summary>
+    /// Removes the current picture locally and from the server
+    /// </summary>
+    public void RemovePicture() {
+        if (Pictures.Count <= 0 || ImageNames.Count <= 0) return;
+        var file = GetCurrentPictureName();
+
+        Pictures.Remove(GetCurrentPicture());
+        ImageNames.RemoveAt(_currentPictureIndex);
+
+        new InformationProtocol(Protocol.Data)
+            .SetHandler("finderRemovePicture", InformationProtocol.HandlerType.Update)
+            .AddParameter("uid", PlayerPrefs.GetString("uid"))
+            .AddParameter("file", file)
+            .Send();
     }
 }

@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.Networking;
+using Random = System.Random;
 
 public class FinderProfileController {
     private int _currentProfileIndex;
 
     private List<FinderProfile> _profiles;
     public List<FinderProfile> LikedProfiles { get; set; }
+    public FinderProfile PersonalProfile { get set; }
 
     /// <summary>
     ///     Gathers a list of Finder profile's from a UnityWebRequest and fills a list with them
@@ -27,9 +29,9 @@ public class FinderProfileController {
             var newProfile = new FinderProfile(new FinderProfileInfo {
                 PlayerUID = profile["uuid"].str,
                 Name = profile["Name"].str,
-                Age = (int) profile["Age"].i,
+                Age = (int)profile["Age"].i,
                 City = profile["City"].str,
-                PhoneNumber = (int) profile["PhoneNumber"].i,
+                PhoneNumber = (int)profile["PhoneNumber"].i,
                 FavMovie = profile["FavMovie"].str,
                 FavMusic = profile["FavMusic"].str,
                 FavFood = profile["FavFood"].str,
@@ -40,7 +42,11 @@ public class FinderProfileController {
 
             if (likes.Contains(profile["uuid"].str))
                 LikedProfiles.Add(newProfile);
-            else _profiles.Add(newProfile);
+            else if (profile["uuid"].str == PlayerPrefs.GetString("uid"))
+                PersonalProfile = newProfile;
+            else
+                _profiles.Add(newProfile);
+
         }
 
         _profiles = _profiles.OrderBy(x => random.Next()).ToList();

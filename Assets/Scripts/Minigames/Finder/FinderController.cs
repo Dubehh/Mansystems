@@ -10,19 +10,20 @@ using UnityEngine.UI;
 public class FinderController : MonoBehaviour {
     public const string LikeTable = "FinderLikes";
     public const string ProfileTable = "FinderProfile";
-    [SerializeField] public Text Description;
-    [SerializeField] public GameObject EndScreen;
-    [SerializeField] public Text Name;
 
-    [SerializeField] public RawImage Picture;
+    [SerializeField] public List<GameObject> Views;
+    [SerializeField] public ProfileDetailsInitializer ProfileDetailsInitializer;
 
     public List<string> LikedProfileIDs { get; set; }
     public FinderProfileController FinderProfileController { get; private set; }
 
-    private void Start() {
+    private GameObject _currentView;
+
+    private void Awake() {
+        ChangeView("Main");
         FinderProfileController = new FinderProfileController();
         if (LikedProfileIDs == null) LikedProfileIDs = new List<string>();
-        var a = this;
+        var instance = this;
         new InformationProtocol(Protocol.Data)
             .SetHandler("finderProfiles", InformationProtocol.HandlerType.Fetch)
             .AddParameter("uuid", PlayerPrefs.GetString("uid"))
@@ -30,8 +31,10 @@ public class FinderController : MonoBehaviour {
                 FinderProfileController.LoadProfiles(request, LikedProfileIDs);
                 foreach (var likedProfile in FinderProfileController.LikedProfiles)
                     if (likedProfile == FinderProfileController.LikedProfiles.Last())
-                        likedProfile.LoadPictures(a, queue => { UpdateUI(); });
-                    else likedProfile.LoadPictures(a);
+                        likedProfile.LoadPictures(instance);
+                    else likedProfile.LoadPictures(instance);
+                FinderProfileController.PersonalProfile.LoadPictures(instance);
+                UpdateUI();
             });
     }
 
@@ -41,22 +44,13 @@ public class FinderController : MonoBehaviour {
     public void UpdateUI() {
         var current = FinderProfileController.GetCurrentProfile();
 
-        if (current == null) End();
+        if (current == null)
+            ChangeView("EndScreen");
         else
             current.LoadPictures(this, queue => {
-                Debug.Log(queue.Queue.Count + " committed");
-                Picture.texture = current.GetCurrentPicture() != null ? current.GetCurrentPicture() : new Texture();
-                Name.text = current.ProfileInfo.Name + " (" + current.ProfileInfo.Age + ")";
-                Description.text = current.ProfileInfo.City;
+                ProfileDetailsInitializer.Profile = current;
+                ProfileDetailsInitializer.Init();
             });
-    }
-
-    /// <summary>
-    ///     OnClick event for the picture changing buttons
-    /// </summary>
-    /// <param name="next"></param>
-    public void SwitchPicture(bool next) {
-        Picture.texture = FinderProfileController.GetCurrentProfile().GetPicture(next);
     }
 
     /// <summary>
@@ -75,12 +69,14 @@ public class FinderController : MonoBehaviour {
         UpdateUI();
     }
 
-    /// <summary>
-    ///     Is called when no profiles are available anymore
-    ///     Opens a screen that displays a warning
-    /// </summary>
-    private void End() {
-        EndScreen.SetActive(true);
-        gameObject.SetActive(false);
+    public void ChangeView(string name) {
+        if (_currentView != null)
+            _currentView.SetActive(false);
+
+        var view = Views.Find(x => x.name == name);
+        _currentView = view ?? _currentView;
+
+        if (_currentView != null)
+            _currentView.SetActive(true);
     }
 }

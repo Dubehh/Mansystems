@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class DNAController : MonoBehaviour {
-    [SerializeField] private GameObject _moreInfo;
+    [SerializeField] public GameObject MoreInfo;
 
     [SerializeField] public Text DisplayText;
 
@@ -23,11 +23,11 @@ public class DNAController : MonoBehaviour {
     }
 
     private void Update() {
-        if (_moreInfo.activeSelf && Input.touchCount > 0) _moreInfo.SetActive(false);
+        if (MoreInfo.activeSelf && Input.touchCount > 0) MoreInfo.SetActive(false);
     }
 
     public void OnClickNavigation() {
-        _moreInfo.SetActive(true);
+        MoreInfo.SetActive(true);
     }
 
     /// <summary>
