@@ -23,7 +23,7 @@ public class FinderController : MonoBehaviour {
         ChangeView("Main");
         FinderProfileController = new FinderProfileController();
         if (LikedProfileIDs == null) LikedProfileIDs = new List<string>();
-        var a = this;
+        var instance = this;
         new InformationProtocol(Protocol.Data)
             .SetHandler("finderProfiles", InformationProtocol.HandlerType.Fetch)
             .AddParameter("uuid", PlayerPrefs.GetString("uid"))
@@ -31,9 +31,9 @@ public class FinderController : MonoBehaviour {
                 FinderProfileController.LoadProfiles(request, LikedProfileIDs);
                 foreach (var likedProfile in FinderProfileController.LikedProfiles)
                     if (likedProfile == FinderProfileController.LikedProfiles.Last())
-                        likedProfile.LoadPictures(a);
-                    else likedProfile.LoadPictures(a);
-                FinderProfileController.PersonalProfile.LoadPictures(a);
+                        likedProfile.LoadPictures(instance);
+                    else likedProfile.LoadPictures(instance);
+                FinderProfileController.PersonalProfile.LoadPictures(instance);
                 UpdateUI();
             });
     }
