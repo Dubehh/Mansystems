@@ -34,6 +34,7 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
         /// Sets the webreceiver handler
         /// </summary>
         /// <param name="handlerReference">string handler name</param>
+        /// <param name="type">HandlerType type</param>
         /// <returns></returns>
         public InformationProtocol SetHandler(string handlerReference, HandlerType type) {
             AddParameter("handler", handlerReference);

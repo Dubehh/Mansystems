@@ -10,11 +10,8 @@ public class UIController : MonoBehaviour {
     private bool _navigationVisible;
 
     [SerializeField] public Text ControlHeader;
-
     [SerializeField] public UIControl[] Controls;
-
     [SerializeField] public GameObject Footer;
-
     [SerializeField] public GameObject Navigation;
 
     /// <summary>
