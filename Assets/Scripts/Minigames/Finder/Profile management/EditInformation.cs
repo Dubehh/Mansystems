@@ -11,6 +11,7 @@ public class EditInformation : MonoBehaviour {
     private DataTable _profileTable;
 
     private List<Text> _fields;
+
     // Use this for initialization
     private void Start () {
         _profileTable = AppData.Instance().Registry.Fetch(FinderController.ProfileTable);
@@ -26,6 +27,9 @@ public class EditInformation : MonoBehaviour {
         });
     }
 
+    /// <summary>
+    /// Save the updated information locally and online
+    /// </summary>
     public void SaveChanges() {
         var parameters = DataParams.Build();
 

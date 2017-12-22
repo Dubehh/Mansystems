@@ -18,19 +18,10 @@ public class MovementController : MonoBehaviour {
     ///     Prevents Manny from leaving the screen
     /// </summary>
     private void FixedUpdate() {
-        Vector3 mousePos = Cam.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 targetPosition = new Vector3(mousePos.x, 1.0f, 0.0f);
-        float f = Mathf.Clamp(targetPosition.x, _maxWidth, _maxWidth);
-        targetPosition = new Vector3(f, targetPosition.y, targetPosition.z);
-        transform.position = targetPosition;
-
-        /*
         transform.Translate(new Vector2(Input.acceleration.x * (Time.deltaTime * 15), 0));
         Vector2 targetPosition = transform.position;
         var targetWidth = Mathf.Clamp(targetPosition.x, -_maxWidth, _maxWidth);
         targetPosition = new Vector2(targetWidth, targetPosition.y);
         transform.position = targetPosition;
-
-    */
     }
 }

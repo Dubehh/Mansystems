@@ -5,7 +5,6 @@ public class ProfileSetup : MonoBehaviour {
     private int _currentStepIndex;
 
     [SerializeField] public FinderController FinderController;
-
     [SerializeField] public GameObject[] Steps;
 
     private void Awake() {

@@ -57,7 +57,11 @@ public class FinderController : MonoBehaviour {
             else InitializeProfile(current);
         }
     }
-
+    
+    /// <summary>
+    /// Fills the profile details object with all the current profile's information
+    /// </summary>
+    /// <param name="current"></param>
     public void InitializeProfile(FinderProfile current) {
         ProfileDetailsInitializer.Profile = current;
         ProfileDetailsInitializer.Init();
@@ -80,6 +84,10 @@ public class FinderController : MonoBehaviour {
         UpdateUI();
     }
 
+    /// <summary>
+    /// Hides the current view and opens a new one
+    /// </summary>
+    /// <param name="name">The name of the view to display</param>
     public void ChangeView(string name) {
         if (_currentView != null)
             _currentView.SetActive(false);
@@ -91,6 +99,9 @@ public class FinderController : MonoBehaviour {
             _currentView.SetActive(true);
     }
 
+    /// <summary>
+    /// Returns the player to Manny
+    /// </summary>
     public void Quit() {
         SceneManager.LoadScene(0);
     }

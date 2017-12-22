@@ -10,11 +10,10 @@ public class DashboardAnimationHandler {
         _manny = manny;
     }
 
+    /// <summary>
+    /// Looks if input from the player should start an event
+    /// </summary>
     public void ScanInput() {
         if (_animator == null) return;
-        if (Input.GetKeyDown(KeyCode.A)) _animator.Play("Waving", 2);
-        if (Input.GetKeyDown(KeyCode.B)) _animator.Play("Waving 2_0", 2);
-
-        _manny.transform.Rotate(new Vector3(0, 0, Input.acceleration.x));
     }
 }

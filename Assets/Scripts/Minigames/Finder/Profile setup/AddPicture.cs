@@ -48,6 +48,9 @@ public class AddPicture : MonoBehaviour {
         });
     }
 
+    /// <summary>
+    /// Event for uploading a picture without adding the picture's name to the personal profile
+    /// </summary>
     public void UploadPicture() {
         UploadPicture(null);
     }

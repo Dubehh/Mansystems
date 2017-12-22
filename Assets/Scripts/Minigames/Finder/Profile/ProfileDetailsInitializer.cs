@@ -16,6 +16,9 @@ public class ProfileDetailsInitializer : MonoBehaviour {
     [SerializeField] public Text FavGame;
     [SerializeField] public Text FavVacation;
 
+    /// <summary>
+    /// Fills the UI elements with the profile's information
+    /// </summary>
     public void Init() {
 	    var info = Profile.ProfileInfo;
 	    Picture.texture = Profile.GetCurrentPicture();
