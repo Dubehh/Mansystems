@@ -94,9 +94,7 @@ public class CatcherController : GameController {
         Prepare();
     }
 
-    protected override void OnLoad() {
-        StartCoroutine(SpawnOfficeObject());
-    }
+    protected override void OnLoad() { }
 
     /// <summary>
     ///     Checks if time is zero
