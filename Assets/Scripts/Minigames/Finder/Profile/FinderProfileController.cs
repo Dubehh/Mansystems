@@ -9,7 +9,7 @@ public class FinderProfileController {
 
     private List<FinderProfile> _profiles;
     public List<FinderProfile> LikedProfiles { get; set; }
-    public FinderProfile PersonalProfile { get set; }
+    public FinderProfile PersonalProfile { get; set; }
 
     /// <summary>
     ///     Gathers a list of Finder profile's from a UnityWebRequest and fills a list with them
@@ -25,13 +25,13 @@ public class FinderProfileController {
 
         for (var i = 0; i < profiles.Count; i++) {
             var profile = profiles[i];
-
+            Debug.Log(profile["Age"]);
             var newProfile = new FinderProfile(new FinderProfileInfo {
                 PlayerUID = profile["uuid"].str,
                 Name = profile["Name"].str,
-                Age = (int)profile["Age"].i,
+                Age = profile["Age"].str,
                 City = profile["City"].str,
-                PhoneNumber = (int)profile["PhoneNumber"].i,
+                PhoneNumber = profile["PhoneNumber"].str,
                 FavMovie = profile["FavMovie"].str,
                 FavMusic = profile["FavMusic"].str,
                 FavFood = profile["FavFood"].str,

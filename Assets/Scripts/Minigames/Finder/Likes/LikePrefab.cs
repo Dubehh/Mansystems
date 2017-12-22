@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Experimental.UIElements;
 using UnityEngine.UI;
 
 public class LikePrefab : MonoBehaviour {
@@ -24,5 +25,6 @@ public class LikePrefab : MonoBehaviour {
         var initializer = FindObjectOfType<ProfileDetailsInitializer>();
         initializer.Profile = Profile;
         initializer.Init();
+        initializer.GetComponentInChildren<ScrollRect>().normalizedPosition = new Vector2(0, 1);
     }
 }

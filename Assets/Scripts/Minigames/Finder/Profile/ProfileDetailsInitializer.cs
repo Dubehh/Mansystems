@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ProfileDetailsInitializer : MonoBehaviour {
@@ -21,7 +19,7 @@ public class ProfileDetailsInitializer : MonoBehaviour {
 	    var info = Profile.ProfileInfo;
 	    Picture.texture = Profile.GetCurrentPicture();
 	    Header.text = info.Name + " (" + info.Age + ")";
-        PhoneNumber.text = info.PhoneNumber.ToString();
+        PhoneNumber.text = info.PhoneNumber;
         FavMovie.text = info.FavMovie;
         FavMusic.text = info.FavMusic;
         FavFood.text = info.FavFood;

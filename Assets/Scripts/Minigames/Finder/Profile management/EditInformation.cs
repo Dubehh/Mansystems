@@ -39,6 +39,7 @@ public class EditInformation : MonoBehaviour {
             var key = field.name;
             var value = field.GetComponentInChildren<InputField>().text;
 
+            if(field)
             parameters.Append(key, value);
             handshake.AddParameter(key, value);
         }

@@ -15,6 +15,19 @@ public class AddInformation : MonoBehaviour {
     /// </summary>
     public void Finish() {
         var profileSetup = GetComponentInParent<ProfileSetup>();
+        var finderProfile = new DataTable(FinderController.ProfileTable);
+        finderProfile.AddProperty(new DataProperty("Name", DataProperty.DataPropertyType.VARCHAR));
+        finderProfile.AddProperty(new DataProperty("Age", DataProperty.DataPropertyType.VARCHAR));
+        finderProfile.AddProperty(new DataProperty("City", DataProperty.DataPropertyType.VARCHAR));
+        finderProfile.AddProperty(new DataProperty("PhoneNumber", DataProperty.DataPropertyType.VARCHAR));
+        finderProfile.AddProperty(new DataProperty("FavMovie", DataProperty.DataPropertyType.VARCHAR));
+        finderProfile.AddProperty(new DataProperty("FavMusic", DataProperty.DataPropertyType.VARCHAR));
+        finderProfile.AddProperty(new DataProperty("FavFood", DataProperty.DataPropertyType.VARCHAR));
+        finderProfile.AddProperty(new DataProperty("FavSport", DataProperty.DataPropertyType.VARCHAR));
+        finderProfile.AddProperty(new DataProperty("FavGame", DataProperty.DataPropertyType.VARCHAR));
+        finderProfile.AddProperty(new DataProperty("FavVacation", DataProperty.DataPropertyType.VARCHAR));
+        AppData.Instance().Registry.Register(finderProfile);
+
         var fields = FormContent.GetComponentsInChildren<Text>().Where(x => x.tag == "InputName");
 
         var handshake = new InformationProtocol(Protocol.Data)
@@ -33,7 +46,7 @@ public class AddInformation : MonoBehaviour {
             handshake.AddParameter(key, value);
         }
 
-        profileSetup.FinderProfile.Insert(parameters);
+        finderProfile.Insert(parameters);
         handshake.Send();
 
         var likeTable = new DataTable(FinderController.LikeTable);

@@ -13,13 +13,9 @@ using Random = UnityEngine.Random;
 [Serializable]
 public class OfficeObject {
     [SerializeField] public GameObject GameObject;
-
     [SerializeField] public bool IsBroken;
-
     [SerializeField] public bool IsFakeLogo;
-
     [SerializeField] public bool IsLogo;
-
     [SerializeField] public int ObjectScore;
 
     public float MaxWidth { get; set; }
@@ -31,27 +27,16 @@ public class CatcherController : GameController {
     private bool _gameStarted;
 
     [SerializeField] public Text AmountOfCustomers;
-
     [SerializeField] public CollisionHandler CollisionHandler;
-
     [SerializeField] public Text FinalAmountOfFakeCustomers;
-
     [SerializeField] public Text FinalExpText;
-
     [SerializeField] public Text FinalScoreText;
-
     [SerializeField] public GameObject GameOverScreen;
-
     [SerializeField] public int GameScore;
-
     [SerializeField] public int LifeLeft;
-
     [SerializeField] public List<GameObject> Lives;
-
     [SerializeField] public List<OfficeObject> Objects;
-
     [SerializeField] public Text ScoreText;
-
     [SerializeField] public GameObject StopButton;
 
     public int Experience { get; set; }
@@ -110,6 +95,7 @@ public class CatcherController : GameController {
     }
 
     protected override void OnLoad() {
+        StartCoroutine(SpawnOfficeObject());
     }
 
     /// <summary>
