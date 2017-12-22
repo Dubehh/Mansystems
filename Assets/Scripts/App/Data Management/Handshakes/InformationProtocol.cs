@@ -48,7 +48,7 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
         /// <param name="onValidateSuccess">Callback to invoke if there is a connection</param>
         /// <param name="onValidateError">Callback to invoke if there is no connection</param>
         public static void Validate(Action onValidateSuccess = null, Action onValidateError = null) {
-            var handshake = new InformationProtocol(Protocol.Tracking);
+            var handshake = new InformationProtocol(Protocol.Data);
             handshake.OnError(error => {
                 if (onValidateError != null)
                     onValidateError.Invoke();
