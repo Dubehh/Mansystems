@@ -4,11 +4,12 @@ using UnityEngine.UI;
 
 [Serializable]
 public class ShopController : MonoBehaviour {
+
     private Manny _manny;
     private float _prefabHeight;
 
-    [SerializeField] Sprite BtnFood;
-    [SerializeField] Sprite BtnDrink;
+    [SerializeField] public Sprite BtnFood;
+    [SerializeField] public Sprite BtnDrink;
     [SerializeField] public Text CoinsIndicator;
     [SerializeField] public GameObject Item;
     [SerializeField] public ShopItem[] Items;
