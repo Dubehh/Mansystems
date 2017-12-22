@@ -4,7 +4,6 @@ using System.Linq;
 using Assets.Scripts.App.Data_Management.Handshakes;
 using Assets.Scripts.App.Tracking.Table;
 using UnityEngine;
-using UnityEngine.Experimental.UIElements;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -50,12 +49,19 @@ public class FinderController : MonoBehaviour {
 
         if (current == null)
             ChangeView("EndScreen");
-        else
+        else {
+            if(current.ImageNames.Count > 0)
             current.LoadPictures(this, queue => {
-                ProfileDetailsInitializer.Profile = current;
-                ProfileDetailsInitializer.Init();
-                ProfileDetailsInitializer.GetComponentInChildren<ScrollRect>().normalizedPosition = new Vector2(0, 1);
+                InitializeProfile(current);
             });
+            else InitializeProfile(current);
+        }
+    }
+
+    public void InitializeProfile(FinderProfile current) {
+        ProfileDetailsInitializer.Profile = current;
+        ProfileDetailsInitializer.Init();
+        ProfileDetailsInitializer.GetComponentInChildren<ScrollRect>().normalizedPosition = new Vector2(0, 1);
     }
 
     /// <summary>

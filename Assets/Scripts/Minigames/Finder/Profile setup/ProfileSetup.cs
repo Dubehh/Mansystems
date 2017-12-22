@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts.App.Tracking.Table;
 using UnityEngine;
 
 public class ProfileSetup : MonoBehaviour {
