@@ -11,6 +11,7 @@ public class DashboardAnimationHandler {
     }
 
     public void ScanInput() {
+        if (_animator == null) return;
         if (Input.GetKeyDown(KeyCode.A)) _animator.Play("Waving", 2);
         if (Input.GetKeyDown(KeyCode.B)) _animator.Play("Waving 2_0", 2);
 

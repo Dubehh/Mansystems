@@ -8,9 +8,9 @@ public class MannyBrain {
     public MannyBrain(Manny manny) {
         _manny = manny;
         Condition = new MannyCondition(manny);
-        Condition.Register(Attribute.Food, 30, .1f, "Ik heb honger!");
+        Condition.Register(Attribute.Food, 30, 10.1f, "Ik heb honger!");
         Condition.Register(Attribute.Coins, 10, 0, "Ik heb geld nodig!");
-        Condition.Register(Attribute.Thirst, 35, .2f, "Ik wil poar neem'n!");
+        Condition.Register(Attribute.Thirst, 35, 10.2f, "Ik wil poar neem'n!");
     }
 
     public MannyCondition Condition { get; private set; }
@@ -20,7 +20,7 @@ public class MannyBrain {
     /// </summary>
     public void Update() {
         var status = Condition.UpdateCondition();
-        if (status.Count != 0)
+        if (!_manny.HasDied() && status.Count != 0)
             foreach (var condition in status)
                 if (condition.Weak && _manny.Dashboard != null) _manny.Dashboard.DisplayDialog(condition.Message);
     }

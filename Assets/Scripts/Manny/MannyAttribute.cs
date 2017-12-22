@@ -85,7 +85,7 @@ public class MannyAttribute {
     ///     Returns a default value for each attribute (only called at first time)
     /// </summary>
     /// <param name="attribute">The attribute to return the default value for</param>
-    private float GetDefault(Attribute attribute) {
+    public float GetDefault(Attribute attribute) {
         switch (attribute) {
             case Attribute.Food:
             case Attribute.Thirst:

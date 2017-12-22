@@ -9,7 +9,7 @@ public class FinderProfileController {
 
     private List<FinderProfile> _profiles;
     public List<FinderProfile> LikedProfiles { get; set; }
-    public FinderProfile PersonalProfile { get set; }
+    public FinderProfile PersonalProfile { get; set; }
 
     /// <summary>
     ///     Gathers a list of Finder profile's from a UnityWebRequest and fills a list with them
