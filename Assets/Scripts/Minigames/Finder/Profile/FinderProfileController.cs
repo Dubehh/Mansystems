@@ -25,7 +25,6 @@ public class FinderProfileController {
 
         for (var i = 0; i < profiles.Count; i++) {
             var profile = profiles[i];
-            Debug.Log(profile["Age"]);
             var newProfile = new FinderProfile(new FinderProfileInfo {
                 PlayerUID = profile["uuid"].str,
                 Name = profile["Name"].str,

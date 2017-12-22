@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class FinderProfile {
     private int _currentPictureIndex;
-
+    private Texture _defaultPicture;
     public List<Texture> Pictures { get; set; }
     public FinderProfileInfo ProfileInfo { get; set; }
     public List<string> ImageNames { get; private set; }
 
     public FinderProfile(FinderProfileInfo info, string[] imageNames) {
+        _defaultPicture = GameObject.FindObjectOfType<FinderController>().DefaultPicture;
         Pictures = new List<Texture>();
         ProfileInfo = info;
         ImageNames = new List<string>(imageNames);
@@ -49,7 +50,7 @@ public class FinderProfile {
     /// Returns the current picture from the Pictures list
     /// </summary>
     public Texture GetCurrentPicture() {
-        return Pictures.Count > 0 ? Pictures[_currentPictureIndex] : null;
+        return Pictures.Count > 0 ? Pictures[_currentPictureIndex] : _defaultPicture;
     }
 
     /// <summary>

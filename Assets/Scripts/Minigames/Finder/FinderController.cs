@@ -4,12 +4,16 @@ using System.Linq;
 using Assets.Scripts.App.Data_Management.Handshakes;
 using Assets.Scripts.App.Tracking.Table;
 using UnityEngine;
+using UnityEngine.Experimental.UIElements;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [Serializable]
 public class FinderController : MonoBehaviour {
     public const string LikeTable = "FinderLikes";
     public const string ProfileTable = "FinderProfile";
+
+    [SerializeField] public Texture DefaultPicture;
 
     [SerializeField] public List<GameObject> Views;
     [SerializeField] public ProfileDetailsInitializer ProfileDetailsInitializer;
@@ -50,6 +54,7 @@ public class FinderController : MonoBehaviour {
             current.LoadPictures(this, queue => {
                 ProfileDetailsInitializer.Profile = current;
                 ProfileDetailsInitializer.Init();
+                ProfileDetailsInitializer.GetComponentInChildren<ScrollRect>().normalizedPosition = new Vector2(0, 1);
             });
     }
 
@@ -78,5 +83,9 @@ public class FinderController : MonoBehaviour {
 
         if (_currentView != null)
             _currentView.SetActive(true);
+    }
+
+    public void Quit() {
+        SceneManager.LoadScene(0);
     }
 }

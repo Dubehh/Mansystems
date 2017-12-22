@@ -7,6 +7,7 @@ public class ProfileDetailsInitializer : MonoBehaviour {
 
     [SerializeField] public RawImage Picture;
     [SerializeField] public Text Header;
+    [SerializeField] public Text City;
     [SerializeField] public Text PhoneNumber;
     [SerializeField] public Text FavMovie;
     [SerializeField] public Text FavMusic;
@@ -19,6 +20,7 @@ public class ProfileDetailsInitializer : MonoBehaviour {
 	    var info = Profile.ProfileInfo;
 	    Picture.texture = Profile.GetCurrentPicture();
 	    Header.text = info.Name + " (" + info.Age + ")";
+        City.text = info.City;
         PhoneNumber.text = info.PhoneNumber;
         FavMovie.text = info.FavMovie;
         FavMusic.text = info.FavMusic;

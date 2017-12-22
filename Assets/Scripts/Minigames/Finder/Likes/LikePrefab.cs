@@ -26,5 +26,6 @@ public class LikePrefab : MonoBehaviour {
         initializer.Profile = Profile;
         initializer.Init();
         initializer.GetComponentInChildren<ScrollRect>().normalizedPosition = new Vector2(0, 1);
+        GetComponentInParent<Animator>().Play("SlideClose");
     }
 }
