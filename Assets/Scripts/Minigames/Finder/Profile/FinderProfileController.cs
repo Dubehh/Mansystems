@@ -25,20 +25,21 @@ public class FinderProfileController {
 
         for (var i = 0; i < profiles.Count; i++) {
             var profile = profiles[i];
-
+            var pictures = profile["pictures"].list;
+            var pictureList = pictures != null ? pictures.Select(x => x.str).ToArray() : new string[0];
             var newProfile = new FinderProfile(new FinderProfileInfo {
                 PlayerUID = profile["uuid"].str,
                 Name = profile["Name"].str,
-                Age = (int)profile["Age"].i,
+                Age = profile["Age"].str,
                 City = profile["City"].str,
-                PhoneNumber = (int)profile["PhoneNumber"].i,
+                PhoneNumber = profile["PhoneNumber"].str,
                 FavMovie = profile["FavMovie"].str,
                 FavMusic = profile["FavMusic"].str,
                 FavFood = profile["FavFood"].str,
                 FavSport = profile["FavSport"].str,
                 FavGame = profile["FavGame"].str,
                 FavVacation = profile["FavVacation"].str
-            }, profile["pictures"].list.Select(x => x.str).ToArray());
+            }, pictureList);
 
             if (likes.Contains(profile["uuid"].str))
                 LikedProfiles.Add(newProfile);

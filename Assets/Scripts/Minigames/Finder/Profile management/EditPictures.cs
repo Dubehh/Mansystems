@@ -11,6 +11,9 @@ public class EditPictures : MonoBehaviour {
         _personalProfile = finderController.PersonalProfile;
     }
 
+    /// <summary>
+    /// Loads all the profile's pictures
+    /// </summary>
     public void Init() {
         _personalProfile.LoadPictures(this, queue => {
             Picture.texture = _personalProfile.GetCurrentPicture();
@@ -25,6 +28,9 @@ public class EditPictures : MonoBehaviour {
         Picture.texture = _personalProfile.GetPicture(next);
     }
 
+    /// <summary>
+    /// OnClick event for removing the current picture
+    /// </summary>
     public void RemovePicture() {
         _personalProfile.RemovePicture();
         Picture.texture = _personalProfile.GetCurrentPicture();

@@ -1,9 +1,9 @@
 ﻿public struct FinderProfileInfo {
     public string PlayerUID { get; set; }
     public string Name { get; set; }
-    public int Age { get; set; }
+    public string Age { get; set; }
     public string City { get; set; }
-    public int PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; }
     public string FavMovie { get; set; }
     public string FavMusic { get; set; }
     public string FavFood { get; set; }
