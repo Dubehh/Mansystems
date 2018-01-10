@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class MovementController : MonoBehaviour {
-    public Camera Cam;
+    [SerializeField] public Camera Cam;
     private float _maxWidth;
 
     /// <summary>
