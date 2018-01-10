@@ -14,7 +14,7 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
         private const string _handshakeID = "streamType";
 
         protected const string
-            _webReference = "http://localhost/app/",
+            _webReference = "https://acc-cibap.mansystems.nl/app/",
             _webController = "handshake";
 
         protected readonly List<IMultipartFormSection> _params;

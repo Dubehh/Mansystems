@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Networking;
+using Random = System.Random;
 
 public class QuestionController {
     private readonly List<Question> _questions;

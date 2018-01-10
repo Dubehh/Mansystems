@@ -1,7 +1,7 @@
-﻿using System.IO;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Manny : MonoBehaviour {
+
     private MannyBrain _brain;
     private MannyNotification _notification;
 
@@ -22,7 +22,10 @@ public class Manny : MonoBehaviour {
     }
 
     private void Update() {
-        if (HasDied()) return;
+        if (HasDied() && Dashboard.GetCurrentBackground() != Dashboard.BackgroundDead) {
+            Dashboard.InvalidateBackground();
+            return;
+        }
         _brain.Update();
     }
 
@@ -42,7 +45,6 @@ public class Manny : MonoBehaviour {
         _notification.Send();
         if (!DeleteAttributes) return;
         PlayerPrefs.DeleteAll();
-        File.Delete(DataSource.GetInstance().GetConnection().Database);
     }
 
     /// <summary>
@@ -51,9 +53,4 @@ public class Manny : MonoBehaviour {
     public bool HasDied() {
         return Attribute.GetAttribute(global::Attribute.Food) <= 0 && Attribute.GetAttribute(global::Attribute.Thirst) <= 0;
     }
-
-    public void Revive() {
-
-    }
-
 }

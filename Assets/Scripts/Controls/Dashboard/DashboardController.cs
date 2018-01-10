@@ -22,9 +22,12 @@ public class DashboardController : MonoBehaviour {
     private void Start() {
         _indicator = new UIStatIndicator(ExperienceIndicator, Attribute.Experience, Manny);
         _dashboardAnimationHandler = new DashboardAnimationHandler();
-        InvalidateBackground();
         SetExperienceGoal();
         UpdateIndicators();
+    }
+
+    private void OnEnable() {
+        InvalidateBackground();
     }
 
     private void Update() {
@@ -68,12 +71,21 @@ public class DashboardController : MonoBehaviour {
     /// <summary>
     ///     Invalidates the background with its manny design
     /// </summary>
-    private void InvalidateBackground() {
+    public void InvalidateBackground() {
         var now = DateTime.Now.Hour;
+        if(_current != null) {
+            _current.Background.SetActive(false);
+            _current.Manny.SetActive(false);
+        }
         _current = Manny.HasDied() ? BackgroundDead : Backgrounds.FirstOrDefault(x => x.Time.Min <= now && x.Time.Max >= now);
         _current = _current ?? Backgrounds[0];
         _current.Background.SetActive(true);
         _current.Manny.SetActive(true);
+        if (_dashboardAnimationHandler == null) return;
         _dashboardAnimationHandler.SetAnimator(_current.Manny);
+    }
+
+    public DashboardBackground GetCurrentBackground() {
+        return _current;
     }
 }

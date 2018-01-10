@@ -1,19 +1,17 @@
 ﻿using UnityEngine;
 
 public class MovementController : MonoBehaviour {
-    public Camera _cam;
+    [SerializeField] public Camera Cam;
     private float _maxWidth;
 
     /// <summary>
     ///     Sets up variables used during the update
     /// </summary>
     private void Start() {
-        _cam = Camera.main;
-
         var upperCorner = new Vector3(Screen.width, Screen.height, 0.0f);
-        var targetWidth = _cam.ScreenToWorldPoint(upperCorner);
-        var MannyWidth = GetComponent<Renderer>().bounds.extents.x;
-        _maxWidth = targetWidth.x - MannyWidth;
+        var targetWidth = Cam.ScreenToWorldPoint(upperCorner);
+        var mannyWidth = GetComponent<Renderer>().bounds.extents.x;
+        _maxWidth = targetWidth.x - mannyWidth;
     }
 
     /// <summary>

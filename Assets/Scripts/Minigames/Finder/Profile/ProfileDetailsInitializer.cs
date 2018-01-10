@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ProfileDetailsInitializer : MonoBehaviour {
@@ -9,6 +7,7 @@ public class ProfileDetailsInitializer : MonoBehaviour {
 
     [SerializeField] public RawImage Picture;
     [SerializeField] public Text Header;
+    [SerializeField] public Text City;
     [SerializeField] public Text PhoneNumber;
     [SerializeField] public Text FavMovie;
     [SerializeField] public Text FavMusic;
@@ -17,11 +16,15 @@ public class ProfileDetailsInitializer : MonoBehaviour {
     [SerializeField] public Text FavGame;
     [SerializeField] public Text FavVacation;
 
+    /// <summary>
+    /// Fills the UI elements with the profile's information
+    /// </summary>
     public void Init() {
 	    var info = Profile.ProfileInfo;
 	    Picture.texture = Profile.GetCurrentPicture();
 	    Header.text = info.Name + " (" + info.Age + ")";
-        PhoneNumber.text = info.PhoneNumber.ToString();
+        City.text = info.City;
+        PhoneNumber.text = info.PhoneNumber;
         FavMovie.text = info.FavMovie;
         FavMusic.text = info.FavMusic;
         FavFood.text = info.FavFood;

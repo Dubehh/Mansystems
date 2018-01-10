@@ -4,12 +4,15 @@ using System.Linq;
 using Assets.Scripts.App.Data_Management.Handshakes;
 using Assets.Scripts.App.Tracking.Table;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [Serializable]
 public class FinderController : MonoBehaviour {
     public const string LikeTable = "FinderLikes";
     public const string ProfileTable = "FinderProfile";
+
+    [SerializeField] public Texture DefaultPicture;
 
     [SerializeField] public List<GameObject> Views;
     [SerializeField] public ProfileDetailsInitializer ProfileDetailsInitializer;
@@ -46,11 +49,23 @@ public class FinderController : MonoBehaviour {
 
         if (current == null)
             ChangeView("EndScreen");
-        else
+        else {
+            if(current.ImageNames.Count > 0)
             current.LoadPictures(this, queue => {
-                ProfileDetailsInitializer.Profile = current;
-                ProfileDetailsInitializer.Init();
+                InitializeProfile(current);
             });
+            else InitializeProfile(current);
+        }
+    }
+    
+    /// <summary>
+    /// Fills the profile details object with all the current profile's information
+    /// </summary>
+    /// <param name="current"></param>
+    public void InitializeProfile(FinderProfile current) {
+        ProfileDetailsInitializer.Profile = current;
+        ProfileDetailsInitializer.Init();
+        ProfileDetailsInitializer.GetComponentInChildren<ScrollRect>().normalizedPosition = new Vector2(0, 1);
     }
 
     /// <summary>
@@ -69,6 +84,10 @@ public class FinderController : MonoBehaviour {
         UpdateUI();
     }
 
+    /// <summary>
+    /// Hides the current view and opens a new one
+    /// </summary>
+    /// <param name="name">The name of the view to display</param>
     public void ChangeView(string name) {
         if (_currentView != null)
             _currentView.SetActive(false);
@@ -78,5 +97,12 @@ public class FinderController : MonoBehaviour {
 
         if (_currentView != null)
             _currentView.SetActive(true);
+    }
+
+    /// <summary>
+    /// Returns the player to Manny
+    /// </summary>
+    public void Quit() {
+        SceneManager.LoadScene(0);
     }
 }
