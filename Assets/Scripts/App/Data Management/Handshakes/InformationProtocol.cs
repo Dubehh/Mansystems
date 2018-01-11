@@ -3,6 +3,14 @@ using UnityEngine.Networking;
 
 namespace Assets.Scripts.App.Data_Management.Handshakes {
     public class InformationProtocol : HandshakeProtocol<UnityWebRequest> {
+        /// <summary>
+        ///     Used to seperate the different handshake handler types
+        /// </summary>
+        public enum HandlerType {
+            Update,
+            Fetch
+        }
+
         public InformationProtocol(Protocol protocol) : base(protocol) {
         }
 
@@ -26,12 +34,7 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
         }
 
         /// <summary>
-        /// Used to seperate the different handshake handler types
-        /// </summary>
-        public enum HandlerType { Update, Fetch }
-
-        /// <summary>
-        /// Sets the webreceiver handler
+        ///     Sets the webreceiver handler
         /// </summary>
         /// <param name="handlerReference">string handler name</param>
         /// <param name="type">HandlerType type</param>

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Assets.Scripts.App.Tracking.Table {
+namespace Assets.Scripts.App.Data_Management.Table {
     public class DataTableRegistry {
         public DataTableRegistry() {
             Tables = new Dictionary<string, DataTable>();
@@ -24,14 +24,13 @@ namespace Assets.Scripts.App.Tracking.Table {
         /// </summary>
         /// <param name="name">The name of the datatable</param>
         public DataTable Fetch(string name) {
-            if (Tables.ContainsKey(name.ToLower()))
+            if (Tables.ContainsKey(name.ToLower())) {
                 return Tables[name.ToLower()];
-            else {
-                var table = new DataTable(name);
-                if (!table.Exists()) return null;
-                Register(table, false);
-                return table;
             }
+            var table = new DataTable(name);
+            if (!table.Exists()) return null;
+            Register(table, false);
+            return table;
         }
     }
 }

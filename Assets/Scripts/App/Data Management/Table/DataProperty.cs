@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.App.Tracking.Table {
+﻿namespace Assets.Scripts.App.Data_Management.Table {
     /// <summary>
     ///     Represents a property inside the datatable
     /// </summary>
