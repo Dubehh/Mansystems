@@ -29,6 +29,9 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
             _protocol = protocol;
             _params = new List<IMultipartFormSection>();
             AddParameter(_handshakeID, protocol.ToString());
+#if UNITY_ANDROID
+            HandshakeProtocolCertificate.Initalize();
+#endif
         }
 
         /// <summary>
