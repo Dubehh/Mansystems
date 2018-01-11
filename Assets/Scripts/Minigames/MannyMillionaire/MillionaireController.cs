@@ -83,7 +83,7 @@ public class MillionaireController : GameController {
         var currentQuestion = _questionController.GetCurrentQuestion();
 
         UpdatePrize();
-        QuestionText.text = currentQuestion.Difficulty + "  " + currentQuestion.Text;
+        QuestionText.text = currentQuestion.Text;
         for (var i = 0; i < currentQuestion.Answers.Count; i++) {
             Buttons[i].interactable = true;
             Buttons[i].gameObject.SetActive(true);
