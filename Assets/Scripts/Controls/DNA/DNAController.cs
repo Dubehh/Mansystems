@@ -12,6 +12,7 @@ public class DNAController : MonoBehaviour {
     [SerializeField] public Manny Manny;
     [SerializeField] public ParticleSystem ParticleSystem;
 
+
     private void Start() {
         DisplayText.text = Manny.Attribute.GetAttribute(Attribute.Skillpoints) + "";
         foreach (var item in Items) {
