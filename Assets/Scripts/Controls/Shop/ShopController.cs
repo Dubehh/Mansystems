@@ -53,7 +53,7 @@ public class ShopController : MonoBehaviour {
         var scrollRect = GetComponent<RectTransform>();
 
         if (capacity < Items.Length) {
-            var maxY = (float)((Items.Length - capacity) * _prefabHeight) - 15f;
+            var maxY = (float)((Items.Length - capacity) * _prefabHeight) - 50f;
             if (scrollRect.anchoredPosition.y < 0) scrollRect.anchoredPosition = new Vector2();
             if (scrollRect.anchoredPosition.y > maxY) scrollRect.anchoredPosition = new Vector2(0, maxY);
         } else {
