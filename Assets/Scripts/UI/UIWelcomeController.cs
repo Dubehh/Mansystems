@@ -7,9 +7,7 @@ public class UIWelcomeController : MonoBehaviour {
     private int _current;
 
     [SerializeField] public Text NameInput;
-
     [SerializeField] public Text NameResult;
-
     [SerializeField] public GameObject[] Views;
 
     // Use this for initialization
