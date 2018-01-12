@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Assets.Scripts.App.Data_Management.Handshakes;
+using Assets.Scripts.Minigames.Finder;
+using Assets.Scripts.Minigames.Finder.Profile;
 using UnityEngine;
 
 public class FinderProfile {
