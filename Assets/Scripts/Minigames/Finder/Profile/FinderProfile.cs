@@ -42,7 +42,6 @@ public class FinderProfile {
             _currentPictureIndex = _currentPictureIndex >= Pictures.Count - 1 ? 0 : _currentPictureIndex + 1;
         else
             _currentPictureIndex = _currentPictureIndex <= 0 ? Pictures.Count - 1 : _currentPictureIndex - 1;
-
         return GetCurrentPicture();
     }
 
