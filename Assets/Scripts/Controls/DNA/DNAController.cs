@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using Assets.Scripts.Controls.DNA;
+using Assets.Scripts.Manny;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
