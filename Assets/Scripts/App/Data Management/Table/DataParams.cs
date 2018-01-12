@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Assets.Scripts.App.Tracking.Table {
+namespace Assets.Scripts.App.Data_Management.Table {
     public class DataParams {
         private DataParams() {
             Parameters = new List<KeyValuePair<string, object>>();

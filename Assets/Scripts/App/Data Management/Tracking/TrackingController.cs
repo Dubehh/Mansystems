@@ -1,8 +1,8 @@
 ﻿using Assets.Scripts.App.Data_Management.Handshakes;
-using Assets.Scripts.App.Tracking.Table;
+using Assets.Scripts.App.Data_Management.Table;
 using UnityEngine;
 
-namespace Assets.Scripts.App.Tracking {
+namespace Assets.Scripts.App.Data_Management.Tracking {
     public class TrackingController {
         private readonly DataTable _source;
 

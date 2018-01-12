@@ -2,57 +2,58 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+namespace Assets.Scripts.App.Notifications {
 #if UNITY_ANDROID && !UNITY_EDITOR
 
 using System.Linq;
 
 #endif
 
-public enum NotificationIcon {
-    Bell,
-    Clock,
-    Event,
-    Heart,
-    Message,
-    Star
-}
+    public enum NotificationIcon {
+        Bell,
+        Clock,
+        Event,
+        Heart,
+        Message,
+        Star
+    }
 
-public static class NotificationManager {
+    public static class NotificationManager {
 #if UNITY_ANDROID && !UNITY_EDITOR
 
         private const string FullClassName = "com.hippogames.simpleandroidnotifications.Controller";
         private const string MainActivityClassName = "com.unity3d.player.UnityPlayerActivity";
 
 #endif
-    /// <summary>
-    ///     Schedule notification with app icon.
-    /// </summary>
-    /// <param name="smallIcon">
-    ///     List of build-in small icons: notification_icon_bell (default), notification_icon_clock,
-    ///     notification_icon_heart, notification_icon_message, notification_icon_nut, notification_icon_star,
-    ///     notification_icon_warning.
-    /// </param>
-    public static int SendWithAppIcon(TimeSpan delay, string title, string message, Color smallIconColor,
-        NotificationIcon smallIcon = 0) {
-        return SendCustom(new NotificationParams {
-            Id = Random.Range(0, int.MaxValue),
-            Delay = delay,
-            Title = title,
-            Message = message,
-            Ticker = message,
-            Sound = true,
-            Vibrate = true,
-            Light = true,
-            SmallIcon = smallIcon,
-            SmallIconColor = smallIconColor,
-            LargeIcon = "app_icon"
-        });
-    }
+        /// <summary>
+        ///     Schedule notification with app icon.
+        /// </summary>
+        /// <param name="smallIcon">
+        ///     List of build-in small icons: notification_icon_bell (default), notification_icon_clock,
+        ///     notification_icon_heart, notification_icon_message, notification_icon_nut, notification_icon_star,
+        ///     notification_icon_warning.
+        /// </param>
+        public static int SendWithAppIcon(TimeSpan delay, string title, string message, Color smallIconColor,
+            NotificationIcon smallIcon = 0) {
+            return SendCustom(new NotificationParams {
+                Id = Random.Range(0, int.MaxValue),
+                Delay = delay,
+                Title = title,
+                Message = message,
+                Ticker = message,
+                Sound = true,
+                Vibrate = true,
+                Light = true,
+                SmallIcon = smallIcon,
+                SmallIconColor = smallIconColor,
+                LargeIcon = "app_icon"
+            });
+        }
 
-    /// <summary>
-    ///     Schedule customizable notification.
-    /// </summary>
-    public static int SendCustom(NotificationParams notificationParams) {
+        /// <summary>
+        ///     Schedule customizable notification.
+        /// </summary>
+        public static int SendCustom(NotificationParams notificationParams) {
 #if UNITY_ANDROID && !UNITY_EDITOR
 
             var p = notificationParams;
@@ -63,37 +64,38 @@ public static class NotificationManager {
 
 #endif
 
-        return notificationParams.Id;
-    }
+            return notificationParams.Id;
+        }
 
-    /// <summary>
-    ///     Cancel notification by id.
-    /// </summary>
-    public static void Cancel(int id) {
+        /// <summary>
+        ///     Cancel notification by id.
+        /// </summary>
+        public static void Cancel(int id) {
 #if UNITY_ANDROID && !UNITY_EDITOR
 
             new AndroidJavaClass(FullClassName).CallStatic("CancelNotification", id);
 
 #endif
-    }
+        }
 
-    /// <summary>
-    ///     Cancel all notifications.
-    /// </summary>
-    public static void CancelAll() {
+        /// <summary>
+        ///     Cancel all notifications.
+        /// </summary>
+        public static void CancelAll() {
 #if UNITY_ANDROID && !UNITY_EDITOR
 
             new AndroidJavaClass(FullClassName).CallStatic("CancelAllNotifications");
 
 #endif
-    }
+        }
 
-    private static int ColotToInt(Color color) {
-        var smallIconColor = (Color32) color;
-        return smallIconColor.r * 65536 + smallIconColor.g * 256 + smallIconColor.b;
-    }
+        private static int ColotToInt(Color color) {
+            var smallIconColor = (Color32) color;
+            return smallIconColor.r * 65536 + smallIconColor.g * 256 + smallIconColor.b;
+        }
 
-    private static string GetSmallIconName(NotificationIcon icon) {
-        return "anp_" + icon.ToString().ToLower();
+        private static string GetSmallIconName(NotificationIcon icon) {
+            return "anp_" + icon.ToString().ToLower();
+        }
     }
 }

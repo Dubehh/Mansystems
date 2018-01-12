@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace Assets.Scripts.App.Tracking {
+namespace Assets.Scripts.App.Data_Management {
     public class DataQuery {
         private readonly IDbCommand _command;
 

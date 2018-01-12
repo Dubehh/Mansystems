@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.App.Tracking;
-using Assets.Scripts.App.Tracking.Table;
+﻿using Assets.Scripts.App.Data_Management.Table;
+using Assets.Scripts.App.Data_Management.Tracking;
 using UnityEngine;
 
 namespace Assets.Scripts.App.Game {
@@ -35,9 +35,7 @@ namespace Assets.Scripts.App.Game {
         /// </summary>
         private void Build() {
             App = AppData.Instance();
-            if (App == null) {
-                return;
-            }
+            if (App == null) return;
             if (DataSource != null) {
                 App.Registry.Register(DataSource);
                 Tracking = new TrackingController(DataSource);

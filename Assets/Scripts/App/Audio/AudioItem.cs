@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Assets.Scripts.App {
+namespace Assets.Scripts.App.Audio {
     /// <summary>
     ///     Represents a unique audioclip that can be played throughout the game
     /// </summary>

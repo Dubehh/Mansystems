@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Assets.Scripts.App.Data_Management.Handshakes {
     public class FileProtocolQueue {
-
         private readonly Action<FileProtocolQueue> _queueComplete;
         private readonly Action<WWW> _requestComplete;
 

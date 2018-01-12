@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-namespace Assets.Scripts.App.Tracking.Table {
+namespace Assets.Scripts.App.Data_Management.Table {
     public class DataTable {
         public DataTable(string name) {
             Properties = new List<DataProperty>();

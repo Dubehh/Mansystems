@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.App {
+namespace Assets.Scripts.App.Audio {
     public class AudioController : MonoBehaviour {
         private Dictionary<string, AudioClip> _items;
         private AudioSource _source;

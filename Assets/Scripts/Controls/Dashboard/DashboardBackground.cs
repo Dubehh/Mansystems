@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Assets.Scripts.Dashboard {
+namespace Assets.Scripts.Controls.Dashboard {
     [Serializable]
     public class DashboardBackground {
         [SerializeField] public GameObject Background;
