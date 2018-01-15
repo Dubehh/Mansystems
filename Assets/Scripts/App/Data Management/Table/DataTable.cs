@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Scripts.App.Data_Management.Table {
     public class DataTable {
@@ -27,7 +28,7 @@ namespace Assets.Scripts.App.Data_Management.Table {
         /// </summary>
         public void Create() {
             if (Properties.Count == 0) return;
-            DataQuery.Query("CREATE TABLE IF NOT EXISTS " + Name + " (" + GenerateBuildQuery() + ")").Update();
+            DataQuery.Query("CREATE TABLE IF NOT EXISTS " + Name + " (" + GenerateBuildQuery() + ")").Update(null);
         }
 
         /// <summary>
@@ -72,6 +73,7 @@ namespace Assets.Scripts.App.Data_Management.Table {
         /// <summary>
         ///     Attempts to update the datatable with the given clause
         /// </summary>
+        /// <param name="parameters">The data parameters</param>
         /// <param name="clause">The conditions clause</param>
         /// <param name="callback">Optional callback when the query is complete</param>
         public void Update(DataParams parameters, string clause, Action callback = null) {
@@ -79,10 +81,10 @@ namespace Assets.Scripts.App.Data_Management.Table {
             parameters.Parameters.ForEach(pair => {
                 builder.Append(",")
                     .Append(pair.Key + " = ")
-                    .Append(pair.Value is string ? "'" + pair.Value + "'" : pair.Value.ToString());
+                    .Append("@" + pair.Key.ToLower());
             });
             DataQuery.Query("UPDATE " + Name + " SET " + builder.ToString().Substring(1) + " " + clause)
-                .Update(callback);
+                .Update(parameters, callback);
         }
 
         /// <summary>
@@ -91,7 +93,7 @@ namespace Assets.Scripts.App.Data_Management.Table {
         /// <param name="clause">The conditions clause</param>
         /// <param name="callback">Optional callback when the query is complete</param>
         public void Delete(string clause, Action callback = null) {
-            DataQuery.Query("DELETE FROM " + Name + " " + clause).Update(callback);
+            DataQuery.Query("DELETE FROM " + Name + " " + clause).Update(null, callback);
         }
 
         /// <summary>
@@ -104,12 +106,12 @@ namespace Assets.Scripts.App.Data_Management.Table {
             var data = new StringBuilder();
             parameters.Parameters.ForEach(pair => {
                 fields.Append(",").Append(pair.Key);
-                data.Append(",").Append(pair.Value is string ? "'" + pair.Value + "'" : pair.Value.ToString());
+                data.Append(",").Append("@"+pair.Key.ToLower());
             });
             DataQuery.Query("INSERT INTO " + Name +
                             " (" + fields.ToString().Substring(1) + ") VALUES" +
                             " (" + data.ToString().Substring(1) + ")")
-                .Update(callback);
+                .Update(parameters, callback);
         }
 
         /// <summary>
@@ -117,7 +119,7 @@ namespace Assets.Scripts.App.Data_Management.Table {
         /// </summary>
         /// <param name="callback">Optional callback when the query is complete</param>
         public void Drop(Action callback = null) {
-            DataQuery.Query("DROP TABLE " + Name).Update(callback);
+            DataQuery.Query("DROP TABLE " + Name).Update(null, callback);
         }
     }
 }

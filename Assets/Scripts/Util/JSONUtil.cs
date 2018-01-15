@@ -58,9 +58,14 @@ namespace Assets.Scripts.Util {
             }
         }
 
+        private string _stringVal;
         public List<JSONObject> list;
         public List<string> keys;
-        public string str;
+
+        public string str {
+            get { return _stringVal;}
+            set { _stringVal = HttpUtility.HtmlDecode(value); }
+        }
 #if USEFLOAT
         public float n;
         public float f {
