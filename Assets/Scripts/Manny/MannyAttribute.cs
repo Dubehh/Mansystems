@@ -95,9 +95,9 @@ namespace Assets.Scripts.Manny {
                 case Attribute.Level:
                     return 1;
                 case Attribute.Coins:
-                    return 1000;
+                    return 25;
                 case Attribute.Skillpoints:
-                    return 1000;
+                    return 3;
                 default:
                     return 0;
             }
