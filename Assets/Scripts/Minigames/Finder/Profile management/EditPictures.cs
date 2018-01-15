@@ -18,6 +18,7 @@ namespace Assets.Scripts.Minigames.Finder.Profile_management {
         /// </summary>
         public void Init() {
             _personalProfile.LoadPictures(this, queue => { Picture.texture = _personalProfile.GetCurrentPicture(); });
+            _personalProfile.GetCurrentPicture();
         }
 
         /// <summary>

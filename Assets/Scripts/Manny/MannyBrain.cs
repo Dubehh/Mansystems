@@ -9,9 +9,9 @@ namespace Assets.Scripts.Manny {
         public MannyBrain(Manny manny) {
             _manny = manny;
             Condition = new MannyCondition(manny);
-            Condition.Register(Attribute.Food, 30, .1f, "Ik heb honger!");
+            Condition.Register(Attribute.Food, 30, .1f, "Ik heb trek!");
             Condition.Register(Attribute.Coins, 10, 0, "Ik heb geld nodig!");
-            Condition.Register(Attribute.Thirst, 35, .2f, "Ik wil poar neem'n!");
+            Condition.Register(Attribute.Thirst, 35, .2f, "Ik heb dorst!");
         }
 
         public MannyCondition Condition { get; private set; }

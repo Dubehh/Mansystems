@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.App;
 using Assets.Scripts.App.Data_Management.Table;
 using Assets.Scripts.App.Game;
@@ -115,7 +116,9 @@ namespace Assets.Scripts.Minigames.OfficeCatcher {
             ToggleObjects(true);
             if (_gameStarted) yield return new WaitForSeconds(2.0f);
             _gameStarted = false;
-            while (LifeLeft > 0)
+            var random = new System.Random();
+            while (LifeLeft > 0) {
+                Objects = Objects.OrderBy(x => random.Next()).ToList();
                 foreach (var o in Objects) {
                     if (o.GameObject == null) continue;
                     var spawnPosition = new Vector3(
@@ -125,8 +128,9 @@ namespace Assets.Scripts.Minigames.OfficeCatcher {
 
                     var spawnRotation = Quaternion.identity;
                     ObjectRegister[Instantiate(o.GameObject, spawnPosition, spawnRotation)] = o;
-                    yield return new WaitForSeconds(Random.Range(0.5f, 1.0f));
+                    yield return new WaitForSeconds(Random.Range(1.0f, 2.5f));
                 }
+            }
         }
 
         /// <summary>

@@ -28,12 +28,6 @@ namespace Assets.Scripts.Minigames.Finder.Profile_setup {
         private void Update() {
             var ratio = _cameraTexture.width / (float) _cameraTexture.height;
             GetComponentInChildren<AspectRatioFitter>().aspectRatio = ratio;
-
-            var scaleY = _cameraTexture.videoVerticallyMirrored ? -1f : 1f;
-            Camera.rectTransform.localScale = new Vector3(1f, scaleY, 1f);
-
-            var orientation = -_cameraTexture.videoRotationAngle;
-            Camera.rectTransform.localEulerAngles = new Vector3(0, 0, orientation);
         }
 
         /// <summary>
@@ -64,6 +58,10 @@ namespace Assets.Scripts.Minigames.Finder.Profile_setup {
             var data = _cameraTexture.GetPixels();
             _picture = new Texture2D(_cameraTexture.width, _cameraTexture.height);
             _picture.SetPixels(data);
+            _cameraTexture.Stop();
+        }
+
+        private void OnDisable() {
             _cameraTexture.Stop();
         }
     }
