@@ -20,7 +20,7 @@ namespace Assets.Scripts.UI {
         private void Awake() {
             _navigationVisible = false;
             _animator = Navigation.GetComponent<Animator>();
-            Screen.sleepTimeout = 0;
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
             LoadDefault();
             foreach (var ctrl in Controls)
                 if (!ctrl.Active && ctrl.Parent.activeSelf)
