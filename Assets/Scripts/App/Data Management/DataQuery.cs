@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Data;
+using Assets.Scripts.App.Data_Management.Table;
+using Mono.Data.SqliteClient;
 
 namespace Assets.Scripts.App.Data_Management {
     public class DataQuery {
@@ -30,9 +32,14 @@ namespace Assets.Scripts.App.Data_Management {
         /// <summary>
         ///     Fire the given query to create an update call.
         /// </summary>
+        /// <param name="dataParams">DataParameters parameters</param>
         /// <param name="callback">Used to react on a succesful query, may be null</param>
-        public void Update(Action callback = null) {
+        public void Update(DataParams dataParams, Action callback = null) {
+            if (dataParams != null) 
+                foreach (var dataParam in dataParams.Parameters)
+                    _command.Parameters.Add(new SqliteParameter("@"+dataParam.Key.ToLower(), dataParam.Value));
             _command.ExecuteNonQuery();
+            _command.Parameters.Clear();
             if (callback != null)
                 callback();
         }

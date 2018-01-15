@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Assets.Scripts.Minigames.MannyMillionaire {
     public enum Difficulty {
@@ -9,7 +10,7 @@ namespace Assets.Scripts.Minigames.MannyMillionaire {
 
     public class Question {
         public Question(string text, List<Answer> answers, Difficulty difficulty) {
-            Text = text;
+            Text = HttpUtility.HtmlDecode(Regex.Unescape(text));
             Answers = answers;
             Difficulty = difficulty;
         }
