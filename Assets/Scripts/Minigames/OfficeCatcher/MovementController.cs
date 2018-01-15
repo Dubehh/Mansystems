@@ -19,7 +19,7 @@ namespace Assets.Scripts.Minigames.OfficeCatcher {
         ///     Prevents Manny from leaving the screen
         /// </summary>
         private void FixedUpdate() {
-            transform.Translate(new Vector2(Input.acceleration.x * (Time.deltaTime * 15), 0));
+            transform.Translate(new Vector2(Input.acceleration.x * (Time.deltaTime * 20), 0));
             Vector2 targetPosition = transform.position;
             var targetWidth = Mathf.Clamp(targetPosition.x, -_maxWidth, _maxWidth);
             targetPosition = new Vector2(targetWidth, targetPosition.y);

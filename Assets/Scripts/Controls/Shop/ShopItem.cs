@@ -19,7 +19,7 @@ namespace Assets.Scripts.Controls.Shop {
         /// <param name="manny">The manny object of the game</param>
         public void Buy(Manny.Manny manny) {
             if (manny.Attribute.GetAttribute(Attribute) > 100 - Value)
-                manny.Attribute.SetAttribute(Attribute, 100);
+                manny.Attribute.SetAttribute(Attribute, 101);
             else
                 manny.Attribute.IncrementAttribute(Attribute, Value);
             manny.Attribute.IncrementAttribute(Attribute.Coins, -Cost);
