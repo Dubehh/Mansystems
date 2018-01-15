@@ -3,12 +3,14 @@ using Assets.Scripts.App;
 using Assets.Scripts.App.Data_Management.Handshakes;
 using Assets.Scripts.App.Data_Management.Table;
 using Assets.Scripts.Minigames.Finder.Profile;
+using Assets.Scripts.Minigames.Finder.Profile_management;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.Minigames.Finder.Profile_setup {
     public class AddInformation : MonoBehaviour {
         [SerializeField] public GameObject FormContent;
+        [SerializeField] public GameObject Warning;
 
         /// <summary>
         ///     Event for the final button of the profile setup:
@@ -44,6 +46,11 @@ namespace Assets.Scripts.Minigames.Finder.Profile_setup {
             foreach (var field in fields) {
                 var key = field.name;
                 var value = field.GetComponentInChildren<InputField>().text;
+
+                if (string.IsNullOrEmpty(value)) {
+                    Warning.SetActive(true);
+                    return;
+                }
 
                 parameters.Append(key, value);
                 handshake.AddParameter(key, value);
