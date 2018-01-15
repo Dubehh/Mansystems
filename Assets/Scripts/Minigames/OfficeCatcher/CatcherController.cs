@@ -128,7 +128,7 @@ namespace Assets.Scripts.Minigames.OfficeCatcher {
 
                     var spawnRotation = Quaternion.identity;
                     ObjectRegister[Instantiate(o.GameObject, spawnPosition, spawnRotation)] = o;
-                    yield return new WaitForSeconds(Random.Range(0.5f, 1.0f));
+                    yield return new WaitForSeconds(Random.Range(1.0f, 2.5f));
                 }
             }
         }

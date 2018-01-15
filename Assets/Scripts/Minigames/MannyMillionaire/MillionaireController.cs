@@ -224,7 +224,7 @@ namespace Assets.Scripts.Minigames.MannyMillionaire {
 
         public void StartButton() {
             _gameStarted = true;
-            GameObject.Find("Tutorial").SetActive(false);
+            GameObject.Find("Tutorial Screen").SetActive(false);
         }
 
         /// <summary>
