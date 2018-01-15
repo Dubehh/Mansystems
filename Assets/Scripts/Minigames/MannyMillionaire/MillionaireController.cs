@@ -6,6 +6,7 @@ using Assets.Scripts.App.Data_Management.Table;
 using Assets.Scripts.App.Game;
 using Assets.Scripts.Manny;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.Minigames.MannyMillionaire {
@@ -30,15 +31,7 @@ namespace Assets.Scripts.Minigames.MannyMillionaire {
         ///     Gives the player the money he has won
         /// </summary>
         public override void OnUnload() {
-            AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Coins, _prizeController.CurrentPrize);
-            AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, _experience);
-            AppData.Instance().MannyAttribute.Save();
-
-            DataSource.Insert(DataParams.Build("Won", _won ? 1 : 0)
-                .Append("CorrectAnswers", _questionController.CurrentQuestionIndex)
-                .Append("Prize", _prizeController.CurrentPrize).Append("Experience", _experience)
-                .Append("TimePlayedSeconds", Time.time));
-            Tracking.RequestSend();
+            AddRewards();
         }
 
         /// <summary>
@@ -65,9 +58,7 @@ namespace Assets.Scripts.Minigames.MannyMillionaire {
                 });
         }
 
-        protected override void OnLoad() {
-            //GameObject.Find("Loading Screen").SetActive(false);
-        }
+        protected override void OnLoad() { }
 
         /// <summary>
         ///     Keeps updating the UI
@@ -90,8 +81,8 @@ namespace Assets.Scripts.Minigames.MannyMillionaire {
                 Buttons[i].interactable = true;
                 Buttons[i].gameObject.SetActive(true);
                 Buttons[i].GetComponentInChildren<Text>().text = currentQuestion.Answers[i].Text;
-                ;
             }
+
             Timer.value = Timer.maxValue;
         }
 
@@ -124,6 +115,18 @@ namespace Assets.Scripts.Minigames.MannyMillionaire {
             UpdatePrize();
             foreach (var button in Buttons) button.gameObject.SetActive(false);
             DisplaySummary(won);
+        }
+
+        private void AddRewards() {
+            AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Coins, _prizeController.CurrentPrize);
+            AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, _experience);
+            AppData.Instance().MannyAttribute.Save();
+
+            DataSource.Insert(DataParams.Build("Won", _won ? 1 : 0)
+                .Append("CorrectAnswers", _questionController.CurrentQuestionIndex)
+                .Append("Prize", _prizeController.CurrentPrize).Append("Experience", _experience)
+                .Append("TimePlayedSeconds", Time.time));
+            Tracking.RequestSend();
         }
 
         /// <summary>
@@ -235,6 +238,15 @@ namespace Assets.Scripts.Minigames.MannyMillionaire {
                 AppData.Instance().Game.Unload();
             else
                 GameCompleted(false);
+        }
+
+        /// <summary>
+        /// Button that reloads the current scene
+        /// </summary>
+        public void RetryButton() {
+            DataSource.Create();
+            AddRewards();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 }
