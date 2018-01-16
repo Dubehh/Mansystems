@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.Controls.DNA {
     public class DNAController : MonoBehaviour {
-        [CanBeNull] [SerializeField] public GameObject CompletionScreen;
         [SerializeField] public Text DisplayText;
         [SerializeField] public DNAItem[] Items;
         [SerializeField] public Manny.Manny Manny;
@@ -22,16 +21,9 @@ namespace Assets.Scripts.Controls.DNA {
             }
         }
 
-        private void ValidateCompletion() {
-            if (Items.Any(item => Manny.Attribute.GetAttribute(item.Attribute) < 5))
-                return;
-            CompletionScreen.SetActive(true);
-        }
-
         private void Update() {
             if (Input.touchCount <= 0) return;
             if (MoreInfo.activeSelf) MoreInfo.SetActive(false);
-            if (CompletionScreen.activeSelf) CompletionScreen.SetActive(false);
         }
 
         public void OnClickNavigation() {
@@ -50,7 +42,6 @@ namespace Assets.Scripts.Controls.DNA {
             Manny.Attribute.IncrementAttribute(Attribute.Skillpoints, -1);
             Manny.Attribute.IncrementAttribute(item.Attribute, 1);
             item.Update();
-            ValidateCompletion();
             ParticleSystem.Play();
             DisplayText.text = Manny.Attribute.GetAttribute(Attribute.Skillpoints) + "";
         }
