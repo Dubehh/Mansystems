@@ -33,12 +33,12 @@ public class DNAController : MonoBehaviour {
 
     private void Update() {
         if (Input.touchCount <= 0) return;
-        if(MoreInfo.activeSelf) GameObject.Find("MoreInfo").SetActive(false);
+        if(MoreInfo.activeSelf) MoreInfo.SetActive(false);
         if (CompletionScreen.activeSelf) CompletionScreen.SetActive(false);
     }
 
     public void OnClickNavigation() {
-        GameObject.Find("MoreInfo").SetActive(true);
+        MoreInfo.SetActive(true);
     }
 
     /// <summary>
