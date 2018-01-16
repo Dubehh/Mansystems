@@ -9,12 +9,11 @@ namespace Assets.Scripts.Minigames.Finder.Profile_setup {
     public class AddPicture : MonoBehaviour {
         private WebCamTexture _cameraTexture;
         private Texture2D _picture;
-        private Quaternion _baseRotation;
+        [SerializeField] public AspectRatioFitter Fitter;
         [SerializeField] public RawImage Camera;
 
         // Use this for initialization
         private void Awake() {
-            _baseRotation = Camera.transform.rotation;
             var device = WebCamTexture.devices.First(x => x.isFrontFacing);
             _cameraTexture = new WebCamTexture(device.name, 550, 550);
             PlayCamera();
@@ -27,7 +26,15 @@ namespace Assets.Scripts.Minigames.Finder.Profile_setup {
 
         // Update is called once per frame
         private void Update() {
-           Camera.transform.rotation = _baseRotation * Quaternion.AngleAxis(_cameraTexture.videoRotationAngle, Vector3.up);
+            if (!_cameraTexture.isPlaying) return;
+            var ratio = (float)_cameraTexture.width / (float)_cameraTexture.height;
+            Fitter.aspectRatio = ratio;
+
+            var scaleY = _cameraTexture.videoVerticallyMirrored ? -1f : 1f;
+            Camera.rectTransform.localScale = new Vector3(1f, scaleY, 1f);
+
+            var orientation = -_cameraTexture.videoRotationAngle;
+            Camera.rectTransform.localEulerAngles = new Vector3(0, 0, orientation);
         }
 
         /// <summary>

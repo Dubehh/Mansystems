@@ -57,14 +57,14 @@ namespace Assets.Scripts.Minigames.Finder.Profile_setup {
             }
 
             finderProfile.Insert(parameters);
-            handshake.Send();
+            handshake.Send(request => {
+                var likeTable = new DataTable(FinderController.LikeTable);
+                likeTable.AddProperty(new DataProperty("ProfileID", DataProperty.DataPropertyType.VARCHAR));
+                AppData.Instance().Registry.Register(likeTable);
 
-            var likeTable = new DataTable(FinderController.LikeTable);
-            likeTable.AddProperty(new DataProperty("ProfileID", DataProperty.DataPropertyType.VARCHAR));
-            AppData.Instance().Registry.Register(likeTable);
-
-            profileSetup.gameObject.SetActive(false);
-            profileSetup.FinderController.gameObject.SetActive(true);
+                profileSetup.gameObject.SetActive(false);
+                profileSetup.FinderController.gameObject.SetActive(true);
+            });
         }
     }
 }

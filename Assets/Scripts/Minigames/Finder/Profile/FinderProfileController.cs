@@ -53,6 +53,7 @@ namespace Assets.Scripts.Minigames.Finder.Profile {
                 else
                     _profiles.Add(newProfile);
             }
+            Debug.Log(_profiles.Count);
 
             _profiles = _profiles.OrderBy(x => random.Next()).ToList();
         }
