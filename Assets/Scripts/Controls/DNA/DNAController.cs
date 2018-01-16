@@ -1,13 +1,14 @@
 ﻿using System.Linq;
 using Assets.Scripts.Controls.DNA;
 using Assets.Scripts.Manny;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class DNAController : MonoBehaviour {
 
-    [SerializeField] public GameObject CompletionScreen;
+    [CanBeNull] [SerializeField] public GameObject CompletionScreen;
     [SerializeField] public GameObject MoreInfo;
     [SerializeField] public Text DisplayText;
     [SerializeField] public DNAItem[] Items;
@@ -32,12 +33,12 @@ public class DNAController : MonoBehaviour {
 
     private void Update() {
         if (Input.touchCount <= 0) return;
-        if(MoreInfo.activeSelf) MoreInfo.SetActive(false);
-        if(CompletionScreen.activeSelf) CompletionScreen.SetActive(false);
+        if(MoreInfo.activeSelf) GameObject.Find("MoreInfo").SetActive(false);
+        if (CompletionScreen.activeSelf) CompletionScreen.SetActive(false);
     }
 
     public void OnClickNavigation() {
-        MoreInfo.SetActive(true);
+        GameObject.Find("MoreInfo").SetActive(true);
     }
 
     /// <summary>

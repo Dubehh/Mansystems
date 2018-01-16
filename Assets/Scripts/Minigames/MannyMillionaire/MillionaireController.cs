@@ -118,6 +118,8 @@ namespace Assets.Scripts.Minigames.MannyMillionaire {
         }
 
         private void AddRewards() {
+            DataSource.Create();
+
             AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Coins, _prizeController.CurrentPrize);
             AppData.Instance().MannyAttribute.IncrementAttribute(Attribute.Experience, _experience);
             AppData.Instance().MannyAttribute.Save();
@@ -244,7 +246,6 @@ namespace Assets.Scripts.Minigames.MannyMillionaire {
         /// Button that reloads the current scene
         /// </summary>
         public void RetryButton() {
-            DataSource.Create();
             AddRewards();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }

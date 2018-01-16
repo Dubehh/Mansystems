@@ -71,6 +71,8 @@ public class FinderProfile {
         Pictures.Remove(GetCurrentPicture());
         ImageNames.RemoveAt(_currentPictureIndex);
 
+        _currentPictureIndex = 0;
+
         new InformationProtocol(Protocol.Data)
             .SetHandler("finderRemovePicture", InformationProtocol.HandlerType.Update)
             .AddParameter("uid", PlayerPrefs.GetString("uid"))
