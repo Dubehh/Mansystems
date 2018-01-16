@@ -8,13 +8,9 @@ namespace Assets.Scripts.Controls.Minigames {
         private bool _canAccess;
 
         [SerializeField] public RawImage Connection;
-
         [SerializeField] public Text Description;
-
         [SerializeField] public RawImage Icon;
-
         [SerializeField] public Texture NoConnectionIcon;
-
         [SerializeField] public Text Title;
 
         public Minigame Minigame { get; set; }

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 namespace Assets.Scripts.UI {
     public class UIController : MonoBehaviour {
         private Animator _animator;
-
         private UIControl _current;
         private bool _navigationVisible;
 

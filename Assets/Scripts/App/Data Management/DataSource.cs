@@ -39,9 +39,7 @@ namespace Assets.Scripts.App.Data_Management {
         /// </summary>
         /// <returns>DataSource instance</returns>
         public static DataSource GetInstance() {
-            if (_instance == null)
-                _instance = new DataSource();
-            return _instance;
+            return _instance ?? (_instance = new DataSource());
         }
     }
 }

@@ -19,7 +19,6 @@ namespace Assets.Scripts.Minigames.Finder {
 
         [SerializeField] public Texture DefaultPicture;
         [SerializeField] public ProfileDetailsInitializer ProfileDetailsInitializer;
-
         [SerializeField] public List<GameObject> Views;
 
         public List<string> LikedProfileIDs { get; set; }

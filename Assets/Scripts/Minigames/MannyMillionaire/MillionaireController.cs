@@ -58,7 +58,8 @@ namespace Assets.Scripts.Minigames.MannyMillionaire {
                 });
         }
 
-        protected override void OnLoad() { }
+        protected override void OnLoad() {
+        }
 
         /// <summary>
         ///     Keeps updating the UI
@@ -104,8 +105,7 @@ namespace Assets.Scripts.Minigames.MannyMillionaire {
                 LampAnimator.Play("game_completed");
                 FindObjectOfType<ParticleSystem>().Play();
                 QuestionText.text = "Gefeliciteerd, je hebt gewonnen!";
-            }
-            else {
+            } else {
                 _prizeController.CurrentPrize = _prizeController.StaticPrize;
                 QuestionText.text = "Helaas, je hebt verloren!";
             }
@@ -169,8 +169,7 @@ namespace Assets.Scripts.Minigames.MannyMillionaire {
                     GameCompleted(true);
                 else
                     UpdateUI();
-            }
-            else {
+            } else {
                 LampAnimator.Play("Answer_false", 0, 0);
                 MannyAnimator.Play("Sad", 2);
                 GameCompleted(false);
@@ -201,7 +200,7 @@ namespace Assets.Scripts.Minigames.MannyMillionaire {
         /// </summary>
         public void CrowdHelp() {
             var currentQuestion = _questionController.GetCurrentQuestion();
-            var goodP = Random.Range(15 * (int) currentQuestion.Difficulty, 30 * (int) currentQuestion.Difficulty);
+            var goodP = Random.Range(15 * (int)currentQuestion.Difficulty, 30 * (int)currentQuestion.Difficulty);
             var falseP = Random.Range(0, 100 - goodP);
             var falseP2 = Random.Range(0, 100 - (goodP + falseP));
             var falseP3 = Random.Range(0, 100 - (goodP + falseP + falseP2));
@@ -212,17 +211,16 @@ namespace Assets.Scripts.Minigames.MannyMillionaire {
                 falseP3
             };
 
-            var percentage = 0;
             for (var i = 0; i < currentQuestion.Answers.Count; i++) {
                 var answer = currentQuestion.Answers[i];
 
-                if (answer.IsAnswer) {
+                int percentage;
+                if (answer.IsAnswer)
                     percentage = goodP;
-                }
-                else {
-                    percentage = (int) Mathf.Round(falsePercentages[Random.Range(0, falsePercentages.Count)]);
-                    falsePercentages.Remove(percentage);
-                }
+                else
+                    percentage = (int)Mathf.Round(falsePercentages[Random.Range(0, falsePercentages.Count)]);
+
+                falsePercentages.Remove(percentage);
                 Buttons[i].GetComponentInChildren<Text>().text = answer.Text + "(" + percentage + "%)";
             }
         }
@@ -243,7 +241,7 @@ namespace Assets.Scripts.Minigames.MannyMillionaire {
         }
 
         /// <summary>
-        /// Button that reloads the current scene
+        ///     Button that reloads the current scene
         /// </summary>
         public void RetryButton() {
             AddRewards();

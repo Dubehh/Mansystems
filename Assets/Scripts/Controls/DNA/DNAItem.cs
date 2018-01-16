@@ -13,7 +13,6 @@ namespace Assets.Scripts.Controls.DNA {
         private Manny.Manny _manny;
 
         [SerializeField] public Attribute Attribute;
-
         [SerializeField] public Slider Slider;
 
         /// <summary>

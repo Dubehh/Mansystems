@@ -35,9 +35,9 @@ namespace Assets.Scripts.App.Data_Management {
         /// <param name="dataParams">DataParameters parameters</param>
         /// <param name="callback">Used to react on a succesful query, may be null</param>
         public void Update(DataParams dataParams, Action callback = null) {
-            if (dataParams != null) 
+            if (dataParams != null)
                 foreach (var dataParam in dataParams.Parameters)
-                    _command.Parameters.Add(new SqliteParameter("@"+dataParam.Key.ToLower(), dataParam.Value));
+                    _command.Parameters.Add(new SqliteParameter("@" + dataParam.Key.ToLower(), dataParam.Value));
             _command.ExecuteNonQuery();
             _command.Parameters.Clear();
             if (callback != null)

@@ -8,9 +8,6 @@ namespace Assets.Scripts.Manny {
 
         [SerializeField] public DashboardController Dashboard;
 
-        // DEBUG
-        public bool DeleteAttributes;
-
         public MannyLeveling Leveling { get; set; }
         public MannyAttribute Attribute { get; set; }
 
@@ -44,8 +41,6 @@ namespace Assets.Scripts.Manny {
         private void OnExit() {
             Attribute.Save();
             _notification.Send();
-            if (!DeleteAttributes) return;
-            PlayerPrefs.DeleteAll();
         }
 
         /// <summary>

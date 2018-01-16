@@ -10,7 +10,8 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
         /// <summary>
         ///     Creates a new file protocol queue
         /// </summary>
-        /// <param name="onComplete">Callback oncomplete</param>
+        /// <param name="queueComplete">Callback queue complete</param>
+        /// <param name="requestComplete">Callback request complete</param>
         public FileProtocolQueue(Action<FileProtocolQueue> queueComplete, Action<WWW> requestComplete = null) {
             _queueComplete = queueComplete;
             _requestComplete = requestComplete;

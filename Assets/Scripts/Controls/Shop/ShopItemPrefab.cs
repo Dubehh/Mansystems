@@ -43,11 +43,10 @@ namespace Assets.Scripts.Controls.Shop {
         ///     OnClick event for the item's buy button
         /// </summary>
         public void OnClick() {
-            if (_manny.Attribute.GetAttribute(Attribute.Coins) >= Item.Cost) {
-                ParticleSystem.Play();
-                Item.Buy(_manny);
-                _shop.UpdateCoins();
-            }
+            if (!(_manny.Attribute.GetAttribute(Attribute.Coins) >= Item.Cost)) return;
+            ParticleSystem.Play();
+            Item.Buy(_manny);
+            _shop.UpdateCoins();
         }
     }
 }

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using Assets.Scripts.Util;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -11,8 +8,8 @@ using Random = System.Random;
 namespace Assets.Scripts.Minigames.Finder.Profile {
     public class FinderProfileController {
         private int _currentProfileIndex;
-
         private List<FinderProfile> _profiles;
+
         public List<FinderProfile> LikedProfiles { get; set; }
         public FinderProfile PersonalProfile { get; set; }
 

@@ -6,7 +6,6 @@ namespace Assets.Scripts.UI {
     public class UIStatIndicator {
         private readonly Attribute _attribute;
         private readonly Manny.Manny _manny;
-
         private readonly Slider _slider;
         private readonly Text _text;
 

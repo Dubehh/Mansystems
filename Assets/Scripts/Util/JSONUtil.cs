@@ -63,7 +63,7 @@ namespace Assets.Scripts.Util {
         public List<string> keys;
 
         public string str {
-            get { return _stringVal;}
+            get { return _stringVal; }
             set { _stringVal = HttpUtility.HtmlDecode(value); }
         }
 #if USEFLOAT
