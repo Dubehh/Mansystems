@@ -11,7 +11,6 @@ namespace Assets.Scripts.App.Audio {
         private Image _image;
 
         [SerializeField] public Sprite SoundDisabled;
-
         [SerializeField] public Sprite SoundEnabled;
 
         private void Start() {

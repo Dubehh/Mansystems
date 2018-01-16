@@ -11,8 +11,7 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
             Fetch
         }
 
-        public InformationProtocol(Protocol protocol) : base(protocol) {
-        }
+        public InformationProtocol(Protocol protocol) : base(protocol) { }
 
         /// <summary>
         ///     Attempts to send a async handshake to the defined webaddress.

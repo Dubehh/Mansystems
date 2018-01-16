@@ -19,7 +19,6 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
     public class FileProtocol : HandshakeProtocol<WWW> {
         private readonly MonoBehaviour _caller;
         private FileData _data;
-
         private string _uuid;
 
         public FileProtocol(Protocol protocol, MonoBehaviour caller) : base(protocol) {

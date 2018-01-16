@@ -7,10 +7,9 @@ namespace Assets.Scripts.UI {
     [RequireComponent(typeof(Manny.Manny))]
     public class UIStatUpdater : MonoBehaviour {
         [SerializeField] public Slider FoodIndicator, ThirstIndicator;
-
         [SerializeField] public Manny.Manny Manny;
 
-        private Dictionary<Attribute, UIStatIndicator> _sliders { get; set; }
+        private Dictionary<Attribute, UIStatIndicator> _sliders;
 
         private void Awake() {
             _sliders = new Dictionary<Attribute, UIStatIndicator>();

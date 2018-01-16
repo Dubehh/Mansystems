@@ -21,10 +21,9 @@ namespace Assets.Scripts.App.Audio {
         /// </summary>
         /// <param name="name">The name of the clip</param>
         public void Play(string name) {
-            if (_items.ContainsKey(name.ToLower())) {
-                _source.clip = _items[name.ToLower()];
-                _source.Play();
-            }
+            if (!_items.ContainsKey(name.ToLower())) return;
+            _source.clip = _items[name.ToLower()];
+            _source.Play();
         }
     }
 }

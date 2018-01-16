@@ -5,9 +5,7 @@ namespace Assets.Scripts.UI {
     [Serializable]
     public class UIControl {
         [SerializeField] public bool Default;
-
         [SerializeField] public GameObject Parent;
-
         [SerializeField] public string Title;
 
         public bool Active { get; set; }

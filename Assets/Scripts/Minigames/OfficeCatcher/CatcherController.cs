@@ -8,7 +8,7 @@ using Assets.Scripts.App.Game;
 using UnityEngine;
 using UnityEngine.UI;
 using Attribute = Assets.Scripts.Manny.Attribute;
-using Random = UnityEngine.Random;
+using Random = System.Random;
 
 namespace Assets.Scripts.Minigames.OfficeCatcher {
     /// <summary>
@@ -98,8 +98,7 @@ namespace Assets.Scripts.Minigames.OfficeCatcher {
             Prepare();
         }
 
-        protected override void OnLoad() {
-        }
+        protected override void OnLoad() { }
 
         /// <summary>
         ///     Checks if time is zero
@@ -116,19 +115,19 @@ namespace Assets.Scripts.Minigames.OfficeCatcher {
             ToggleObjects(true);
             if (_gameStarted) yield return new WaitForSeconds(2.0f);
             _gameStarted = false;
-            var random = new System.Random();
+            var random = new Random();
             while (LifeLeft > 0) {
                 Objects = Objects.OrderBy(x => random.Next()).ToList();
                 foreach (var o in Objects) {
                     if (o.GameObject == null) continue;
                     var spawnPosition = new Vector3(
-                        Random.Range(-o.MaxWidth, o.MaxWidth),
+                        UnityEngine.Random.Range(-o.MaxWidth, o.MaxWidth),
                         o.GameObject.transform.position.y,
                         0.0f);
 
                     var spawnRotation = Quaternion.identity;
                     ObjectRegister[Instantiate(o.GameObject, spawnPosition, spawnRotation)] = o;
-                    yield return new WaitForSeconds(Random.Range(1.0f, 2.5f));
+                    yield return new WaitForSeconds(UnityEngine.Random.Range(1.0f, 2.5f));
                 }
             }
         }
@@ -140,11 +139,10 @@ namespace Assets.Scripts.Minigames.OfficeCatcher {
             Lives.ForEach(x => x.SetActive(false));
             Lives.GetRange(0, LifeLeft).ForEach(x => x.SetActive(true));
 
-            if (LifeLeft <= 0) {
-                StopCoroutine(SpawnOfficeObject());
-                ToggleObjects(false);
-                StopGame();
-            }
+            if (LifeLeft > 0) return;
+            StopCoroutine(SpawnOfficeObject());
+            ToggleObjects(false);
+            StopGame();
         }
 
         /// <summary>

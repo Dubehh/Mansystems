@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 namespace Assets.Scripts.App.Game {
     public class GameManager {
         private GameController _current;
-
         private string _main;
 
         public GameManager() {
@@ -28,7 +27,6 @@ namespace Assets.Scripts.App.Game {
             _current.OnUnload();
             SceneManager.LoadScene(_main);
             Screen.orientation = ScreenOrientation.Portrait;
-            //TODO add loading thing somewhere
         }
 
         /// <summary>

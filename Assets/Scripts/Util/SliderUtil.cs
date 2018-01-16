@@ -12,12 +12,18 @@ namespace Assets.Scripts.Util {
             var baseColor = new Color();
             Image background = null;
             foreach (var image in slider.GetComponentsInChildren<Image>()) {
-                if (image.name == "Fill") baseColor = image.color;
-                if (image.name == "Background") background = image;
+                switch (image.name) {
+                    case "Fill":
+                        baseColor = image.color;
+                        break;
+                    case "Background":
+                        background = image;
+                        break;
+                }
             }
 
             baseColor.a /= 1.8f;
-            background.color = baseColor;
+            if (background != null) background.color = baseColor;
 
             return slider;
         }
@@ -31,9 +37,9 @@ namespace Assets.Scripts.Util {
             var particles = slider.GetComponentInChildren<ParticleSystem>();
             slider.value = Mathf.Lerp(slider.value, amount, 2 * Time.deltaTime);
 
-            if (particles != null)
-                if (!particles.isPlaying) particles.Play();
-                else if (amount - slider.value < 3) particles.Stop();
+            if (particles == null) return;
+            if (!particles.isPlaying) particles.Play();
+            else if (amount - slider.value < 3) particles.Stop();
         }
     }
 }

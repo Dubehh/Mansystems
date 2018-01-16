@@ -21,9 +21,9 @@ namespace Assets.Scripts.Manny {
         /// </summary>
         public void Update() {
             var status = Condition.UpdateCondition();
-            if (!_manny.HasDied() && status.Count != 0)
-                foreach (var condition in status)
-                    if (condition.Weak && _manny.Dashboard != null) _manny.Dashboard.DisplayDialog(condition.Message);
+            if (_manny.HasDied() || status.Count == 0) return;
+            foreach (var condition in status)
+                if (condition.Weak && _manny.Dashboard != null) _manny.Dashboard.DisplayDialog(condition.Message);
         }
 
         /// <summary>

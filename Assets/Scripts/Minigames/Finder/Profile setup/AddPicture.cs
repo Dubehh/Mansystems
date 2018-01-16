@@ -9,8 +9,9 @@ namespace Assets.Scripts.Minigames.Finder.Profile_setup {
     public class AddPicture : MonoBehaviour {
         private WebCamTexture _cameraTexture;
         private Texture2D _picture;
-        [SerializeField] public AspectRatioFitter Fitter;
+
         [SerializeField] public RawImage Camera;
+        [SerializeField] public AspectRatioFitter Fitter;
 
         // Use this for initialization
         private void Awake() {
@@ -27,7 +28,7 @@ namespace Assets.Scripts.Minigames.Finder.Profile_setup {
         // Update is called once per frame
         private void Update() {
             if (!_cameraTexture.isPlaying) return;
-            var ratio = (float)_cameraTexture.width / (float)_cameraTexture.height;
+            var ratio = _cameraTexture.width / (float) _cameraTexture.height;
             Fitter.aspectRatio = ratio;
 
             var scaleY = _cameraTexture.videoVerticallyMirrored ? -1f : 1f;
@@ -44,10 +45,9 @@ namespace Assets.Scripts.Minigames.Finder.Profile_setup {
             var fp = new FileProtocol(Protocol.Upload, this);
             fp.AddParameter("targetFolder", "finder");
             fp.Put("file", "profilePicture.jpeg", ContentType.Jpeg, _picture.EncodeToJPG()).Send(www => {
-                if (controller != null) {
-                    controller.FinderProfileController.PersonalProfile.ImageNames.Add(www.text);
-                    FindObjectOfType<ProfileManagement>().OpenView();
-                }
+                if (controller == null) return;
+                controller.FinderProfileController.PersonalProfile.ImageNames.Add(www.text);
+                FindObjectOfType<ProfileManagement>().OpenView();
             });
         }
 

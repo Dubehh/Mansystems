@@ -2,8 +2,6 @@
 using Assets.Scripts.App;
 using Assets.Scripts.App.Data_Management.Handshakes;
 using Assets.Scripts.App.Data_Management.Table;
-using Assets.Scripts.Minigames.Finder.Profile;
-using Assets.Scripts.Minigames.Finder.Profile_management;
 using UnityEngine;
 using UnityEngine.UI;
 

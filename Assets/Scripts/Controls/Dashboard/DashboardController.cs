@@ -89,6 +89,10 @@ namespace Assets.Scripts.Controls.Dashboard {
             _dashboardAnimationHandler.SetAnimator(_current.Manny);
         }
 
+        /// <summary>
+        ///     Returns the current background
+        /// </summary>
+        /// <returns>Background</returns>
         public DashboardBackground GetCurrentBackground() {
             return _current;
         }

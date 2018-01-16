@@ -10,7 +10,6 @@ namespace Assets.Scripts.Controls.Dashboard {
     public class DashboardLifeCycle : MonoBehaviour {
         private MannyAttribute _attributes;
         private UIController _controller;
-
         private DashboardController _dashboard;
 
         private void Awake() {

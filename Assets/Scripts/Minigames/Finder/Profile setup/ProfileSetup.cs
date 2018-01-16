@@ -12,17 +12,16 @@ namespace Assets.Scripts.Minigames.Finder.Profile_setup {
         private void Awake() {
             var likedProfileIDs = new List<string>();
             var profile = AppData.Instance().Registry.Fetch(FinderController.ProfileTable);
-            if (profile != null) {
-                var table = AppData.Instance().Registry.Fetch(FinderController.LikeTable);
-                table.Select("*", "", reader => {
-                    while (reader.Read())
-                        likedProfileIDs.Add(reader["ProfileID"].ToString());
-                });
+            if (profile == null) return;
+            var table = AppData.Instance().Registry.Fetch(FinderController.LikeTable);
+            table.Select("*", "", reader => {
+                while (reader.Read())
+                    likedProfileIDs.Add(reader["ProfileID"].ToString());
+            });
 
-                gameObject.SetActive(false);
-                FinderController.gameObject.SetActive(true);
-                FinderController.LikedProfileIDs = likedProfileIDs;
-            }
+            gameObject.SetActive(false);
+            FinderController.gameObject.SetActive(true);
+            FinderController.LikedProfileIDs = likedProfileIDs;
         }
 
         /// <summary>

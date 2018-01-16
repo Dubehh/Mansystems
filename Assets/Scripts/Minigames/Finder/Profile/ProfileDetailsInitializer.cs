@@ -12,7 +12,6 @@ namespace Assets.Scripts.Minigames.Finder.Profile {
         [SerializeField] public Text FavVacation;
         [SerializeField] public Text Header;
         [SerializeField] public Text PhoneNumber;
-
         [SerializeField] public RawImage Picture;
 
         public FinderProfile Profile { get; set; }

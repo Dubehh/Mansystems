@@ -56,7 +56,7 @@ namespace Assets.Scripts.Manny {
         ///     Adds an increment value to the value of an excisting attribute;
         /// </summary>
         /// <param name="attribute">The attribute which value needs to be changed</param>
-        /// <param name="value">The new float value that needs to be added to the current value</param>
+        /// <param name="increment">The amount to increment the attribute with</param>
         public void IncrementAttribute(Attribute attribute, float increment) {
             if (_attributes.Count == 0) Load();
             _attributes[attribute] += increment;

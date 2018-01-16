@@ -8,8 +8,8 @@ namespace Assets.Scripts.Controls.Shop {
     public class ShopController : MonoBehaviour {
         private Manny.Manny _manny;
         private float _prefabHeight;
-        [SerializeField] public Sprite BtnDrink;
 
+        [SerializeField] public Sprite BtnDrink;
         [SerializeField] public Sprite BtnFood;
         [SerializeField] public Text CoinsIndicator;
         [SerializeField] public GameObject Item;
@@ -55,13 +55,11 @@ namespace Assets.Scripts.Controls.Shop {
             var scrollRect = GetComponent<RectTransform>();
 
             if (capacity < Items.Length) {
-                var maxY = (float) ((Items.Length - capacity) * _prefabHeight) - 50f;
+                var maxY = (float)((Items.Length - capacity) * _prefabHeight) - 50f;
                 if (scrollRect.anchoredPosition.y < 0) scrollRect.anchoredPosition = new Vector2();
                 if (scrollRect.anchoredPosition.y > maxY) scrollRect.anchoredPosition = new Vector2(0, maxY);
-            }
-            else {
+            } else
                 scrollRect.anchoredPosition = new Vector2();
-            }
         }
     }
 }

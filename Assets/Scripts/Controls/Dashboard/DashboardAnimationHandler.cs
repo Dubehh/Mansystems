@@ -3,11 +3,9 @@
 namespace Assets.Scripts.Controls.Dashboard {
     public class DashboardAnimationHandler {
         private Animator _animator;
-        private GameObject _manny;
 
         public void SetAnimator(GameObject manny) {
             _animator = manny.GetComponent<Animator>();
-            _manny = manny;
         }
 
         /// <summary>

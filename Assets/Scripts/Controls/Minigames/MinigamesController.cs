@@ -43,16 +43,14 @@ namespace Assets.Scripts.Controls.Minigames {
         public void OnValueChanged() {
             var scrollView = transform.parent.parent;
             var capacity = Math.Floor(scrollView.GetComponent<RectTransform>().rect.height / _prefabHeight);
-            var _scrollRect = GetComponent<RectTransform>();
+            var scrollRect = GetComponent<RectTransform>();
 
             if (capacity < Minigames.Length) {
-                var maxY = (float) ((Minigames.Length - capacity) * _prefabHeight) - 15f;
-                if (_scrollRect.anchoredPosition.y < 0) _scrollRect.anchoredPosition = new Vector2();
-                else if (_scrollRect.anchoredPosition.y > maxY) _scrollRect.anchoredPosition = new Vector2(0, maxY);
-            }
-            else {
-                _scrollRect.anchoredPosition = new Vector2();
-            }
+                var maxY = (float)((Minigames.Length - capacity) * _prefabHeight) - 15f;
+                if (scrollRect.anchoredPosition.y < 0) scrollRect.anchoredPosition = new Vector2();
+                else if (scrollRect.anchoredPosition.y > maxY) scrollRect.anchoredPosition = new Vector2(0, maxY);
+            } else
+                scrollRect.anchoredPosition = new Vector2();
         }
     }
 }

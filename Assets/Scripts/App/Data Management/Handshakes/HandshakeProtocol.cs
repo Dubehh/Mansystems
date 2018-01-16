@@ -34,7 +34,7 @@ namespace Assets.Scripts.App.Data_Management.Handshakes {
         /// <summary>
         ///     Sets the error callback that is fired when the handshake returned an error
         /// </summary>
-        /// <param name="callback">Action callback</param>
+        /// <param name="error">Error callback</param>
         public HandshakeProtocol<T> OnError(Action<string> error) {
             _error = error;
             return this;

@@ -24,9 +24,7 @@ namespace Assets.Scripts.App.Data_Management.Table {
         /// </summary>
         /// <param name="name">The name of the datatable</param>
         public DataTable Fetch(string name) {
-            if (Tables.ContainsKey(name.ToLower())) {
-                return Tables[name.ToLower()];
-            }
+            if (Tables.ContainsKey(name.ToLower())) return Tables[name.ToLower()];
             var table = new DataTable(name);
             if (!table.Exists()) return null;
             Register(table, false);

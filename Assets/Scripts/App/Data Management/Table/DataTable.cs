@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
-using UnityEngine;
 
 namespace Assets.Scripts.App.Data_Management.Table {
     public class DataTable {
@@ -106,7 +105,7 @@ namespace Assets.Scripts.App.Data_Management.Table {
             var data = new StringBuilder();
             parameters.Parameters.ForEach(pair => {
                 fields.Append(",").Append(pair.Key);
-                data.Append(",").Append("@"+pair.Key.ToLower());
+                data.Append(",").Append("@" + pair.Key.ToLower());
             });
             DataQuery.Query("INSERT INTO " + Name +
                             " (" + fields.ToString().Substring(1) + ") VALUES" +
