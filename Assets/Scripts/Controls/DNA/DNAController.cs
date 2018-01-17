@@ -21,11 +21,6 @@ namespace Assets.Scripts.Controls.DNA {
             }
         }
 
-        private void Update() {
-            if (Input.touchCount <= 0) return;
-            if (MoreInfo.activeSelf) MoreInfo.SetActive(false);
-        }
-
         public void OnClickNavigation() {
             MoreInfo.SetActive(true);
         }
@@ -44,6 +39,10 @@ namespace Assets.Scripts.Controls.DNA {
             item.Update();
             ParticleSystem.Play();
             DisplayText.text = Manny.Attribute.GetAttribute(Attribute.Skillpoints) + "";
+        }
+
+        public void HideMoreInfo() {
+            MoreInfo.SetActive(false);
         }
     }
 }
